@@ -1,10 +1,4 @@
-import {
-  Box,
-  Flex,
-  IconButton,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { IconButton, useDisclosure } from '@chakra-ui/react';
 import { useWindowSize } from '@react-hook/window-size';
 import { GraphData, NodeObject } from 'force-graph';
 import Graph from './Graph/Graph';
@@ -554,12 +548,14 @@ function GraphPage() {
 
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="row"
-        height="100vh"
-        overflow="clip"
+      <div
+        style={{
+          display: 'flex',
+          height: '100vh',
+          overflow: 'clip',
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+        }}
       >
         <Tweaks
           {...{
@@ -581,7 +577,7 @@ function GraphPage() {
             setLocal,
           }}
         />
-        <Box position="absolute">
+        <div style={{ position: 'absolute' }}>
           {graphData && (
             <Graph
               nodeById={nodeByIdRef.current!}
@@ -616,42 +612,56 @@ function GraphPage() {
               }}
             />
           )}
-        </Box>
-        <Box position="relative" zIndex={4} width="100%">
-          <Flex className="headerBar" h={10} flexDir="column">
-            <Flex alignItems="center" h={10} justifyContent="flex-end">
-              <Flex height="100%" flexDirection="row">
-                {scope.nodeIds.length > 0 && (
-                  <Tooltip label="Return to main graph">
-                    <IconButton
-                      m={1}
-                      icon={<BiNetworkChart />}
-                      aria-label="Exit local mode"
-                      onClick={() =>
-                        setScope((currentScope: Scope) => ({
-                          ...currentScope,
-                          nodeIds: [],
-                        }))
-                      }
-                      variant="subtle"
-                    />
-                  </Tooltip>
-                )}
-                <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
-                  <IconButton
-                    m={1}
-                    icon={<BsReverseLayoutSidebarInsetReverse />}
-                    aria-label="Close file-viewer"
-                    variant="subtle"
-                    onClick={isOpen ? onClose : onOpen}
-                  />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
+        </div>
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 4,
+            width: '100%',
+            height: 10,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: 10,
+              justifyContent: 'flex-end',
+            }}
+          >
+            <div
+              style={{ display: 'flex', height: '100%', flexDirection: 'row' }}
+            >
+              {scope.nodeIds.length > 0 && (
+                <IconButton
+                  m={1}
+                  icon={<BiNetworkChart />}
+                  aria-label="Return to main graph"
+                  title="Return to main graph"
+                  onClick={() =>
+                    setScope((currentScope: Scope) => ({
+                      ...currentScope,
+                      nodeIds: [],
+                    }))
+                  }
+                  variant="subtle"
+                />
+              )}
+              <IconButton
+                m={1}
+                icon={<BsReverseLayoutSidebarInsetReverse />}
+                title={isOpen ? 'Close sidebar' : 'Open sidebar'}
+                aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
+                variant="subtle"
+                onClick={isOpen ? onClose : onOpen}
+              />
+            </div>
+          </div>
+        </div>
 
-        <Box position="relative" zIndex={4}>
+        <div style={{ position: 'relative', zIndex: 4 }}>
           <Sidebar
             {...{
               isOpen,
@@ -681,7 +691,7 @@ function GraphPage() {
             linksByNodeId={linksByNodeIdRef.current!}
             nodeByCite={nodeByCiteRef.current!}
           />
-        </Box>
+        </div>
         {contextMenu.isOpen && (
           <ContextMenu
             scope={scope}
@@ -698,7 +708,7 @@ function GraphPage() {
             tagColors={tagColors}
           />
         )}
-      </Box>
+      </div>
     </VariablesContext.Provider>
   );
 }

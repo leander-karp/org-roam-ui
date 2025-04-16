@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, IconButton, ButtonGroup, Tooltip } from '@chakra-ui/react';
+import { Flex, IconButton, ButtonGroup } from '@chakra-ui/react';
 import {
   BiAlignJustify,
   BiAlignLeft,
@@ -50,80 +50,55 @@ export const Toolbar = (props: ToolbarProps) => {
     >
       <Flex>
         <ButtonGroup isAttached>
-          <Tooltip label="Go backward">
-            <IconButton
-              _focus={{}}
-              variant="subtle"
-              icon={<ChevronLeftIcon />}
-              aria-label="Previous node"
-              disabled={!canUndo}
-              onClick={() => previousPreviewNode()}
-            />
-          </Tooltip>
-          <Tooltip label="Go forward">
-            <IconButton
-              _focus={{}}
-              variant="subtle"
-              icon={<ChevronRightIcon />}
-              aria-label="Next node"
-              disabled={!canRedo}
-              onClick={() => nextPreviewNode()}
-            />
-          </Tooltip>
+          <IconButton
+            _focus={{}}
+            variant="subtle"
+            title="Go backward"
+            icon={<ChevronLeftIcon />}
+            aria-label="Previous node"
+            disabled={!canUndo}
+            onClick={() => previousPreviewNode()}
+          />
+          <IconButton
+            _focus={{}}
+            variant="subtle"
+            title="Go forward"
+            icon={<ChevronRightIcon />}
+            aria-label="Next node"
+            disabled={!canRedo}
+            onClick={() => nextPreviewNode()}
+          />
         </ButtonGroup>
       </Flex>
       <Flex>
-        <Tooltip label="Justify content">
-          <IconButton
-            variant="subtle"
-            aria-label="Justify content"
-            icon={
-              [
-                <BiAlignJustify key="justify" />,
-                <BiAlignLeft key="left" />,
-                <BiAlignRight key="right" />,
-                <BiAlignMiddle key="center" />,
-              ][justification]
-            }
-            onClick={() => setJustification((curr: number) => (curr + 1) % 4)}
-          />
-        </Tooltip>
-        <Tooltip label="Toggle outline view">
-          <IconButton
-            variant="subtle"
-            aria-label="Justify content"
-            icon={outline ? <IoIosListBox /> : <IoMdListBox />}
-            onClick={() => setOutline((curr: boolean) => !curr)}
-          />
-        </Tooltip>
-        <Tooltip label="Toggle headers">
-          <IconButton
-            variant="subtle"
-            aria-label="Toggle headers"
-            icon={collapse ? <MdOutlineExpand /> : <MdOutlineCompress />}
-            onClick={() => setCollapse((curr: boolean) => !curr)}
-          />
-        </Tooltip>
-        {/* <Tooltip label="Indent trees">
-          <IconButton
-            variant="subtle"
-            aria-label="Indent Text"
-            icon={<BiRightIndent />}
-            onClick={() => {
-              setIndent((curr: number) => (curr ? 0 : 1))
-            }}
-          />
-        </Tooltip>
-        <Tooltip label="Switch betwwen sans and serif">
-          <IconButton
-            variant="subtle"
-            aria-label="Change font"
-            icon={<BiFont />}
-            onClick={() => {
-              setFont((curr: string) => (curr === 'sans serif' ? 'serif' : 'sans serif'))
-            }}
-          />
-        </Tooltip> */}
+        <IconButton
+          variant="subtle"
+          title="Justify  content"
+          aria-label="Justify content"
+          icon={
+            [
+              <BiAlignJustify key="justify" />,
+              <BiAlignLeft key="left" />,
+              <BiAlignRight key="right" />,
+              <BiAlignMiddle key="center" />,
+            ][justification]
+          }
+          onClick={() => setJustification((curr: number) => (curr + 1) % 4)}
+        />
+        <IconButton
+          variant="subtle"
+          title="Toggle outline view"
+          aria-label="Toggle outline view"
+          icon={outline ? <IoIosListBox /> : <IoMdListBox />}
+          onClick={() => setOutline((curr: boolean) => !curr)}
+        />
+        <IconButton
+          variant="subtle"
+          title="Toggle headers"
+          aria-label="Toggle headers"
+          icon={collapse ? <MdOutlineExpand /> : <MdOutlineCompress />}
+          onClick={() => setCollapse((curr: boolean) => !curr)}
+        />
       </Flex>
     </Flex>
   );

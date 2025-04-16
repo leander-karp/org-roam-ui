@@ -7,7 +7,6 @@ import {
   AccordionPanel,
   Box,
   IconButton,
-  Tooltip,
   Heading,
 } from '@chakra-ui/react';
 
@@ -86,24 +85,24 @@ export const Tweaks = ({
         paddingRight={2}
         paddingTop={1}
       >
-        <Tooltip label="Reset settings to defaults">
-          <IconButton
-            aria-label="Reset Defaults"
-            icon={<RepeatClockIcon />}
-            onClick={() => {
-              setVisuals(initialVisuals);
-              setFilter(initialFilter);
-              setColoring(initialColoring);
-              setHighlightColor('purple.500'); // TODO: Make customizable
-            }}
-            variant="subtle"
-            size="sm"
-          />
-        </Tooltip>
+        <IconButton
+          aria-label="Reset settings to defaults"
+          icon={<RepeatClockIcon />}
+          title="Reset settings to defaults"
+          onClick={() => {
+            setVisuals(initialVisuals);
+            setFilter(initialFilter);
+            setColoring(initialColoring);
+            setHighlightColor('purple.500'); // TODO: Make customizable
+          }}
+          variant="subtle"
+          size="sm"
+        />
         <IconButton
           size="sm"
           icon={<CloseIcon />}
           aria-label="Close Tweak Panel"
+          title="Close Tweak Panel"
           variant="subtle"
           onClick={() => setShowTweaks(false)}
         />

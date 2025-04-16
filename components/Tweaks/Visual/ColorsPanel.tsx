@@ -5,7 +5,6 @@ import {
   Flex,
   IconButton,
   StackDivider,
-  Tooltip,
   VStack,
   MenuButton,
   Menu,
@@ -43,42 +42,40 @@ export const ColorsPanel = ({
     <Box>
       <Flex alignItems="center" justifyContent="space-between">
         <Text>Nodes</Text>
-        <Tooltip label="Shuffle node colors">
-          <IconButton
-            aria-label="Shuffle node colors"
-            size="sm"
-            icon={<RepeatIcon />}
-            variant="ghost"
-            onClick={() => {
-              const arr = visuals.nodeColorScheme ?? [];
-              setVisualsCallback({
-                ...visuals,
-                //shuffle that guy
-                //definitely thought of this myself
-                nodeColorScheme: arr
-                  .map((x: any) => [Math.random(), x])
-                  .sort(([a], [b]) => a - b)
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                  .map(([_, x]) => x),
-              });
-            }}
-          />
-        </Tooltip>
-        <Tooltip label="Cycle node colors">
-          <IconButton
-            aria-label="Shift node colors"
-            icon={<ArrowRightIcon />}
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              const arr = visuals.nodeColorScheme ?? [];
-              setVisualsCallback({
-                ...visuals,
-                nodeColorScheme: [...arr.slice(1, arr.length), arr[0]],
-              });
-            }}
-          />
-        </Tooltip>
+        <IconButton
+          aria-label="Shuffle node colors"
+          size="sm"
+          title="Shuffle node colors"
+          icon={<RepeatIcon />}
+          variant="ghost"
+          onClick={() => {
+            const arr = visuals.nodeColorScheme ?? [];
+            setVisualsCallback({
+              ...visuals,
+              //shuffle that guy
+              //definitely thought of this myself
+              nodeColorScheme: arr
+                .map((x: any) => [Math.random(), x])
+                .sort(([a], [b]) => a - b)
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                .map(([_, x]) => x),
+            });
+          }}
+        />
+        <IconButton
+          aria-label="Cycle node colors"
+          title="Cycle node colors"
+          icon={<ArrowRightIcon />}
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            const arr = visuals.nodeColorScheme ?? [];
+            setVisualsCallback({
+              ...visuals,
+              nodeColorScheme: [...arr.slice(1, arr.length), arr[0]],
+            });
+          }}
+        />
         <Menu isLazy placement="right" closeOnSelect={false} matchWidth>
           <MenuButton
             width={20}
