@@ -14,7 +14,6 @@ import { NodeObject } from 'force-graph';
 import { OrgRoamNode } from '../../api';
 import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../Home';
 import { Resizable } from 're-resizable';
-import { usePersistantState } from '../../util/persistant-state';
 import { initialFilter, TagColors } from '../config';
 
 export interface SidebarProps {
@@ -73,10 +72,7 @@ const Sidebar = ({
   const [previewRoamNode, setPreviewRoamNode] = useState<
     OrgRoamNode | undefined
   >();
-  const [sidebarWidth, setSidebarWidth] = usePersistantState<number>(
-    'sidebarWidth',
-    400
-  );
+  const [sidebarWidth, setSidebarWidth] = useState<number>(400);
 
   useEffect(() => {
     if (!previewNode?.id) {
@@ -87,11 +83,8 @@ const Sidebar = ({
     setPreviewRoamNode(previewNode as OrgRoamNode);
   }, [previewNode?.id]);
 
-  const [justification, setJustification] = usePersistantState(
-    'justification',
-    1
-  );
-  const [outline, setOutline] = usePersistantState('outline', false);
+  const [justification, setJustification] = useState(1);
+  const [outline, setOutline] = useState(false);
   const justificationList = ['justify', 'start', 'end', 'center'];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [font, setFont] = useState('sans serif');

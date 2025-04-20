@@ -10,7 +10,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import {
   initialFilter,
@@ -22,7 +22,6 @@ import {
 import FilterPanel from './Filter/FilterPanel';
 
 import { ThemeContext } from '../../util/themecontext';
-import { usePersistantState } from '../../util/persistant-state';
 import { VisualsPanel } from './Visual/VisualsPanel';
 
 export interface TweakProps {
@@ -46,7 +45,7 @@ export const Tweaks = ({
   coloring,
   setColoring,
 }: TweakProps) => {
-  const [showTweaks, setShowTweaks] = usePersistantState('showTweaks', false);
+  const [showTweaks, setShowTweaks] = useState(false);
   const { highlightColor, setHighlightColor } = useContext(ThemeContext);
 
   return !showTweaks ? (

@@ -21,7 +21,6 @@ import {
 import { ContextMenu } from './contextmenu';
 import Sidebar from './Sidebar';
 import { Tweaks } from './Tweaks';
-import { usePersistantState } from '../util/persistant-state';
 import { ThemeContext } from '../util/themecontext';
 import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
@@ -67,30 +66,21 @@ type ContextPos = {
 };
 
 function GraphPage() {
-  const [tagColors, setTagColors] = usePersistantState<TagColors>(
-    'tagCols',
-    {}
-  );
+  const [tagColors, setTagColors] = useState<TagColors>({});
   const [scope, setScope] = useState<Scope>({
     nodeIds: [],
     excludedNodeIds: [],
   });
 
-  const [physics, setPhysics] = usePersistantState('physics', initialPhysics);
-  const [filter, setFilter] = usePersistantState('filter', initialFilter);
-  const [visuals, setVisuals] = usePersistantState('visuals', initialVisuals);
+  const [physics, setPhysics] = useState(initialPhysics);
+  const [filter, setFilter] = useState(initialFilter);
+  const [visuals, setVisuals] = useState(initialVisuals);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [emacsNodeId, setEmacsNodeId] = useState<string | null>(null);
-  const [behavior, setBehavior] = usePersistantState(
-    'behavior',
-    initialBehavior
-  );
-  const [mouse, setMouse] = usePersistantState('mouse', initialMouse);
-  const [coloring, setColoring] = usePersistantState(
-    'coloring',
-    initialColoring
-  );
-  const [local, setLocal] = usePersistantState('local', initialLocal);
+  const [behavior, setBehavior] = useState(initialBehavior);
+  const [mouse, setMouse] = useState(initialMouse);
+  const [coloring, setColoring] = useState(initialColoring);
+  const [local, setLocal] = useState(initialLocal);
 
   const [
     previewNodeState,
@@ -541,10 +531,7 @@ function GraphPage() {
     return;
   };
 
-  const [mainWindowWidth, setMainWindowWidth] = usePersistantState<number>(
-    'mainWindowWidth',
-    windowWidth
-  );
+  const [mainWindowWidth, setMainWindowWidth] = useState<number>(windowWidth);
 
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
