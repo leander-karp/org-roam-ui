@@ -115,8 +115,7 @@ export function drawLabels(props: drawLabelsProps) {
   );
   if (visuals.labelBackgroundColor && visuals.labelBackgroundOpacity) {
     const backgroundOpacity = textOpacity * visuals.labelBackgroundOpacity;
-    const labelBackground = hexToRGBA(labelBackgroundColor, backgroundOpacity);
-    ctx.fillStyle = labelBackground;
+    ctx.fillStyle = hexToRGBA(labelBackgroundColor, backgroundOpacity);
     ctx.fillRect(
       node.x! - bckgDimensions[0] / 2,
       node.y! - bckgDimensions[1] / 2 + nodeS,
@@ -127,8 +126,7 @@ export function drawLabels(props: drawLabelsProps) {
   // draw label text
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const labelText = hexToRGBA(labelTextColor, textOpacity);
-  ctx.fillStyle = labelText;
+  ctx.fillStyle = hexToRGBA(labelTextColor, textOpacity);
   ctx.font = `${fontSize}px Sans-Serif`;
   const wordsArray = wrap(label, { width: visuals.labelWordWrap }).split('\n');
 
