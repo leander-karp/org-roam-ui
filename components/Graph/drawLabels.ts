@@ -34,22 +34,20 @@ export const getLabelOpacity = (
     : 1 * fadeFactor * (-1 * (visuals.highlightFade * opacity - 1));
 };
 
-export function drawLabels(props: drawLabelsProps) {
-  const {
-    labelBackgroundColor,
-    labelTextColor,
-    node,
-    ctx,
-    globalScale,
-    highlightedNodes,
-    previouslyHighlightedNodes,
-    visuals,
-    opacity,
-    filteredLinksByNodeId,
-    hoverNode,
-    lastHoverNode,
-  } = props;
-
+export function drawLabels({
+  labelBackgroundColor,
+  labelTextColor,
+  node,
+  ctx,
+  globalScale,
+  highlightedNodes,
+  previouslyHighlightedNodes,
+  visuals,
+  opacity,
+  filteredLinksByNodeId,
+  hoverNode,
+  lastHoverNode,
+}: drawLabelsProps) {
   if (!node) {
     return;
   }
