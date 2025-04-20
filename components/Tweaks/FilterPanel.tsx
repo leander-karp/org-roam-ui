@@ -1,8 +1,4 @@
-import {
-  StackDivider,
-  VStack,
-  Switch,
-} from '@chakra-ui/react';
+import { StackDivider, VStack, Switch } from '@chakra-ui/react';
 import React from 'react';
 import { initialFilter, TagColors } from '../config';
 
@@ -44,7 +40,7 @@ const FilterPanel = ({
         isChecked={filter.orphans}
       ></Switch>
     </Flex>
-    <Flex >
+    <Flex>
       <p>Dailies</p>
       <Switch
         onChange={() => {
@@ -55,7 +51,7 @@ const FilterPanel = ({
         isChecked={filter.dailies}
       ></Switch>
     </Flex>
-    <Flex >
+    <Flex>
       <p>Org-noter pages</p>
       <Switch
         onChange={() => {

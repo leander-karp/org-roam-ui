@@ -13,7 +13,10 @@ const Flex = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-export const CitationsPanel = ({ visuals, setVisuals }: CitationsPanelProps) => (
+export const CitationsPanel = ({
+  visuals,
+  setVisuals,
+}: CitationsPanelProps) => (
   <div>
     <Flex>
       {/* Add dashes to citation links made with org-roam-bibtex */}

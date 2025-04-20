@@ -727,7 +727,7 @@ export default function ({
   };
 
   return (
-    <div style={{overflow: "hidden"}} onClick={contextMenu.onClose}>
+    <div style={{ overflow: 'hidden' }} onClick={contextMenu.onClose}>
       <ForceGraph2D
         ref={graphRef}
         {...graphCommonProps}
