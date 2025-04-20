@@ -4,7 +4,7 @@ import {
   Switch,
 } from '@chakra-ui/react';
 import React from 'react';
-import { initialFilter, TagColors } from '../../config';
+import { initialFilter, TagColors } from '../config';
 
 export interface FilterPanelProps {
   filter: typeof initialFilter;

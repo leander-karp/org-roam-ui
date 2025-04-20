@@ -19,7 +19,7 @@ import {
   initialColoring,
 } from '../config';
 
-import FilterPanel from './Filter/FilterPanel';
+import FilterPanel from './FilterPanel';
 
 import { ThemeContext } from '../../util/themecontext';
 import { VisualsPanel } from './Visual/VisualsPanel';
