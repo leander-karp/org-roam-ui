@@ -5,7 +5,7 @@ import { ThemeContext, ThemeContextProps } from '../../util/themecontext';
 import { ForceGraph2D } from 'react-force-graph';
 
 import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../Home';
-import { Box, useTheme } from '@chakra-ui/react';
+import { useTheme } from '@chakra-ui/react';
 import { useAnimation } from '../../util/hooks';
 import * as d3int from 'd3-interpolate';
 import React, {
@@ -727,7 +727,7 @@ export default function ({
   };
 
   return (
-    <Box overflow="hidden" onClick={contextMenu.onClose}>
+    <div style={{overflow: "hidden"}} onClick={contextMenu.onClose}>
       <ForceGraph2D
         ref={graphRef}
         {...graphCommonProps}
@@ -742,6 +742,6 @@ export default function ({
           return null;
         }}
       />
-    </Box>
+    </div>
   );
 }
