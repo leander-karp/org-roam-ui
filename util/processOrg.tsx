@@ -30,8 +30,6 @@ export interface ProcessedOrgProps {
   collapse: boolean;
   linksByNodeId: LinksByNodeId;
   macros: { [key: string]: string };
-  attachDir: string;
-  useInheritance: boolean;
 }
 
 export const ProcessedOrg = ({
@@ -46,8 +44,6 @@ export const ProcessedOrg = ({
   collapse,
   linksByNodeId,
   macros,
-  attachDir,
-  useInheritance,
 }: ProcessedOrgProps) => {
   if (!previewNode) return null;
   if (!linksByNodeId) return null;
@@ -81,14 +77,9 @@ export const ProcessedOrg = ({
                   setSidebarHighlightedNode={setSidebarHighlightedNode}
                   href={`${href as string}`}
                   nodeById={nodeById}
-                  linksByNodeId={linksByNodeId}
                   setPreviewNode={setPreviewNode}
                   openContextMenu={openContextMenu}
-                  outline={outline}
                   isWiki={false}
-                  macros={macros}
-                  attachDir={attachDir}
-                  useInheritance={useInheritance}
                 >
                   {children}
                 </PreviewLink>

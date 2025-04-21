@@ -89,11 +89,7 @@ export const Note = ({
               nodeByCite,
               setSidebarHighlightedNode,
               openContextMenu,
-              outline,
-              attachDir,
-              useInheritance,
             }}
-            macros={macros || {}}
           />
         </Flex>
       )}

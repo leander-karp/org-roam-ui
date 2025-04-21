@@ -13,30 +13,21 @@ export interface BacklinksProps {
   nodeByCite: NodeByCite;
   setSidebarHighlightedNode: OrgRoamNode;
   openContextMenu: any;
-  outline: boolean;
-  attachDir: string;
-  useInheritance: boolean;
-  macros: { [key: string]: string };
 }
 
 import { PreviewLink } from './Link';
 import { OrgRoamNode } from '../../api';
 import { normalizeLinkEnds } from '../../util/normalizeLinkEnds';
 
-export const Backlinks = (props: BacklinksProps) => {
-  const {
-    previewNode,
-    setPreviewNode,
-    setSidebarHighlightedNode,
-    nodeById,
-    linksByNodeId,
-    nodeByCite,
-    openContextMenu,
-    outline,
-    macros,
-    attachDir,
-    useInheritance,
-  } = props;
+export const Backlinks = ({
+  previewNode,
+  setPreviewNode,
+  setSidebarHighlightedNode,
+  nodeById,
+  linksByNodeId,
+  nodeByCite,
+  openContextMenu,
+}: BacklinksProps) => {
   const links = linksByNodeId[(previewNode as OrgRoamNode)?.id] ?? [];
 
   const backLinks = links
@@ -77,16 +68,13 @@ export const Backlinks = (props: BacklinksProps) => {
                 key={link}
               >
                 <PreviewLink
-                  linksByNodeId={linksByNodeId}
                   nodeByCite={nodeByCite}
                   setSidebarHighlightedNode={setSidebarHighlightedNode}
                   href={`id:${link as string}`}
                   nodeById={nodeById}
                   setPreviewNode={setPreviewNode}
                   openContextMenu={openContextMenu}
-                  outline={outline}
                   noUnderline
-                  {...{ attachDir, useInheritance, macros }}
                 >
                   {nodeById[link as string]?.title}
                 </PreviewLink>

@@ -128,12 +128,7 @@ const Sidebar = ({
           bg="alt.100"
           width="100%"
         >
-          <Flex
-            pl={2}
-            alignItems="center"
-            color="black"
-            width="100%"
-          >
+          <Flex pl={2} alignItems="center" color="black" width="100%">
             <Flex pt={1} flexShrink={0}>
               <Toolbar
                 {...{
