@@ -14,9 +14,13 @@ export interface TagBarProps {
   previewNode: NodeObject;
 }
 
-export const TagBar = (props: TagBarProps) => {
-  const { filter, setFilter, tagColors, openContextMenu, previewNode } = props;
-
+export const TagBar = ({
+  filter,
+  setFilter,
+  tagColors,
+  openContextMenu,
+  previewNode,
+}: TagBarProps) => {
   const node = previewNode as OrgRoamNode;
   if (!node?.tags || node?.tags?.[0] === null) {
     return null;

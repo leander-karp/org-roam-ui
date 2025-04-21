@@ -84,8 +84,6 @@ const variants: Variants<CollapseOptions> = {
   }),
 };
 
-export type ICollapse = CollapseProps;
-
 export interface CollapseProps
   extends WithTransitionConfig<HTMLMotionProps<'div'>>,
     CollapseOptions {}

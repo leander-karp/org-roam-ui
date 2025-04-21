@@ -28,24 +28,22 @@ export interface NoteProps {
   useInheritance: boolean;
 }
 
-export const Note = (props: NoteProps) => {
-  const {
-    setPreviewNode,
-    justificationList,
-    justification,
-    previewNode,
-    nodeById,
-    nodeByCite,
-    setSidebarHighlightedNode,
-    linksByNodeId,
-    openContextMenu,
-    outline,
-    collapse,
-    macros,
-    attachDir,
-    useInheritance,
-  } = props;
-
+export const Note = ({
+  setPreviewNode,
+  justificationList,
+  justification,
+  previewNode,
+  nodeById,
+  nodeByCite,
+  setSidebarHighlightedNode,
+  linksByNodeId,
+  openContextMenu,
+  outline,
+  collapse,
+  macros,
+  attachDir,
+  useInheritance,
+}: NoteProps) => {
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle;
   return (
     <Box

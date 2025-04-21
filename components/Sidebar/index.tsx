@@ -98,7 +98,6 @@ const Sidebar = ({
       animateOpacity={false}
       dimension="width"
       in={isOpen}
-      //style={{ position: 'relative' }}
       unmountOnExit
       startingSize={0}
       style={{ height: '100vh' }}
@@ -130,9 +129,6 @@ const Sidebar = ({
           width="100%"
         >
           <Flex
-            //whiteSpace="nowrap"
-            // overflow="hidden"
-            // textOverflow="ellipsis"
             pl={2}
             alignItems="center"
             color="black"
@@ -185,17 +181,13 @@ const Sidebar = ({
             </Flex>
           </Flex>
           <Scrollbars
-            //autoHeight
-            //autoHeightMax={600}
             autoHide
             renderThumbVertical={({ style, ...props }) => (
               <Box
                 style={{
                   ...style,
                   borderRadius: 0,
-                  // backgroundColor: highlightColor,
                 }}
-                //color="alt.100"
                 {...props}
               />
             )}
@@ -203,7 +195,6 @@ const Sidebar = ({
             {previewRoamNode && (
               <VStack
                 flexGrow={1}
-                // overflowY="scroll"
                 alignItems="left"
                 bg="alt.100"
                 paddingLeft={4}

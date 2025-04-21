@@ -131,9 +131,7 @@ export const ProcessedOrg = ({
                 {children}
               </chakra.blockquote>
             ),
-            p: ({ children }: { children: ReactNode }) => {
-              return <p lang="en">{children}</p>;
-            },
+            p: ({ children }: { children: ReactNode }) => <p>{children}</p>,
           },
         }),
     [previewNode?.id]

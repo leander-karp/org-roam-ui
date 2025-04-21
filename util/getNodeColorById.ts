@@ -4,7 +4,6 @@ import { LinksByNodeId } from '../components/Home';
 const numberWithinRange = (num: number, min: number, max: number) =>
   Math.min(Math.max(num, min), max);
 
-
 export const getNodeColorById = ({
   id,
   linksByNodeId,
