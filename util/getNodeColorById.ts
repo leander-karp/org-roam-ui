@@ -1,6 +1,9 @@
 import { initialColoring, initialVisuals } from '../components/config';
 import { LinksByNodeId } from '../components/Home';
-import { numberWithinRange } from './numberWithinRange';
+
+const numberWithinRange = (num: number, min: number, max: number) =>
+  Math.min(Math.max(num, min), max);
+
 
 export const getNodeColorById = ({
   id,
