@@ -3,8 +3,7 @@ import { NodeObject } from 'force-graph';
 import { initialVisuals } from '../config';
 import { LinksByNodeId } from '../Home';
 import wrap from 'word-wrap';
-import { nodeSize } from '../../util/nodeSize';
-import { hexToRGBA } from '../../util/hexToRGBA';
+import { nodeSize } from './nodeSize';
 
 export interface drawLabelsProps {
   labelBackgroundColor: string;
@@ -22,7 +21,16 @@ export interface drawLabelsProps {
   lastHoverNode: OrgRoamNode | null;
 }
 
-export const getLabelOpacity = (
+const hexToRGBA = (hex: string, opacity: number) =>
+  'rgba(' +
+  (hex = hex.replace('#', ''))
+    .match(new RegExp('(.{' + hex.length / 3 + '})', 'g'))!
+    .map((l) => parseInt(hex.length % 2 ? l + l : l, 16))
+    .concat(isFinite(opacity) ? opacity : 1)
+    .join(',') +
+  ')';
+
+const getLabelOpacity = (
   fadeFactor: number,
   visuals: typeof initialVisuals,
   globalScale: number,

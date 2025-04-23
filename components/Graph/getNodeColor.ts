@@ -1,8 +1,8 @@
-import { OrgRoamNode } from '../api';
-import { initialColoring, initialVisuals } from '../components/config';
-import { LinksByNodeId } from '../components/Home';
+import { OrgRoamNode } from '../../api';
+import { initialColoring, initialVisuals } from '../config';
+import { LinksByNodeId } from '../Home';
 import { getNodeColorById } from './getNodeColorById';
-import { getThemeColor } from './getThemeColor';
+import { getThemeColor } from '../../util/getThemeColor';
 
 export const getNodeColor = ({
   node,

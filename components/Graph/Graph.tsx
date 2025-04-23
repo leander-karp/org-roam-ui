@@ -6,7 +6,7 @@ import { ForceGraph2D } from 'react-force-graph';
 
 import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../Home';
 import { useTheme } from '@chakra-ui/react';
-import { useAnimation } from '../../util/hooks';
+import { useAnimation } from './hooks';
 import * as d3int from 'd3-interpolate';
 import React, {
   ComponentPropsWithoutRef,
@@ -33,13 +33,13 @@ import {
 
 import { openNodeInEmacs } from '../../util/webSocketFunctions';
 import { drawLabels } from './drawLabels';
-import { findNthNeighbors } from '../../util/findNthNeighbour';
+import { findNthNeighbors } from './findNthNeighbour';
 import { getThemeColor } from '../../util/getThemeColor';
 import { normalizeLinkEnds } from '../../util/normalizeLinkEnds';
-import { nodeSize } from '../../util/nodeSize';
-import { getNodeColor } from '../../util/getNodeColor';
-import { isLinkRelatedToNode } from '../../util/isLinkRelatedToNode';
-import { getLinkColor } from '../../util/getLinkColor';
+import { nodeSize } from './nodeSize';
+import { getNodeColor } from './getNodeColor';
+import { isLinkRelatedToNode } from './isLinkRelatedToNode';
+import { getLinkColor } from './getLinkColor';
 
 const d3promise = import('d3-force-3d');
 

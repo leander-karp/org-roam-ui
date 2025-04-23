@@ -1,5 +1,5 @@
-import { initialColoring, initialVisuals } from '../components/config';
-import { LinksByNodeId } from '../components/Home';
+import { initialColoring, initialVisuals } from '../config';
+import { LinksByNodeId } from '../Home';
 
 const numberWithinRange = (num: number, min: number, max: number) =>
   Math.min(Math.max(num, min), max);
