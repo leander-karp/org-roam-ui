@@ -16,16 +16,6 @@ export function openNodeInEmacs(
   sendMessageToEmacs('open', { id: node.id }, webSocket);
 }
 
-export function deleteNodeInEmacs(
-  node: OrgRoamNode,
-  webSocket: ReconnectingWebSocket
-) {
-  if (node.level !== 0) {
-    return;
-  }
-  sendMessageToEmacs('delete', { id: node.id, file: node.file }, webSocket);
-}
-
 export function createNodeInEmacs(
   node: OrgRoamNode,
   webSocket: ReconnectingWebSocket
