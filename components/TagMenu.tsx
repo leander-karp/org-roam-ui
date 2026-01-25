@@ -37,7 +37,7 @@ export const TagMenu = (props: TagMenuProps) => {
       >
         <Text>Change color</Text>
       </MenuItem>
-      <Collapse in={colors.isOpen}>
+      <Collapse in={colors.isOpen} dimension="height" animateOpacity={true}>
         <Flex ml={2} mt={2} flexWrap="wrap">
           <Box key="empty">
             <Box

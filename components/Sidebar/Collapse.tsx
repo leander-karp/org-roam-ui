@@ -1,6 +1,6 @@
 // modified from https://github.com/chakra-ui/chakra-ui/blob/fc3b97d0978cf2adb9fc79157c6e42b4b68155c5/packages/transition/src/collapse.tsx
 
-import { cx, mergeWith, warn } from '@chakra-ui/utils';
+import { cx } from '@chakra-ui/utils';
 import {
   AnimatePresence,
   HTMLMotionProps,
@@ -8,76 +8,44 @@ import {
   Variants as _Variants,
 } from 'framer-motion';
 import * as React from 'react';
-import {
-  TransitionEasings,
-  Variants,
-  withDelay,
-  WithTransitionConfig,
-} from './transition-utils';
+import { Variants, withDelay, WithTransitionConfig } from './transition-utils';
 
-const isNumeric = (value?: string | number) =>
-  value != null && parseInt(value.toString(), 10) > 0;
+const EaseTransition = [0.25, 0.1, 0.25, 1];
 
 export interface CollapseOptions {
   /**
    * If `true`, the opacity of the content will be animated
-   * @default true
    */
-  animateOpacity?: boolean;
-  /**
-   * The size you want the content in its collapsed state.
-   * @default 0
-   */
-  startingSize?: number | string;
-  /**
-   * The size you want the content in its expanded state.
-   * @default "auto"
-   */
-  endingSize?: number | string;
+  animateOpacity: boolean;
   /**
    * The dimension you want to collapse by.
-   * @default "size"
    */
-  dimension?: string;
+  dimension: 'width' | 'height';
 }
 
 const defaultTransitions = {
   exit: {
-    size: { duration: 0.2, ease: TransitionEasings.ease },
-    opacity: { duration: 0.3, ease: TransitionEasings.ease },
+    size: { duration: 0.2, ease: EaseTransition },
+    opacity: { duration: 0.3, ease: EaseTransition },
   },
   enter: {
-    size: { duration: 0.3, ease: TransitionEasings.ease },
-    opacity: { duration: 0.4, ease: TransitionEasings.ease },
+    size: { duration: 0.3, ease: EaseTransition },
+    opacity: { duration: 0.4, ease: EaseTransition },
   },
 };
 
 const variants: Variants<CollapseOptions> = {
-  exit: ({
-    animateOpacity,
-    startingSize,
-    transition,
-    transitionEnd,
-    delay,
-    dimension,
-  }) => ({
-    ...(animateOpacity && { opacity: isNumeric(startingSize) ? 1 : 0 }),
+  exit: ({ animateOpacity, transition, transitionEnd, delay, dimension }) => ({
+    ...(animateOpacity && { opacity: 0 }),
     overflow: 'hidden',
-    [dimension as string]: startingSize,
+    [dimension as string]: 0,
     transitionEnd: transitionEnd?.exit,
     transition:
       transition?.exit ?? withDelay.exit(defaultTransitions.exit, delay),
   }),
-  enter: ({
-    animateOpacity,
-    endingSize,
-    transition,
-    transitionEnd,
-    delay,
-    dimension,
-  }) => ({
+  enter: ({ animateOpacity, transition, transitionEnd, delay, dimension }) => ({
     ...(animateOpacity && { opacity: 1 }),
-    [dimension as string]: endingSize,
+    [dimension as string]: 'auto',
     transitionEnd: transitionEnd?.enter,
     transition:
       transition?.enter ?? withDelay.enter(defaultTransitions.enter, delay),
@@ -88,85 +56,61 @@ export interface CollapseProps
   extends WithTransitionConfig<HTMLMotionProps<'div'>>,
     CollapseOptions {}
 
-export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>(
-  (props, ref) => {
-    const {
-      in: isOpen,
-      unmountOnExit,
-      animateOpacity = true,
-      startingSize = 0,
-      endingSize = 'auto',
-      dimension = 'height',
-      style,
-      className,
-      transition,
-      transitionEnd,
-      ...rest
-    } = props;
-
-    const [mounted, setMounted] = React.useState(false);
-    React.useEffect(() => {
-      const timeout = setTimeout(() => {
-        setMounted(true);
-      });
-      return () => clearTimeout(timeout);
-    }, []);
-
-    /**
-     * Warn 🚨: `startingSize` and `unmountOnExit` are mutually exclusive
-     *
-     * If you specify a starting size, the collapsed needs to be mounted
-     * for the size to take effect.
-     */
-
-    warn({
-      condition: Boolean(
-        typeof startingSize === 'number' && startingSize > 0 && unmountOnExit
-      ),
-      message: `startingSize and unmountOnExit are mutually exclusive. You can't use them together`,
+export const Collapse = ({
+  in: isOpen,
+  unmountOnExit,
+  animateOpacity,
+  dimension,
+  style,
+  className,
+  transition,
+  ...rest
+}: CollapseProps) => {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMounted(true);
     });
+    return () => clearTimeout(timeout);
+  }, []);
 
-    const hasStartingSize = parseFloat(startingSize.toString()) > 0;
+  const custom = {
+    startingSize: 0,
+    endingSize: 'auto',
+    animateOpacity,
+    dimension,
+    transition: !mounted ? { enter: { duration: 0 } } : transition,
+    transitionEnd: {
+      enter: { overflow: 'initial' },
+      exit: unmountOnExit
+        ? undefined
+        : {
+            display: 'none',
+          },
+    },
+  };
 
-    const custom = {
-      startingSize,
-      endingSize,
-      animateOpacity,
-      dimension,
-      transition: !mounted ? { enter: { duration: 0 } } : transition,
-      transitionEnd: mergeWith(transitionEnd, {
-        enter: { overflow: 'initial' },
-        exit: unmountOnExit
-          ? undefined
-          : {
-              display: hasStartingSize ? 'block' : 'none',
-            },
-      }),
-    };
+  const show = unmountOnExit ? isOpen : true;
+  const animate = isOpen || unmountOnExit ? 'enter' : 'exit';
 
-    const show = unmountOnExit ? isOpen : true;
-    const animate = isOpen || unmountOnExit ? 'enter' : 'exit';
-
-    return (
-      <AnimatePresence initial={false} custom={custom}>
-        {show && (
-          <motion.div
-            ref={ref}
-            {...rest}
-            className={cx('chakra-collapse', className)}
-            style={{
-              overflow: 'hidden',
-              display: 'block',
-              ...style,
-            }}
-            custom={custom}
-            variants={variants as _Variants}
-            initial={unmountOnExit ? 'exit' : false}
-            animate={animate}
-            exit="exit"
-          />
-        )}
-      </AnimatePresence>
-    );
-  }
-);
+  return (
+    <AnimatePresence initial={false} custom={custom}>
+      {show && (
+        <motion.div
+          {...rest}
+          className={cx('chakra-collapse', className)}
+          style={{
+            overflow: 'hidden',
+            display: 'block',
+            ...style,
+          }}
+          custom={custom}
+          variants={variants as _Variants}
+          initial={unmountOnExit ? 'exit' : false}
+          animate={animate}
+          exit="exit"
+        />
+      )}
+    </AnimatePresence>
+  );
+};

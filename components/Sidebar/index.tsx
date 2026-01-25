@@ -99,7 +99,6 @@ const Sidebar = ({
       dimension="width"
       in={isOpen}
       unmountOnExit
-      startingSize={0}
       style={{ height: '100vh' }}
     >
       <Resizable
