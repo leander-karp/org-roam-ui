@@ -1,7 +1,8 @@
 import React from 'react';
 import { colorList, initialVisuals } from '../config';
 import { ColorMenu } from './ColorMenu';
-import { Box, Collapse, Flex, Switch, Text } from '@chakra-ui/react';
+import { Box, Collapse, Flex } from '@chakra-ui/react';
+import Switch from './Switch';
 
 export interface HighlightingPanelProps {
   visuals: typeof initialVisuals;
@@ -20,23 +21,17 @@ export const HighlightingPanel = ({
     pl={7}
     pr={2}
   >
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      paddingBottom={2}
-      paddingRight={4}
-    >
-      <Text>Highlighting</Text>
-      <Switch
-        isChecked={visuals.highlight}
-        onChange={() =>
-          setVisuals((visuals: typeof initialVisuals) => ({
-            ...visuals,
-            highlight: !visuals.highlight,
-          }))
-        }
-      />
-    </Box>
+    <Switch
+      checked={visuals.highlight}
+      onChange={() =>
+        setVisuals((visuals: typeof initialVisuals) => ({
+          ...visuals,
+          highlight: !visuals.highlight,
+        }))
+      }
+      id={'highlight-switch'}
+      description={'Highlighting'}
+    />
     <Collapse in={visuals.highlight} animateOpacity>
       <Box paddingLeft={4} paddingTop={2} paddingBottom={2}>
         <ColorMenu

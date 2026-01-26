@@ -1,6 +1,7 @@
-import { StackDivider, VStack, Switch } from '@chakra-ui/react';
+import { StackDivider, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { initialFilter, TagColors } from '../config';
+import Switch from './Switch';
 
 export interface FilterPanelProps {
   filter: typeof initialFilter;
@@ -8,12 +9,6 @@ export interface FilterPanelProps {
   tagColors: TagColors;
   setTagColors: any;
 }
-
-const Flex = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-    {children}
-  </div>
-);
 
 const FilterPanel = ({
   filter,
@@ -29,58 +24,53 @@ const FilterPanel = ({
     paddingLeft={7}
     color="gray.800"
   >
-    <Flex>
-      <p>Orphans</p>
-      <Switch
-        onChange={() => {
-          setFilter((curr: typeof initialFilter) => {
-            return { ...curr, orphans: !curr.orphans };
-          });
-        }}
-        isChecked={filter.orphans}
-      ></Switch>
-    </Flex>
-    <Flex>
-      <p>Dailies</p>
-      <Switch
-        onChange={() => {
-          setFilter((curr: typeof initialFilter) => {
-            return { ...curr, dailies: !curr.dailies };
-          });
-        }}
-        isChecked={filter.dailies}
-      ></Switch>
-    </Flex>
-    <Flex>
-      <p>Org-noter pages</p>
-      <Switch
-        onChange={() => {
-          setFilter((curr: typeof initialFilter) => {
-            return { ...curr, noter: !curr.noter };
-          });
-        }}
-        isChecked={filter.noter}
-      ></Switch>
-    </Flex>
-    <Flex>
-      <p>Citations without note files</p>
-      <Switch
-        onChange={() => {
-          setFilter({ ...filter, filelessCites: !filter.filelessCites });
-        }}
-        isChecked={filter.filelessCites}
-      ></Switch>
-    </Flex>
-    <Flex>
-      <p>Non-existent nodes</p>
-      <Switch
-        onChange={() => {
-          setTagColors({ ...tagColors, bad: 'white' });
-          setFilter({ ...filter, bad: !filter.bad });
-        }}
-        isChecked={filter.bad}
-      ></Switch>
-    </Flex>
+    <Switch
+      onChange={() => {
+        setFilter((curr: typeof initialFilter) => {
+          return { ...curr, orphans: !curr.orphans };
+        });
+      }}
+      checked={filter.orphans}
+      id="filter-orphans"
+      description="Orphans"
+    />
+    <Switch
+      onChange={() => {
+        setFilter((curr: typeof initialFilter) => {
+          return { ...curr, dailies: !curr.dailies };
+        });
+      }}
+      checked={filter.dailies}
+      id="filter-dailies"
+      description="Dailies"
+    />
+    <Switch
+      onChange={() => {
+        setFilter((curr: typeof initialFilter) => {
+          return { ...curr, noter: !curr.noter };
+        });
+      }}
+      checked={filter.noter}
+      id="filter-noter-pages"
+      description="Org-Noter pages"
+    />
+    <Switch
+      onChange={() => {
+        setFilter({ ...filter, filelessCites: !filter.filelessCites });
+      }}
+      checked={filter.filelessCites}
+      id="filter-fileless-citations"
+      description="Citations without note files"
+    />
+    <Switch
+      onChange={() => {
+        setTagColors({ ...tagColors, bad: 'white' });
+        setFilter({ ...filter, bad: !filter.bad });
+      }}
+      checked={filter.bad}
+      description="Non-existent nodes"
+      id="filter-non-existent-nodes"
+    />
   </VStack>
 );
 
