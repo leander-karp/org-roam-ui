@@ -10,7 +10,7 @@ import {
   Popover,
 } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
-import { initialVisuals } from '../../config';
+import { initialVisuals } from '../config';
 
 export interface ColorMenuProps {
   label: string;

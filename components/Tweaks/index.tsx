@@ -1,5 +1,5 @@
 import { CloseIcon, RepeatClockIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Heading } from '@chakra-ui/react';
+import { Box, IconButton, Heading, VStack } from '@chakra-ui/react';
 
 import React, { useContext, useState } from 'react';
 import {
@@ -12,7 +12,10 @@ import {
 import FilterPanel from './FilterPanel';
 
 import { ThemeContext } from '../../util/themecontext';
-import { VisualsPanel } from './Visual/VisualsPanel';
+import { ThemeSelect } from './ThemeSelect';
+import { GraphColorSelect } from './GraphColorSelect';
+import { HighlightingPanel } from './HighlightingPanel';
+import { CitationsPanel } from './CitationsPanel';
 
 export interface TweakProps {
   filter: typeof initialFilter;
@@ -91,14 +94,12 @@ export const Tweaks = ({
         setTagColors={setTagColors}
       />
       <Heading size="sm">Visual</Heading>
-      <VisualsPanel
-        visuals={visuals}
-        setVisuals={setVisuals}
-        {...{
-          coloring,
-          setColoring,
-        }}
-      />
+      <VStack justifyContent="flex-start" align="stretch">
+        <ThemeSelect />
+        <GraphColorSelect {...{ coloring, setColoring }} />
+        <HighlightingPanel visuals={visuals} setVisuals={setVisuals} />
+        <CitationsPanel visuals={visuals} setVisuals={setVisuals} />
+      </VStack>
     </Box>
   ) : (
     <Box

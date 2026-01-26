@@ -1,5 +1,5 @@
 import React from 'react';
-import { colorList, initialVisuals } from '../../config';
+import { colorList, initialVisuals } from '../config';
 import { ColorMenu } from './ColorMenu';
 import { Box, Collapse, Flex, Switch, Text } from '@chakra-ui/react';
 
