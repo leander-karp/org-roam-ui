@@ -17,52 +17,52 @@ export interface GraphColorSelectProps {
   setColoring: any;
 }
 
-export const GraphColorSelect = (props: GraphColorSelectProps) => {
-  const { coloring, setColoring } = props;
-  return (
-    <Flex alignItems="center" justifyContent="space-between" pl={7} pr={2}>
-      <Text>Graph coloring</Text>
-      <Menu isLazy placement="right">
-        <MenuButton
-          as={Button}
-          size="sm"
-          colorScheme=""
-          color="black"
-          rightIcon={<ChevronDownIcon />}
-        >
-          {coloring.method === 'degree' ? 'Links' : 'Communities'}
-        </MenuButton>
-        <Portal>
-          <MenuList minW={10} zIndex="popover" bgColor="gray.200">
-            <MenuItem
-              onClick={() =>
-                setColoring((curr: typeof initialColoring) => ({
-                  ...curr,
-                  method: 'degree',
-                }))
-              }
-              justifyContent="space-between"
-              alignItems="center"
-              display="flex"
-            >
-              Number of links
-            </MenuItem>
-            <MenuItem
-              onClick={() =>
-                setColoring((curr: typeof initialColoring) => ({
-                  ...curr,
-                  method: 'community',
-                }))
-              }
-              justifyContent="space-between"
-              alignItems="center"
-              display="flex"
-            >
-              Communities
-            </MenuItem>
-          </MenuList>
-        </Portal>
-      </Menu>
-    </Flex>
-  );
-};
+export const GraphColorSelect = ({
+  coloring,
+  setColoring,
+}: GraphColorSelectProps) => (
+  <Flex alignItems="center" justifyContent="space-between" pl={7} pr={2}>
+    <Text>Graph coloring</Text>
+    <Menu isLazy placement="right">
+      <MenuButton
+        as={Button}
+        size="sm"
+        colorScheme=""
+        color="black"
+        rightIcon={<ChevronDownIcon />}
+      >
+        {coloring.method === 'degree' ? 'Links' : 'Communities'}
+      </MenuButton>
+      <Portal>
+        <MenuList minW={10} zIndex="popover" bgColor="gray.200">
+          <MenuItem
+            onClick={() =>
+              setColoring((curr: typeof initialColoring) => ({
+                ...curr,
+                method: 'degree',
+              }))
+            }
+            justifyContent="space-between"
+            alignItems="center"
+            display="flex"
+          >
+            Number of links
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              setColoring((curr: typeof initialColoring) => ({
+                ...curr,
+                method: 'community',
+              }))
+            }
+            justifyContent="space-between"
+            alignItems="center"
+            display="flex"
+          >
+            Communities
+          </MenuItem>
+        </MenuList>
+      </Portal>
+    </Menu>
+  </Flex>
+);

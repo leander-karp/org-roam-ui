@@ -107,21 +107,26 @@ export const ProcessedOrg = ({
                 </Section>
               );
             },
-            blockquote: ({ children }: { children: ReactNode }) => (
-              <chakra.blockquote
-                color="gray.800"
-                bgColor="gray.300"
-                pt={4}
-                pb={2}
-                mb={4}
-                mt={3}
-                pl={4}
-                borderLeftWidth={4}
-                borderLeftColor="gray.700"
-              >
-                {children}
-              </chakra.blockquote>
-            ),
+            blockquote: ({ children }: { children: ReactNode }) => {
+              return (
+                // @ts-expect-error FIXME
+                <chakra.blockquote
+                  color="gray.800"
+                  bgColor="gray.300"
+                  pt={4}
+                  pb={2}
+                  mb={4}
+                  mt={3}
+                  pl={4}
+                  borderLeftWidth={4}
+                  borderLeftColor="gray.700"
+                >
+                  {children}
+                  {/*
+                    // @ts-expect-error FIXME */}
+                </chakra.blockquote>
+              );
+            },
             p: ({ children }: { children: ReactNode }) => <p>{children}</p>,
           },
         }),
