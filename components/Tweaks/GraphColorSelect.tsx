@@ -1,16 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
-  Text,
-} from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import { initialColoring } from '../config';
+import Dropdown from './Dropdown';
 
 export interface GraphColorSelectProps {
   coloring: typeof initialColoring;
@@ -21,48 +11,48 @@ export const GraphColorSelect = ({
   coloring,
   setColoring,
 }: GraphColorSelectProps) => (
-  <Flex alignItems="center" justifyContent="space-between" pl={7} pr={2}>
-    <Text>Graph coloring</Text>
-    <Menu isLazy placement="right">
-      <MenuButton
-        as={Button}
-        size="sm"
-        colorScheme=""
-        color="black"
-        rightIcon={<ChevronDownIcon />}
-      >
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: '1.75rem',
+      paddingRight: '0.5rem',
+    }}
+  >
+    <p>Graph coloring</p>
+    <Dropdown>
+      <Dropdown.Button>
         {coloring.method === 'degree' ? 'Links' : 'Communities'}
-      </MenuButton>
-      <Portal>
-        <MenuList minW={10} zIndex="popover" bgColor="gray.200">
-          <MenuItem
-            onClick={() =>
-              setColoring((curr: typeof initialColoring) => ({
-                ...curr,
-                method: 'degree',
-              }))
-            }
-            justifyContent="space-between"
-            alignItems="center"
-            display="flex"
-          >
-            Number of links
-          </MenuItem>
-          <MenuItem
-            onClick={() =>
-              setColoring((curr: typeof initialColoring) => ({
-                ...curr,
-                method: 'community',
-              }))
-            }
-            justifyContent="space-between"
-            alignItems="center"
-            display="flex"
-          >
-            Communities
-          </MenuItem>
-        </MenuList>
-      </Portal>
-    </Menu>
-  </Flex>
+      </Dropdown.Button>
+      <Dropdown.Content>
+        <Dropdown.List>
+          <Dropdown.Item>
+            <button
+              onClick={() =>
+                setColoring((curr: typeof initialColoring) => ({
+                  ...curr,
+                  method: 'degree',
+                }))
+              }
+            >
+              Number of links
+            </button>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <button
+              onClick={() =>
+                setColoring((curr: typeof initialColoring) => ({
+                  ...curr,
+                  method: 'community',
+                }))
+              }
+            >
+              Communities
+            </button>
+          </Dropdown.Item>
+        </Dropdown.List>
+      </Dropdown.Content>
+    </Dropdown>
+  </div>
 );

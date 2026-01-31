@@ -1,66 +1,76 @@
 import React, { useContext } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Text,
-} from '@chakra-ui/react';
-
 import { themes } from '../themes';
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import { ThemeContext } from '../../util/themecontext';
+import { styled } from '@linaria/react';
+import Dropdown from './Dropdown';
+
+const ThemeSelectContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1.75rem;
+  padding-right: 0.5rem;
+  align-items: center;
+`;
 
 export const ThemeSelect = () => {
   const { emacsTheme, setEmacsTheme } = useContext(ThemeContext);
   return (
-    <Flex alignItems="center" justifyContent="space-between" pl={7} pr={2}>
-      <Text>Theme</Text>
-      <Menu isLazy placement="bottom" closeOnSelect={false}>
-        <MenuButton
-          as={Button}
-          size="sm"
-          colorScheme=""
-          color="black"
-          rightIcon={<ChevronDownIcon />}
-        >
-          {emacsTheme[0] as string}
-        </MenuButton>
-        <MenuList minW={10} zIndex="popover" bgColor="gray.200">
-          <MenuItem
-            onClick={() => ''}
-            justifyContent="space-between"
-            alignItems="center"
-            display="flex"
-          >
-            <Box height={6} width={6}></Box>
-          </MenuItem>
-          {Object.keys(themes).map((theme: string) => (
-            <MenuItem
-              key={theme}
-              onClick={() => setEmacsTheme([theme, themes[theme]])}
-              justifyContent="space-between"
-              alignItems="center"
-              display="flex"
-            >
-              <Text>{theme}</Text>
-              <Flex
-                height={6}
-                width={20}
-                flexDirection="column"
-                flexWrap="wrap"
-              >
-                {Object.values(themes[theme as string]).map((color: string) => {
-                  return <Box key={color} bgColor={color} flex="1 1 8px"></Box>;
-                })}
-              </Flex>
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
-    </Flex>
+    <ThemeSelectContainer>
+      <p>Theme</p>
+      <Dropdown>
+        <Dropdown.Button>{emacsTheme[0] as string}</Dropdown.Button>
+        <Dropdown.Content>
+          <Dropdown.List>
+            {Object.keys(themes).map((theme: string) => (
+              <Dropdown.Item>
+                <button
+                  key={theme}
+                  onClick={() => setEmacsTheme([theme, themes[theme]])}
+                  title={theme}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexGrow: 1,
+                  }}
+                >
+                  <p
+                    style={{
+                      maxWidth: '4rem',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {theme}
+                  </p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      flexDirection: 'column',
+                      height: '1.5rem',
+                      width: '4rem',
+                    }}
+                  >
+                    {Object.values(themes[theme as string]).map(
+                      (color: string) => (
+                        <div
+                          key={color}
+                          style={{
+                            backgroundColor: color,
+                            flex: '1 1 8px',
+                          }}
+                        ></div>
+                      )
+                    )}
+                  </div>
+                </button>
+              </Dropdown.Item>
+            ))}
+          </Dropdown.List>
+        </Dropdown.Content>
+      </Dropdown>
+    </ThemeSelectContainer>
   );
 };
