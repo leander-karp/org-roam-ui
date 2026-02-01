@@ -1,8 +1,8 @@
 import React from 'react';
 import { colorList, initialVisuals } from '../config';
-import { ColorMenu } from './ColorMenu';
-import { Box, Collapse, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Switch from './Switch';
+import Dropdown from './Dropdown';
 
 export interface HighlightingPanelProps {
   visuals: typeof initialVisuals;
@@ -13,13 +13,13 @@ export const HighlightingPanel = ({
   visuals,
   setVisuals,
 }: HighlightingPanelProps) => (
-  <Flex
-    key="Highlighting"
-    flexDirection="column"
-    pt={2}
-    justifyContent="space-between"
-    pl={7}
-    pr={2}
+  <div
+    style={{
+      paddingLeft: '1rem',
+      paddingTop: '0.5rem',
+      paddingBottom: '0.5rem',
+    }}
+    key={'Highlighting'}
   >
     <Switch
       checked={visuals.highlight}
@@ -32,16 +32,62 @@ export const HighlightingPanel = ({
       id={'highlight-switch'}
       description={'Highlighting'}
     />
-    <Collapse in={visuals.highlight} animateOpacity>
-      <Box paddingLeft={4} paddingTop={2} paddingBottom={2}>
-        <ColorMenu
-          colorList={colorList}
-          label="highlighting color"
-          setVisuals={setVisuals}
-          value="highlightColor"
-          visValue={visuals.highlightColor}
-        />
-      </Box>
-    </Collapse>
-  </Flex>
+    <div
+      style={{
+        paddingLeft: '1rem',
+        paddingTop: '0.5rem',
+        paddingBottom: '0.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        visibility: visuals.highlight ? 'visible' : 'hidden',
+      }}
+    >
+      <p>highlighting color</p>
+      <Dropdown>
+        <Dropdown.Button>
+          <Box
+            bgColor={
+              visuals.highlightColor
+            } /* FIXME: Color is based on chakra theme*/
+            style={{
+              borderRadius: '16px',
+              height: '24px',
+              width: '24px',
+            }}
+          />
+        </Dropdown.Button>
+        <Dropdown.Content>
+          <Dropdown.List>
+            {colorList.map((color: string) => (
+              <button
+                style={{
+                  display: 'flex',
+                  margin: '0.5rem',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+                key={color}
+                onClick={() =>
+                  setVisuals((visuals: typeof initialVisuals) => ({
+                    ...visuals,
+                    highlightColor: color,
+                  }))
+                }
+              >
+                <Box
+                  bgColor={color} /* FIXME: Color is based on chakra theme*/
+                  style={{
+                    borderRadius: '16px',
+                    height: '24px',
+                    width: '24px',
+                  }}
+                />
+              </button>
+            ))}
+          </Dropdown.List>
+        </Dropdown.Content>
+      </Dropdown>
+    </div>
+  </div>
 );
