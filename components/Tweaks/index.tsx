@@ -16,6 +16,7 @@ import { ThemeSelect } from './ThemeSelect';
 import { GraphColorSelect } from './GraphColorSelect';
 import { HighlightingPanel } from './HighlightingPanel';
 import { CitationsPanel } from './CitationsPanel';
+import { themes2 } from '../themes2';
 
 export interface TweakProps {
   filter: typeof initialFilter;
@@ -39,7 +40,7 @@ export const Tweaks = ({
   setColoring,
 }: TweakProps) => {
   const [showTweaks, setShowTweaks] = useState(false);
-  const { setHighlightColor } = useContext(ThemeContext);
+  const { emacsTheme, setHighlightColor } = useContext(ThemeContext);
 
   return showTweaks ? (
     <Box
@@ -57,6 +58,7 @@ export const Tweaks = ({
       maxH={'95vh'}
       fontSize="sm"
       style={{ overflow: 'auto' }}
+      className={themes2[emacsTheme[0]]}
     >
       <Box
         display="flex"

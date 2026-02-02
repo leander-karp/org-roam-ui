@@ -7,10 +7,33 @@ const DropdownButtonClass = css`
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
   font-weight: 700;
-  color: #ffffff;
-  background-color: #1f2937;
+  color: var(--theme-color-gray-900);
+  background-color: var(--theme-color-alt-100);
   display: flex;
   align-items: center;
+`;
+
+const DropdownItemClass = css`
+  padding: 0.25rem 0.25rem;
+  white-space: nowrap;
+  display: flex;
+`;
+
+const DropdownContentClass = css`
+  position: absolute;
+  z-index: 20;
+  border-radius: 0.25rem;
+  border: 1px solid var(--theme-color-gray-100);
+  background-color: var(--theme-color-black);
+  overflow: hidden;
+  margin: 0.25rem 0;
+  overflow-y: auto;
+`;
+
+const DropdownListClass = css`
+  border-top-width: 1px;
+  border-color: var(--theme-color-gray-100);
+  color: var(--theme-color-white);
 `;
 
 // dropdown context for open state
@@ -45,12 +68,13 @@ function Dropdown({ children }: { children: ReactNode }) {
 
   return (
     <DropdownContext.Provider value={{ open, setOpen }}>
-      <div ref={dropdownRef} className="relative m-1">
+      <div ref={dropdownRef}>
         {children}
       </div>
     </DropdownContext.Provider>
   );
 }
+
 function DropdownButton({ children }: { children: ReactNode }) {
   const { open, setOpen } = React.useContext(DropdownContext); // get the context
 
@@ -81,29 +105,10 @@ function DropdownButton({ children }: { children: ReactNode }) {
     </button>
   );
 }
-// dropdown items for dropdown menus
-const DropdownItemClass = css`
-  padding: 0.25rem 0.25rem;
-  white-space: nowrap;
-  display: flex;
-`;
 
 function DropdownItem({ children }: { children: ReactNode }) {
   return <li className={DropdownItemClass}>{children}</li>;
 }
-
-// dropdown content for displaying dropdown
-
-const DropdownContentClass = css`
-  position: absolute;
-  z-index: 20;
-  border-radius: 0.25rem;
-  border: 1px solid #d1d5db;
-  background-color: #ffffff;
-  overflow: hidden;
-  margin: 0.25rem 0;
-  overflow-y: auto;
-`;
 
 function DropdownContent({ children }: { children: ReactNode }) {
   const { open } = React.useContext(DropdownContext); // get the context
@@ -122,12 +127,6 @@ function DropdownContent({ children }: { children: ReactNode }) {
     </div>
   );
 } // dropdown list for dropdown menus
-
-const DropdownListClass = css`
-  border-top-width: 1px;
-  border-color: #e5e7eb;
-  color: #374151;
-`;
 
 function DropdownList({ children, ...props }: { children: ReactNode }) {
   const { setOpen } = React.useContext(DropdownContext); // get the context

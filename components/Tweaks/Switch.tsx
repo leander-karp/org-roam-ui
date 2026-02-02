@@ -12,7 +12,7 @@ const SwitchContainer = styled.label`
   }
 
   .slider {
-    background-color: #ccc;
+    background-color: var(--theme-color-gray-500);
     bottom: 0;
     cursor: pointer;
     left: 0;
@@ -23,7 +23,7 @@ const SwitchContainer = styled.label`
   }
 
   .slider:before {
-    background-color: #fff;
+    background-color: var(--theme-color-alt-100);
     bottom: 2px;
     content: '';
     height: 16px;
@@ -34,7 +34,7 @@ const SwitchContainer = styled.label`
   }
 
   input:checked + .slider {
-    background-color: #66bb6a;
+    background-color: var(--theme-color-purple);
   }
 
   input:checked + .slider:before {
