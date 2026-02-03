@@ -1,5 +1,5 @@
-import { CloseIcon, RepeatClockIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Heading, VStack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { styled } from '@linaria/react';
 
 import React, { useContext, useState } from 'react';
 import {
@@ -17,6 +17,19 @@ import { GraphColorSelect } from './GraphColorSelect';
 import { HighlightingPanel } from './HighlightingPanel';
 import { CitationsPanel } from './CitationsPanel';
 import { themes2 } from '../themes2';
+import VStack from './VStack';
+import { IconButton, SettingsIcon, CloseIcon, ResetIcon } from './IconButton';
+
+const Heading = styled.h2`
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+`;
+
+const Spacer = styled.div`
+  width: 1rem;
+  height: 1rem;
+`;
 
 export interface TweakProps {
   filter: typeof initialFilter;
@@ -68,7 +81,6 @@ export const Tweaks = ({
       >
         <IconButton
           aria-label="Reset settings to defaults"
-          icon={<RepeatClockIcon />}
           title="Reset settings to defaults"
           onClick={() => {
             setVisuals(initialVisuals);
@@ -76,27 +88,27 @@ export const Tweaks = ({
             setColoring(initialColoring);
             setHighlightColor('purple.500'); // TODO: Make customizable
           }}
-          variant="subtle"
-          size="sm"
-        />
+        >
+          <ResetIcon />
+        </IconButton>
         <IconButton
-          size="sm"
-          icon={<CloseIcon />}
           aria-label="Close Tweak Panel"
           title="Close Tweak Panel"
-          variant="subtle"
           onClick={() => setShowTweaks(false)}
-        />
+        >
+          <CloseIcon />
+        </IconButton>
       </Box>
-      <Heading size="sm">Filter</Heading>
+      <Heading>Filter</Heading>
       <FilterPanel
         filter={filter}
         setFilter={setFilter}
         tagColors={tagColors}
         setTagColors={setTagColors}
       />
-      <Heading size="sm">Visual</Heading>
-      <VStack justifyContent="flex-start" align="stretch">
+      <Spacer />
+      <Heading>Visual</Heading>
+      <VStack>
         <ThemeSelect />
         <GraphColorSelect {...{ coloring, setColoring }} />
         <HighlightingPanel visuals={visuals} setVisuals={setVisuals} />
@@ -104,19 +116,13 @@ export const Tweaks = ({
       </VStack>
     </Box>
   ) : (
-    <Box
-      position="absolute"
-      zIndex="overlay"
-      marginTop={1}
-      marginLeft={0}
-      display={showTweaks ? 'none' : 'block'}
+    <IconButton
+      isHidden={showTweaks}
+      onClick={() => setShowTweaks(true)}
+      aria-label={'Settings'}
+      zIndex={16}
     >
-      <IconButton
-        variant="subtle"
-        aria-label="Settings"
-        icon={<SettingsIcon />}
-        onClick={() => setShowTweaks(true)}
-      />
-    </Box>
+      <SettingsIcon />
+    </IconButton>
   );
 };

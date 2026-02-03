@@ -4,8 +4,6 @@ import React, { ReactNode } from 'react';
 import { css } from '@linaria/core';
 
 const DropdownButtonClass = css`
-  border-radius: 0.25rem;
-  padding: 0.5rem 0.75rem;
   font-weight: 700;
   color: var(--theme-color-gray-900);
   background-color: var(--theme-color-alt-100);
@@ -68,9 +66,7 @@ function Dropdown({ children }: { children: ReactNode }) {
 
   return (
     <DropdownContext.Provider value={{ open, setOpen }}>
-      <div ref={dropdownRef}>
-        {children}
-      </div>
+      <div ref={dropdownRef}>{children}</div>
     </DropdownContext.Provider>
   );
 }

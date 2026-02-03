@@ -16,8 +16,6 @@ export const GraphColorSelect = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingLeft: '1.75rem',
-      paddingRight: '0.5rem',
     }}
   >
     <p>Graph coloring</p>

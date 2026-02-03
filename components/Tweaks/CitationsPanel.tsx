@@ -3,21 +3,19 @@ import { initialVisuals } from '../config';
 import { styled } from '@linaria/react';
 import Switch from './Switch';
 
-export interface CitationsPanelProps {
-  visuals: typeof initialVisuals;
-  setVisuals: any;
-}
-
-const CitationsPanelContainer = styled.div`
-  padding: 8px 24px 0 28px;
+const CitationsTitle = styled.h3`
+  font-style: italic;
 `;
 
 export const CitationsPanel = ({
   visuals,
   setVisuals,
-}: CitationsPanelProps) => (
-  <CitationsPanelContainer>
-    <p>Citations</p>
+}: {
+  visuals: typeof initialVisuals;
+  setVisuals: any;
+}) => (
+  <>
+    <CitationsTitle>Citations</CitationsTitle>
     {/* Add dashes to citation links made with org-roam-bibtex */}
     <Switch
       id={'dash-cite-links'}
@@ -34,5 +32,5 @@ export const CitationsPanel = ({
       description={'Dash ref links'}
       onChange={() => setVisuals({ ...visuals, refDashes: !visuals.refDashes })}
     />
-  </CitationsPanelContainer>
+  </>
 );

@@ -3,47 +3,46 @@ import { colorList, initialVisuals } from '../config';
 import { Box } from '@chakra-ui/react';
 import Switch from './Switch';
 import Dropdown from './Dropdown';
+import { styled } from '@linaria/react';
 
 export interface HighlightingPanelProps {
   visuals: typeof initialVisuals;
   setVisuals: any;
 }
 
+type HighlightingPanelColorContainerProps = {
+  highlightingActive: boolean;
+};
+
+const HighlightingPanelColorContainer = styled.div<HighlightingPanelColorContainerProps>`
+  display: flex;
+  align-items: center;
+  visibility: ${(props) => (props.highlightingActive ? 'visible' : 'hidden')};
+`;
+
+const Spacer = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+`;
+
 export const HighlightingPanel = ({
   visuals,
   setVisuals,
 }: HighlightingPanelProps) => (
-  <div
-    style={{
-      paddingLeft: '1rem',
-      paddingTop: '0.5rem',
-      paddingBottom: '0.5rem',
-    }}
-    key={'Highlighting'}
+  <Switch
+    checked={visuals.highlight}
+    onChange={() =>
+      setVisuals((visuals: typeof initialVisuals) => ({
+        ...visuals,
+        highlight: !visuals.highlight,
+      }))
+    }
+    id={'highlight-switch'}
+    description={'Highlighting'}
   >
-    <Switch
-      checked={visuals.highlight}
-      onChange={() =>
-        setVisuals((visuals: typeof initialVisuals) => ({
-          ...visuals,
-          highlight: !visuals.highlight,
-        }))
-      }
-      id={'highlight-switch'}
-      description={'Highlighting'}
-    />
-    <div
-      style={{
-        paddingLeft: '1rem',
-        paddingTop: '0.5rem',
-        paddingBottom: '0.5rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        visibility: visuals.highlight ? 'visible' : 'hidden',
-      }}
-    >
-      <p>highlighting color</p>
+    <HighlightingPanelColorContainer highlightingActive={visuals.highlight}>
+      <p>Color</p>
+      <Spacer />
       <Dropdown>
         <Dropdown.Button>
           <Box
@@ -52,8 +51,8 @@ export const HighlightingPanel = ({
             } /* FIXME: Color is based on chakra theme*/
             style={{
               borderRadius: '16px',
-              height: '24px',
-              width: '24px',
+              height: '16px',
+              width: '16px',
             }}
           />
         </Dropdown.Button>
@@ -88,6 +87,6 @@ export const HighlightingPanel = ({
           </Dropdown.List>
         </Dropdown.Content>
       </Dropdown>
-    </div>
-  </div>
+    </HighlightingPanelColorContainer>
+  </Switch>
 );

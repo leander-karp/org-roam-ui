@@ -1,7 +1,7 @@
-import { StackDivider, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { initialFilter, TagColors } from '../config';
 import Switch from './Switch';
+import VStack from './VStack';
 
 export interface FilterPanelProps {
   filter: typeof initialFilter;
@@ -17,12 +17,12 @@ const FilterPanel = ({
   setTagColors,
 }: FilterPanelProps) => (
   <VStack
-    spacing={2}
+  /*spacing={2}
     justifyContent="flex-start"
     divider={<StackDivider borderColor="gray.500" />}
     align="stretch"
     paddingLeft={7}
-    color="gray.800"
+    color="gray.800"*/
   >
     <Switch
       onChange={() => {

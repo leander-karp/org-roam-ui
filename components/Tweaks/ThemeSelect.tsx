@@ -7,8 +7,6 @@ import Dropdown from './Dropdown';
 const ThemeSelectContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-left: 1.75rem;
-  padding-right: 0.5rem;
   align-items: center;
 `;
 

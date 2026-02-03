@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { styled } from '@linaria/react';
 
 const SwitchContainer = styled.label`
@@ -50,24 +50,32 @@ const SwitchContainer = styled.label`
   }
 `;
 
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export default function Switch({
   id,
   description,
   checked,
   onChange,
+  children,
 }: {
   id: string;
   description: string;
   checked: boolean;
   onChange: any;
+  children?: ReactNode;
 }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <FlexContainer>
       <label htmlFor={id}>{description}</label>
+      {children}
       <SwitchContainer htmlFor={id}>
         <input type="checkbox" id={id} checked={checked} onChange={onChange} />
         <span className="slider round"></span>
       </SwitchContainer>
-    </div>
+    </FlexContainer>
   );
 }
