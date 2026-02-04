@@ -183,7 +183,7 @@ const Sidebar = ({
                 bg="alt.100"
                 paddingLeft={4}
               >
-                <Title previewNode={previewRoamNode} />
+                <Title>{previewRoamNode?.title}</Title>
                 <Note
                   {...{
                     setPreviewNode,
