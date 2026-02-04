@@ -677,14 +677,13 @@ function GraphPage() {
         </div>
         {contextMenu.isOpen && (
           <ContextMenu
-            scope={scope}
             target={
               typeof contextMenuTarget === 'string' ? null : contextMenuTarget
             }
-            background={false}
             coordinates={contextPos}
             handleLocal={handleLocal}
             menuClose={contextMenu.onClose.bind(contextMenu)}
+            scope={scope}
             webSocket={WebSocketRef.current}
             setPreviewNode={setPreviewNode}
           />

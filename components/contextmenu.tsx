@@ -20,9 +20,7 @@ import { openNodeInEmacs, createNodeInEmacs } from '../util/webSocketFunctions';
 import { BiNetworkChart } from 'react-icons/bi';
 
 export default interface ContextMenuProps {
-  background: boolean;
   target: OrgRoamNode | null;
-  nodeType?: string;
   coordinates: { [direction: string]: number | undefined };
   handleLocal: (node: OrgRoamNode, add: string) => void;
   menuClose: () => void;
