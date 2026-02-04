@@ -1,9 +1,9 @@
 import React from 'react';
 import { colorList, initialVisuals } from '../config';
-import { Box } from '@chakra-ui/react';
 import Switch from './Switch';
 import Dropdown from './Dropdown';
 import { styled } from '@linaria/react';
+import { colorToCSSVarMap } from '../themes2';
 
 export interface HighlightingPanelProps {
   visuals: typeof initialVisuals;
@@ -25,6 +25,17 @@ const Spacer = styled.div`
   height: 0.5rem;
 `;
 
+type CircleProps = {
+  colorKey: keyof typeof colorToCSSVarMap;
+};
+
+const Circle = styled.div<CircleProps>`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: ${(props) => colorToCSSVarMap[props.colorKey]};
+`;
+
 export const HighlightingPanel = ({
   visuals,
   setVisuals,
@@ -37,23 +48,16 @@ export const HighlightingPanel = ({
         highlight: !visuals.highlight,
       }))
     }
-    id={'highlight-switch'}
-    description={'Highlighting'}
+    id="highlight-switch"
+    description="Highlighting"
   >
     <HighlightingPanelColorContainer highlightingActive={visuals.highlight}>
       <p>Color</p>
       <Spacer />
       <Dropdown>
         <Dropdown.Button>
-          <Box
-            bgColor={
-              visuals.highlightColor
-            } /* FIXME: Color is based on chakra theme*/
-            style={{
-              borderRadius: '16px',
-              height: '16px',
-              width: '16px',
-            }}
+          <Circle
+            colorKey={visuals.highlightColor as keyof typeof colorToCSSVarMap}
           />
         </Dropdown.Button>
         <Dropdown.Content>
@@ -74,14 +78,7 @@ export const HighlightingPanel = ({
                   }))
                 }
               >
-                <Box
-                  bgColor={color} /* FIXME: Color is based on chakra theme*/
-                  style={{
-                    borderRadius: '16px',
-                    height: '24px',
-                    width: '24px',
-                  }}
-                />
+                <Circle colorKey={color as keyof typeof colorToCSSVarMap} />
               </button>
             ))}
           </Dropdown.List>

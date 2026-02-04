@@ -1,5 +1,27 @@
 import { css } from '@linaria/core';
 
+export const colorToCSSVarMap = {
+  'red.500': 'var(--theme-color-red)',
+  'orange.500': 'var(--theme-color-orange)',
+  'yellow.500': 'var(--theme-color-yellow)',
+  'green.500': 'var(--theme-color-green)',
+  'cyan.500': 'var(--theme-color-cyan)',
+  'blue.500': 'var(--theme-color-blue)',
+  'pink.500': 'var(--theme-color-pink)',
+  'purple.500': 'var(--theme-color-purple)',
+  white: 'var(--theme-color-white)',
+  'gray.100': 'var(--theme-color-gray-100)',
+  'gray.200': 'var(--theme-color-gray-200)',
+  'gray.300': 'var(--theme-color-gray-300)',
+  'gray.400': 'var(--theme-color-gray-400)',
+  'gray.500': 'var(--theme-color-gray-500)',
+  'gray.600': 'var(--theme-color-gray-600)',
+  'gray.700': 'var(--theme-color-gray-700)',
+  'gray.800': 'var(--theme-color-gray-800)',
+  'gray.900': 'var(--theme-color-gray-900)',
+  black: 'var(--theme-color-black)',
+};
+
 export const themes2: { [key: string]: string } = {
   '1337': css`
     --theme-color-white: #191919;
