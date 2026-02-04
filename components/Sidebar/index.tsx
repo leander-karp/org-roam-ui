@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { Toolbar } from './Toolbar';
-import { TagBar } from './TagBar';
 import { Note } from './Note';
 import { Title } from './Title';
 
@@ -14,7 +13,6 @@ import { NodeObject } from 'force-graph';
 import { OrgRoamNode } from '../../api';
 import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../Home';
 import { Resizable } from 're-resizable';
-import { initialFilter, TagColors } from '../config';
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -35,10 +33,6 @@ export interface SidebarProps {
   scope: Scope;
   setScope: any;
   windowWidth: number;
-  filter: typeof initialFilter;
-  setFilter: any;
-  tagColors: TagColors;
-  setTagColors: any;
   macros?: { [key: string]: string };
   attachDir: string;
   useInheritance: boolean;
@@ -61,10 +55,6 @@ const Sidebar = ({
   nextPreviewNode,
   openContextMenu,
   windowWidth,
-  filter,
-  setFilter,
-  tagColors,
-  setTagColors,
   macros,
   attachDir,
   useInheritance,
@@ -194,16 +184,6 @@ const Sidebar = ({
                 paddingLeft={4}
               >
                 <Title previewNode={previewRoamNode} />
-                <TagBar
-                  {...{
-                    filter,
-                    setFilter,
-                    tagColors,
-                    setTagColors,
-                    openContextMenu,
-                    previewNode,
-                  }}
-                />
                 <Note
                   {...{
                     setPreviewNode,

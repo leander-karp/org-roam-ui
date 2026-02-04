@@ -666,10 +666,6 @@ function GraphPage() {
               scope,
               setScope,
               windowWidth,
-              tagColors,
-              setTagColors,
-              filter,
-              setFilter,
             }}
             macros={emacsVariables.katexMacros}
             attachDir={emacsVariables.attachDir || ''}
@@ -682,17 +678,15 @@ function GraphPage() {
         {contextMenu.isOpen && (
           <ContextMenu
             scope={scope}
-            target={contextMenuTarget}
+            target={
+              typeof contextMenuTarget === 'string' ? null : contextMenuTarget
+            }
             background={false}
             coordinates={contextPos}
             handleLocal={handleLocal}
             menuClose={contextMenu.onClose.bind(contextMenu)}
             webSocket={WebSocketRef.current}
             setPreviewNode={setPreviewNode}
-            setFilter={setFilter}
-            filter={filter}
-            setTagColors={setTagColors}
-            tagColors={tagColors}
           />
         )}
       </div>
