@@ -79,7 +79,6 @@ export const ProcessedOrg = ({
                   nodeById={nodeById}
                   setPreviewNode={setPreviewNode}
                   openContextMenu={openContextMenu}
-                  isWiki={false}
                 >
                   {children}
                 </PreviewLink>

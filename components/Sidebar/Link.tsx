@@ -1,10 +1,11 @@
-import { Link, Text, useTheme } from '@chakra-ui/react';
+import { Text, useTheme } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import 'katex/dist/katex.css';
 import { ThemeContext } from '../../util/themecontext';
 import { NodeByCite, NodeById } from '../Home';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { getThemeColor } from '../../util/getThemeColor';
+import { colorToCSSVarMap } from '../themes2';
+import { styled } from '@linaria/react';
 
 export interface LinkProps {
   href: any;
@@ -14,7 +15,6 @@ export interface LinkProps {
   nodeByCite: NodeByCite;
   nodeById: NodeById;
   openContextMenu: any;
-  isWiki?: boolean;
   noUnderline?: boolean;
 }
 
@@ -26,7 +26,6 @@ interface NodeLinkProps {
   children: any;
   setSidebarHighlightedNode: any;
   openContextMenu: any;
-  isWiki?: boolean;
   noUnderline?: boolean;
   id?: string;
 }
@@ -45,7 +44,6 @@ const NodeLink = ({
   openContextMenu,
   href,
   children,
-  isWiki,
 }: NodeLinkProps) => {
   const { highlightColor } = useContext(ThemeContext);
 
@@ -53,7 +51,6 @@ const NodeLink = ({
   const coolHighlightColor = getThemeColor(highlightColor, theme);
   const uri = href.replaceAll(/.*?:(.*)/g, '$1');
   const ID = id ?? uri;
-  const linkText = isWiki ? `[[${children}]]` : children;
   return (
     <Text
       as="a"
@@ -78,19 +75,38 @@ const NodeLink = ({
       }}
       _focus={{ outlineColor: highlightColor }}
     >
-      {linkText}
+      {children}
     </Text>
   );
 };
 
-const NormalLink = (props: NormalLinkProps) => {
-  const { href, children } = props;
+const StyledLink = styled.a<{ highlightColor: keyof typeof colorToCSSVarMap }>`
+  color: ${(props) => colorToCSSVarMap[props.highlightColor]};
+
+  &[href^='http']::after {
+    display: inline-block;
+    margin-left: 0.25em;
+    width: 0.75rem;
+    height: 0.75rem;
+    content: '';
+    background-color: ${props => colorToCSSVarMap[props.highlightColor]};
+    mask-size: contain;
+    /* SVG taken from react-icons */
+    mask: url('data:image/svg+xml;utf-8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11 5L21 3" stroke-linecap="round" stroke-width="2"/></svg>') no-repeat center;
+  }
+`;
+
+const NormalLink = ({ href, children }: NormalLinkProps) => {
   const { highlightColor } = useContext(ThemeContext);
   return (
-    <Link color={highlightColor} isExternal href={href}>
+    <StyledLink
+      highlightColor={highlightColor as keyof typeof colorToCSSVarMap}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={href}
+    >
       {children}
-      <ExternalLinkIcon mx="1px" pb="2px" />
-    </Link>
+    </StyledLink>
   );
 };
 
@@ -103,40 +119,16 @@ export const PreviewLink = ({
   nodeByCite,
   openContextMenu,
   noUnderline,
-  isWiki,
 }: LinkProps) => {
   // TODO figure out how to properly type this
   // see https://github.com/rehypejs/rehype-react/issues/25
-  const type = href.replaceAll(/(.*?):.*/g, '$1');
+  const [type, uri] = href.split(":");
 
-  if (!type) {
-    return <Text color="gray.700">{children}</Text>;
-  }
-
-  if (type.replaceAll(/(http)?.*/g, '$1')) {
+  if (type.startsWith("http")) {
     return <NormalLink href={href}>{children}</NormalLink>;
   }
 
-  const uri = href.replaceAll(/.*?:(.*)/g, '$1');
-  const getId = (type: string, uri: string) => {
-    if (type === 'id') {
-      return uri;
-    }
-
-    if (type.includes('cite')) {
-      const node = nodeByCite[uri] ?? false;
-      if (!node) {
-        return '';
-      }
-      if (node?.properties.FILELESS) {
-        return '';
-      }
-      return node?.id;
-    }
-    return '';
-  };
-
-  const id = getId(type, uri);
+  const id = type === 'id' ? uri : nodeByCite[uri]?.id;
 
   if (id) {
     return (
@@ -152,7 +144,6 @@ export const PreviewLink = ({
           nodeByCite,
           openContextMenu,
           noUnderline,
-          isWiki,
         }}
       />
     );
