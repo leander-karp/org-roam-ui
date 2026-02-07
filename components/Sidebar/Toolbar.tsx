@@ -73,7 +73,7 @@ export const Toolbar = (props: ToolbarProps) => {
       <Flex>
         <IconButton
           variant="subtle"
-          title="Justify  content"
+          title="Justify content"
           aria-label="Justify content"
           icon={
             [

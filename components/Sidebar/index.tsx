@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Toolbar } from './Toolbar';
 import { Note } from './Note';
@@ -13,6 +13,8 @@ import { NodeObject } from 'force-graph';
 import { OrgRoamNode } from '../../api';
 import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../Home';
 import { Resizable } from 're-resizable';
+import { ThemeContext } from '../../util/themecontext';
+import { themes2 } from '../themes2';
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -63,6 +65,8 @@ const Sidebar = ({
     OrgRoamNode | undefined
   >();
   const [sidebarWidth, setSidebarWidth] = useState<number>(400);
+  const { emacsTheme } = useContext(ThemeContext);
+
 
   useEffect(() => {
     if (!previewNode?.id) {
@@ -116,6 +120,7 @@ const Sidebar = ({
           color="black"
           bg="alt.100"
           width="100%"
+          className={themes2[emacsTheme[0]]}
         >
           <Flex pl={2} alignItems="center" color="black" width="100%">
             <Flex pt={1} flexShrink={0}>

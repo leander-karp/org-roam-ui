@@ -50,7 +50,7 @@ export const Section = ({ children, className }: SectionProps) => {
   const [head, ...rest] = Array.isArray(children) ? children : [children];
 
   return (
-    <Box className={'sec'}>
+    <Box className="sec">
       <Box display="block">
         <Flex className="headingFlex" alignItems="baseline">
           {isOpen ? (

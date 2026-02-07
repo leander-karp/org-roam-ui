@@ -1,7 +1,7 @@
 import React from 'react';
 import { initialFilter, TagColors } from '../config';
 import Switch from './Switch';
-import VStack from './VStack';
+import VStack from '../VStack';
 
 export interface FilterPanelProps {
   filter: typeof initialFilter;
