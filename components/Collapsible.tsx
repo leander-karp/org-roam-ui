@@ -7,7 +7,7 @@ export const Collapsible = styled.div<{ isOpen: boolean }>`
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   height: 100vh;
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
- 
+
   @starting-style {
     & {
       opacity: 0;
