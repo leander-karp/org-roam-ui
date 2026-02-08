@@ -24,6 +24,7 @@ import { Tweaks } from './Tweaks';
 import { ThemeContext } from '../util/themecontext';
 import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
+import { Collapsible } from './Collapsible';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined };
@@ -532,6 +533,7 @@ function GraphPage() {
   };
 
   const [mainWindowWidth, setMainWindowWidth] = useState<number>(windowWidth);
+  const contentRef = useRef(null);
 
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
@@ -647,33 +649,33 @@ function GraphPage() {
             </div>
           </div>
         </div>
-
         <div style={{ position: 'relative', zIndex: 4 }}>
-          <Sidebar
-            {...{
-              isOpen,
-              onOpen,
-              onClose,
-              previewNode,
-              setPreviewNode,
-              canUndo,
-              canRedo,
-              previousPreviewNode,
-              nextPreviewNode,
-              resetPreviewNode,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              scope,
-              setScope,
-              windowWidth,
-            }}
-            macros={emacsVariables.katexMacros}
-            attachDir={emacsVariables.attachDir || ''}
-            useInheritance={emacsVariables.useInheritance || false}
-            nodeById={nodeByIdRef.current!}
-            linksByNodeId={linksByNodeIdRef.current!}
-            nodeByCite={nodeByCiteRef.current!}
-          />
+          <Collapsible isOpen={isOpen} ref={contentRef}>
+            <Sidebar
+              {...{
+                onOpen,
+                onClose,
+                previewNode,
+                setPreviewNode,
+                canUndo,
+                canRedo,
+                previousPreviewNode,
+                nextPreviewNode,
+                resetPreviewNode,
+                setSidebarHighlightedNode,
+                openContextMenu,
+                scope,
+                setScope,
+                windowWidth,
+              }}
+              macros={emacsVariables.katexMacros}
+              attachDir={emacsVariables.attachDir || ''}
+              useInheritance={emacsVariables.useInheritance || false}
+              nodeById={nodeByIdRef.current!}
+              linksByNodeId={linksByNodeIdRef.current!}
+              nodeByCite={nodeByCiteRef.current!}
+            />
+          </Collapsible>
         </div>
         {contextMenu.isOpen && (
           <ContextMenu

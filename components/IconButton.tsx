@@ -180,3 +180,19 @@ export const MdOutlineCollapse = () => (
     <path d="M4 9v2h16V9H4zm12-5-1.41-1.41L13 4.17V1h-2v3.19L9.39 2.61 8 4l4 4 4-4zM4 14h16v-2H4v2zm4 5 1.39 1.39L11 18.81V22h2v-3.17l1.59 1.59L16 19l-4-4-4 4z"></path>
   </svg>
 );
+
+export const BiDotsVerticalRounded = () => (
+  <svg
+    stroke="currentColor"
+    fill="currentColor"
+    stroke-width="0"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+    height="1em"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+  </svg>
+);

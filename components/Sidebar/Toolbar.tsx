@@ -35,6 +35,8 @@ const ToolbarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
 `;
 
 export const Toolbar = ({
