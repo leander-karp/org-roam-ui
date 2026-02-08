@@ -2,7 +2,7 @@ import { Box, Flex, IconButton } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { VscCircleFilled, VscCircle } from 'react-icons/vsc';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { NoteContext } from '../../util/NoteContext';
+import { NoteContext } from './NoteContext';
 
 export interface SectionProps {
   children: any;

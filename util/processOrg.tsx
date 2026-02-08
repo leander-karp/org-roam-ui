@@ -9,8 +9,8 @@ import rehype2react from 'rehype-react';
 import { PreviewLink } from '../components/Sidebar/Link';
 import { LinksByNodeId, NodeByCite, NodeById } from '../components/Home';
 import React, { ReactNode, useMemo } from 'react';
-import { OrgImage } from '../components/Sidebar/OrgImage';
-import { Section } from '../components/Sidebar/Section';
+import { OrgImage } from './OrgImage';
+import { Section } from './Section';
 import { NoteContext } from './NoteContext';
 import { OrgRoamNode } from '../api';
 
