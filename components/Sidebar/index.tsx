@@ -26,7 +26,6 @@ const SidebarContainer = styled.div`
   flex-direction: column;
 `;
 
-const justificationList = ['justify', 'start', 'end', 'center'];
 
 export interface SidebarProps {
   onClose: any;
@@ -86,7 +85,7 @@ const Sidebar = ({
     setPreviewRoamNode(previewNode as OrgRoamNode);
   }, [previewNode?.id]);
 
-  const [justification, setJustification] = useState(1);
+  const [justificationIndex, setJustificationIndex] = useState(1);
   const [outline, setOutline] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [font, setFont] = useState('sans serif');
@@ -109,10 +108,10 @@ const Sidebar = ({
         <MenuContainer>
           <Toolbar
             {...{
-              setJustification,
+              setJustificationIndex,
               setIndent,
               setFont,
-              justification,
+              justificationIndex,
               setPreviewNode,
               canUndo,
               canRedo,
@@ -149,8 +148,7 @@ const Sidebar = ({
                 nodeById,
                 nodeByCite,
                 setSidebarHighlightedNode,
-                justification,
-                justificationList,
+                justificationIndex,
                 linksByNodeId,
                 openContextMenu,
                 outline,

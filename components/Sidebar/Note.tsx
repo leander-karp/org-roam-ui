@@ -26,8 +26,7 @@ export interface NoteProps {
   nodeById: NodeById;
   nodeByCite: NodeByCite;
   setSidebarHighlightedNode: any;
-  justification: number;
-  justificationList: string[];
+  justificationIndex: number;
   linksByNodeId: LinksByNodeId;
   openContextMenu: any;
   outline: boolean;
@@ -37,10 +36,12 @@ export interface NoteProps {
   useInheritance: boolean;
 }
 
+const justificationList = ['justify', 'start', 'end', 'center'] as const;
+
+
 export const Note = ({
   setPreviewNode,
-  justificationList,
-  justification,
+  justificationIndex,
   previewNode,
   nodeById,
   nodeByCite,
@@ -54,7 +55,7 @@ export const Note = ({
   useInheritance,
 }: NoteProps) => (
   <NoteContainer
-    textAlign={justificationList[justification] as unknown as any}
+    textAlign={justificationList[justificationIndex]}
     className={outline ? outlineNoteStyle : viewerNoteStyle}
   >
     {previewNode?.id && (

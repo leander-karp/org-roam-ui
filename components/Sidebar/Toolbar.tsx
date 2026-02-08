@@ -15,8 +15,8 @@ import {
 import { styled } from '@linaria/react';
 
 export interface ToolbarProps {
-  setJustification: any;
-  justification: number;
+  setJustificationIndex: (index: number) => void;
+  justificationIndex: number;
   setIndent: any;
   setFont: any;
   setPreviewNode: any;
@@ -40,8 +40,8 @@ const ToolbarContainer = styled.div`
 `;
 
 export const Toolbar = ({
-  setJustification,
-  justification,
+  setJustificationIndex,
+  justificationIndex,
   canUndo,
   canRedo,
   previousPreviewNode,
@@ -71,7 +71,7 @@ export const Toolbar = ({
     <IconButton
       title="Justify content"
       aria-label="Justify content"
-      onClick={() => setJustification((curr: number) => (curr + 1) % 4)}
+      onClick={() => setJustificationIndex((justificationIndex + 1) % 4)}
     >
       {
         [
@@ -79,7 +79,7 @@ export const Toolbar = ({
           <BiAlignLeft key="left" />,
           <BiAlignRight key="right" />,
           <BiAlignMiddle key="center" />,
-        ][justification]
+        ][justificationIndex]
       }
     </IconButton>
     <IconButton
