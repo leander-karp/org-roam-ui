@@ -1,9 +1,6 @@
 import { initialColoring, initialVisuals } from '../config';
 import { LinksByNodeId } from '../Home';
 
-const numberWithinRange = (num: number, min: number, max: number) =>
-  Math.min(Math.max(num, min), max);
-
 export const getNodeColorById = ({
   id,
   linksByNodeId,
@@ -17,13 +14,11 @@ export const getNodeColorById = ({
   cluster: any;
   coloring: typeof initialColoring;
 }) => {
-  const linklen = linksByNodeId[id!]?.length ?? 0;
-  if (coloring.method === 'degree') {
-    return visuals.nodeColorScheme[
-      numberWithinRange(linklen, 0, visuals.nodeColorScheme.length - 1)
-    ];
-  }
-  return visuals.nodeColorScheme[
-    linklen && cluster[id] % visuals.nodeColorScheme.length
-  ];
+  const linkLength = linksByNodeId[id]?.length ?? 0;
+  const index =
+    coloring.method === 'degree'
+      ? Math.min(linkLength, visuals.nodeColorScheme.length - 1)
+      : linkLength && cluster[id] % visuals.nodeColorScheme.length;
+
+  return visuals.nodeColorScheme[index];
 };
