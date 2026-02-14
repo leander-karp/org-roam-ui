@@ -25,6 +25,7 @@ import { ThemeContext } from '../util/themecontext';
 import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
 import { Collapsible } from './Collapsible';
+import { themes2 } from './themes2';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined };
@@ -319,7 +320,7 @@ function GraphPage() {
     currentGraphDataRef.current = graphData;
   }, [graphData]);
 
-  const { setEmacsTheme } = useContext(ThemeContext);
+  const { emacsTheme, setEmacsTheme } = useContext(ThemeContext);
 
   const scopeRef = useRef<Scope>({ nodeIds: [], excludedNodeIds: [] });
   const behaviorRef = useRef(initialBehavior);
@@ -545,6 +546,7 @@ function GraphPage() {
           alignItems: 'flex-start',
           flexDirection: 'row',
         }}
+        className={themes2[emacsTheme[0]]}
       >
         <Tweaks
           {...{

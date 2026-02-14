@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toolbar } from './Toolbar';
 import { Note } from './Note';
 import { Title } from './Title';
@@ -6,8 +6,6 @@ import { NodeObject } from 'force-graph';
 import { OrgRoamNode } from '../../api';
 import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../Home';
 import { Resizable } from 're-resizable';
-import { ThemeContext } from '../../util/themecontext';
-import { themes2 } from '../themes2';
 import VStack from '../VStack';
 import { IconButton, BiDotsVerticalRounded } from '../IconButton';
 import { styled } from '@linaria/react';
@@ -74,7 +72,6 @@ const Sidebar = ({
     OrgRoamNode | undefined
   >();
   const [sidebarWidth, setSidebarWidth] = useState<number>(400);
-  const { emacsTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!previewNode?.id) {
@@ -104,7 +101,7 @@ const Sidebar = ({
       minWidth="220px"
       maxWidth={windowWidth - 200}
     >
-      <SidebarContainer className={themes2[emacsTheme[0]]}>
+      <SidebarContainer>
         <MenuContainer>
           <Toolbar
             {...{

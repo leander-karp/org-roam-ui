@@ -15,7 +15,6 @@ import { ThemeSelect } from './ThemeSelect';
 import { GraphColorSelect } from './GraphColorSelect';
 import { HighlightingPanel } from './HighlightingPanel';
 import { CitationsPanel } from './CitationsPanel';
-import { themes2 } from '../themes2';
 import VStack from '../VStack';
 import { IconButton, SettingsIcon, CloseIcon, ResetIcon } from '../IconButton';
 
@@ -76,10 +75,10 @@ export const Tweaks = ({
   setColoring,
 }: TweakProps) => {
   const [showTweaks, setShowTweaks] = useState(false);
-  const { emacsTheme, setHighlightColor } = useContext(ThemeContext);
+  const { setHighlightColor } = useContext(ThemeContext);
 
   return showTweaks ? (
-    <TweaksContainer className={themes2[emacsTheme[0]]}>
+    <TweaksContainer>
       <TweaksMenu>
         <IconButton
           aria-label="Reset settings to defaults"
