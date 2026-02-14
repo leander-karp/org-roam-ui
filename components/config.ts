@@ -92,7 +92,7 @@ export const initialVisuals = {
     'pink.500',
     'purple.500',
     'orange.500',
-  ],
+  ] as const,
   backgroundColor: 'white',
   emacsNodeColor: 'gray.800',
   labelTextColor: 'black',
@@ -158,4 +158,4 @@ export const colorList = [
   'gray.800',
   'gray.900',
   'black',
-];
+] as const;

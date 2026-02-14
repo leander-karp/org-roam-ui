@@ -9,7 +9,6 @@ import { useTheme } from '@chakra-ui/react';
 import { useAnimation } from './hooks';
 import * as d3int from 'd3-interpolate';
 import React, {
-  ComponentPropsWithoutRef,
   useContext,
   useEffect,
   useMemo,
@@ -532,206 +531,204 @@ export default function ({
   const [dragging, setDragging] = useState(false);
 
   const scaleRef = useRef(1);
-  const graphCommonProps: ComponentPropsWithoutRef<typeof ForceGraph2D> = {
-    graphData: scope.nodeIds.length ? scopedGraphData : filteredGraphData,
-    width: windowWidth,
-    height: windowHeight,
-    backgroundColor: getThemeColor(visuals.backgroundColor, theme),
-    warmupTicks:
-      scope.nodeIds.length === 1 ? 100 : scope.nodeIds.length > 1 ? 20 : 0,
-    onZoom: ({ k }) => (scaleRef.current = k),
-    nodeColor: (node) => {
-      return getNodeColor({
-        node: node as OrgRoamNode,
-        theme,
-        visuals,
-        cluster: clusterRef.current,
-        coloring,
-        emacsNodeId,
-        highlightColors,
-        highlightedNodes,
-        previouslyHighlightedNodes,
-        linksByNodeId: filteredLinksByNodeIdRef.current,
-        opacity,
-        tagColors,
-      });
-    },
-    nodeRelSize: visuals.nodeRel,
-    nodeVal: (node) => {
-      return (
-        nodeSize({
-          node,
-          highlightedNodes,
-          linksByNodeId: filteredLinksByNodeIdRef.current,
-          opacity,
-          previouslyHighlightedNodes,
-          visuals,
-        }) / Math.pow(scaleRef.current, visuals.nodeZoomSize)
-      );
-    },
-    nodeCanvasObject: (node, ctx, globalScale) => {
-      drawLabels({
-        nodeRel: visuals.nodeRel,
-        filteredLinksByNodeId: filteredLinksByNodeIdRef.current,
-        lastHoverNode: lastHoverNode.current,
-        ...{
-          node,
-          ctx,
-          globalScale,
-          highlightedNodes,
-          previouslyHighlightedNodes,
-          visuals,
-          opacity,
-          labelTextColor,
-          labelBackgroundColor,
-          hoverNode,
-        },
-      });
-    },
-    nodeCanvasObjectMode: () => 'after',
-
-    linkDirectionalParticles: visuals.particles
-      ? visuals.particlesNumber
-      : undefined,
-    linkDirectionalArrowLength: visuals.arrows
-      ? visuals.arrowsLength
-      : undefined,
-    linkDirectionalArrowRelPos: visuals.arrowsPos,
-    linkDirectionalArrowColor: visuals.arrowsColor
-      ? () => getThemeColor(visuals.arrowsColor, theme)
-      : undefined,
-    linkColor: (link) => {
-      const sourceId =
-        typeof link.source === 'object'
-          ? link.source.id!
-          : (link.source as string);
-      const targetId =
-        typeof link.target === 'object'
-          ? link.target.id!
-          : (link.target as string);
-      const linkIsHighlighted = isLinkRelatedToNode(
-        link,
-        centralHighlightedNode.current
-      );
-      const linkWasHighlighted = isLinkRelatedToNode(
-        link,
-        lastHoverNode.current
-      );
-      const needsHighlighting = linkIsHighlighted || linkWasHighlighted;
-      const roamLink = link as OrgRoamLink;
-
-      if (visuals.refLinkColor && roamLink.type === 'ref') {
-        return needsHighlighting &&
-          (visuals.refLinkHighlightColor || visuals.highlight)
-          ? highlightColors[visuals.refLinkColor][
-              visuals.refLinkHighlightColor || visuals.highlightColor
-            ](opacity)
-          : highlightColors[visuals.refLinkColor][visuals.backgroundColor](
-              visuals.highlightFade * opacity
-            );
-      }
-      if (visuals.citeLinkColor && roamLink.type?.includes('cite')) {
-        return needsHighlighting &&
-          (visuals.citeLinkHighlightColor || visuals.highlight)
-          ? highlightColors[visuals.citeLinkColor][
-              visuals.citeLinkHighlightColor || visuals.highlightColor
-            ](opacity)
-          : highlightColors[visuals.citeLinkColor][visuals.backgroundColor](
-              visuals.highlightFade * opacity
-            );
-      }
-
-      return getLinkColor({
-        sourceId: sourceId as string,
-        targetId: targetId as string,
-        needsHighlighting,
-        theme,
-        cluster: clusterRef.current,
-        coloring,
-        highlightColors,
-        linksByNodeId: filteredLinksByNodeIdRef.current,
-        opacity,
-        visuals,
-      });
-    },
-    linkWidth: (link) => {
-      if (visuals.highlightLinkSize === 1) {
-        return visuals.linkWidth;
-      }
-      const linkIsHighlighted = isLinkRelatedToNode(
-        link,
-        centralHighlightedNode.current
-      );
-      const linkWasHighlighted = isLinkRelatedToNode(
-        link,
-        lastHoverNode.current
-      );
-
-      return linkIsHighlighted || linkWasHighlighted
-        ? visuals.linkWidth * (1 + opacity * (visuals.highlightLinkSize - 1))
-        : visuals.linkWidth;
-    },
-    linkDirectionalParticleWidth: visuals.particlesWidth,
-
-    d3AlphaDecay: physics.alphaDecay,
-    d3AlphaMin: physics.alphaMin,
-    d3VelocityDecay: physics.velocityDecay,
-
-    onNodeClick: (nodeArg: NodeObject, event: any) => {
-      const node = nodeArg as OrgRoamNode;
-      //contextMenu.onClose()
-      const doubleClickTimeBuffer = 200;
-      const isDoubleClick =
-        event.timeStamp - lastNodeClickRef.current < doubleClickTimeBuffer;
-      lastNodeClickRef.current = event.timeStamp;
-      if (isDoubleClick) {
-        return handleClick('double', node, event);
-      }
-
-      const prevNodeClickTime = lastNodeClickRef.current;
-      return setTimeout(() => {
-        if (lastNodeClickRef.current !== prevNodeClickTime) {
-          return;
-        }
-        return handleClick('click', node, event);
-      }, doubleClickTimeBuffer);
-    },
-    onNodeHover: (node) => {
-      if (!visuals.highlight) {
-        return;
-      }
-      if (dragging) {
-        return;
-      }
-
-      if (!hoverNode) {
-        fadeOutCancel();
-        setOpacity(0);
-      }
-      setHoverNode(node);
-    },
-    onNodeRightClick: (nodeArg, event) => {
-      const node = nodeArg as OrgRoamNode;
-
-      handleClick('right', node, event);
-    },
-    onNodeDrag: (node) => {
-      //contextMenu.onClose()
-      setHoverNode(node);
-      setDragging(true);
-    },
-    onNodeDragEnd: () => {
-      setHoverNode(null);
-      setDragging(false);
-    },
-  };
 
   return (
     <div style={{ overflow: 'hidden' }} onClick={contextMenu.onClose}>
       <ForceGraph2D
         ref={graphRef}
-        {...graphCommonProps}
-        linkLineDash={(link) => {
+        graphData={scope.nodeIds.length ? scopedGraphData : filteredGraphData}
+        width={windowWidth}
+        height={windowHeight}
+        backgroundColor={getThemeColor(visuals.backgroundColor, theme)}
+        warmupTicks={
+          scope.nodeIds.length === 1 ? 100 : scope.nodeIds.length > 1 ? 20 : 0
+        }
+        onZoom={({ k }) => (scaleRef.current = k)}
+        nodeColor={(node) => {
+          return getNodeColor({
+            node: node as OrgRoamNode,
+            theme,
+            visuals,
+            cluster: clusterRef.current,
+            coloring,
+            emacsNodeId,
+            highlightColors,
+            highlightedNodes,
+            previouslyHighlightedNodes,
+            linksByNodeId: filteredLinksByNodeIdRef.current,
+            opacity,
+            tagColors,
+          });
+        }}
+        nodeRelSize={visuals.nodeRel}
+        nodeVal={(node) => {
+          return (
+            nodeSize({
+              node,
+              highlightedNodes,
+              linksByNodeId: filteredLinksByNodeIdRef.current,
+              opacity,
+              previouslyHighlightedNodes,
+              visuals,
+            }) / Math.pow(scaleRef.current, visuals.nodeZoomSize)
+          );
+        }}
+        nodeCanvasObject={(node, ctx, globalScale) => {
+          drawLabels({
+            nodeRel: visuals.nodeRel,
+            filteredLinksByNodeId: filteredLinksByNodeIdRef.current,
+            lastHoverNode: lastHoverNode.current,
+            ...{
+              node,
+              ctx,
+              globalScale,
+              highlightedNodes,
+              previouslyHighlightedNodes,
+              visuals,
+              opacity,
+              labelTextColor,
+              labelBackgroundColor,
+              hoverNode,
+            },
+          });
+        }}
+        nodeCanvasObjectMode={() => 'after'}
+        linkDirectionalParticles={
+          visuals.particles ? visuals.particlesNumber : undefined
+        }
+        linkDirectionalArrowLength={
+          visuals.arrows ? visuals.arrowsLength : undefined
+        }
+        linkDirectionalArrowRelPos={visuals.arrowsPos}
+        linkDirectionalArrowColor={
+          visuals.arrowsColor
+            ? () => getThemeColor(visuals.arrowsColor, theme)
+            : undefined
+        }
+        linkColor={(link) => {
+          const sourceId =
+            typeof link.source === 'object'
+              ? link.source.id!
+              : (link.source as string);
+          const targetId =
+            typeof link.target === 'object'
+              ? link.target.id!
+              : (link.target as string);
+          const linkIsHighlighted = isLinkRelatedToNode(
+            link,
+            centralHighlightedNode.current
+          );
+          const linkWasHighlighted = isLinkRelatedToNode(
+            link,
+            lastHoverNode.current
+          );
+          const needsHighlighting = linkIsHighlighted || linkWasHighlighted;
+          const roamLink = link as OrgRoamLink;
+
+          if (visuals.refLinkColor && roamLink.type === 'ref') {
+            return needsHighlighting &&
+              (visuals.refLinkHighlightColor || visuals.highlight)
+              ? highlightColors[visuals.refLinkColor][
+                  visuals.refLinkHighlightColor || visuals.highlightColor
+                ](opacity)
+              : highlightColors[visuals.refLinkColor][visuals.backgroundColor](
+                  visuals.highlightFade * opacity
+                );
+          }
+          if (visuals.citeLinkColor && roamLink.type?.includes('cite')) {
+            return needsHighlighting &&
+              (visuals.citeLinkHighlightColor || visuals.highlight)
+              ? highlightColors[visuals.citeLinkColor][
+                  visuals.citeLinkHighlightColor || visuals.highlightColor
+                ](opacity)
+              : highlightColors[visuals.citeLinkColor][visuals.backgroundColor](
+                  visuals.highlightFade * opacity
+                );
+          }
+
+          return getLinkColor({
+            sourceId: sourceId as string,
+            targetId: targetId as string,
+            needsHighlighting,
+            theme,
+            cluster: clusterRef.current,
+            coloring,
+            highlightColors,
+            linksByNodeId: filteredLinksByNodeIdRef.current,
+            opacity,
+            visuals,
+          });
+        }}
+        linkWidth={(link) => {
+          if (visuals.highlightLinkSize === 1) {
+            return visuals.linkWidth;
+          }
+          const linkIsHighlighted = isLinkRelatedToNode(
+            link,
+            centralHighlightedNode.current
+          );
+          const linkWasHighlighted = isLinkRelatedToNode(
+            link,
+            lastHoverNode.current
+          );
+
+          return linkIsHighlighted || linkWasHighlighted
+            ? visuals.linkWidth *
+                (1 + opacity * (visuals.highlightLinkSize - 1))
+            : visuals.linkWidth;
+        }}
+        linkDirectionalParticleWidth={visuals.particlesWidth}
+        d3AlphaDecay={physics.alphaDecay}
+        d3AlphaMin={physics.alphaMin}
+        d3VelocityDecay={physics.velocityDecay}
+        onNodeClick={(nodeArg: NodeObject, event: any) => {
+          const node = nodeArg as OrgRoamNode;
+          //contextMenu.onClose()
+          const doubleClickTimeBuffer = 200;
+          const isDoubleClick =
+            event.timeStamp - lastNodeClickRef.current < doubleClickTimeBuffer;
+          lastNodeClickRef.current = event.timeStamp;
+          if (isDoubleClick) {
+            return handleClick('double', node, event);
+          }
+
+          const prevNodeClickTime = lastNodeClickRef.current;
+          return setTimeout(() => {
+            if (lastNodeClickRef.current !== prevNodeClickTime) {
+              return;
+            }
+            return handleClick('click', node, event);
+          }, doubleClickTimeBuffer);
+        }}
+        onNodeHover={(node) => {
+          if (!visuals.highlight) {
+            return;
+          }
+          if (dragging) {
+            return;
+          }
+
+          if (!hoverNode) {
+            fadeOutCancel();
+            setOpacity(0);
+          }
+          setHoverNode(node);
+        }}
+        onNodeRightClick={(nodeArg, event) => {
+          const node = nodeArg as OrgRoamNode;
+
+          handleClick('right', node, event);
+        }}
+        onNodeDrag={(node) => {
+          //contextMenu.onClose()
+          setHoverNode(node);
+          setDragging(true);
+        }}
+        onNodeDragEnd={() => {
+          setHoverNode(null);
+          setDragging(false);
+        }}
+        linkLineDash={(link: unknown) => {
           const linkArg = link as OrgRoamLink;
           if (visuals.citeDashes && linkArg.type?.includes('cite')) {
             return [visuals.citeDashLength, visuals.citeGapLength];
