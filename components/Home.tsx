@@ -47,17 +47,7 @@ export type Scope = {
 };
 
 export default function Home() {
-  // only render on the client
-  const [showPage, setShowPage] = useState(false);
-  useEffect(() => {
-    setShowPage(true);
-  }, []);
-
-  if (!showPage) {
-    return null;
-  }
-
-  return <GraphPage />;
+  return <GraphPage/>;
 }
 
 type ContextPos = {
