@@ -31,42 +31,40 @@ export const getNodeColor = ({
   cluster: any;
   coloring: typeof initialColoring;
 }) => {
+  let nodeColor;
+
   const needsHighlighting =
     highlightedNodes[node.id!] || previouslyHighlightedNodes[node.id!];
   //const needsHighlighting = hoverNode?.id === node.id! || lastHoverNode?.current?.id === node.id
   // if we are matching the node color and don't have a highlight color
   // or we don't have our own scheme and we're not being highlighted
   if (visuals.emacsNodeColor && node.id === emacsNodeId) {
-    return getThemeColor(visuals.emacsNodeColor, theme);
-  }
-  if (tagColors && node?.tags.some((tag) => tagColors[tag])) {
+    nodeColor = getThemeColor(visuals.emacsNodeColor, theme);
+  } else if (tagColors && node?.tags.some((tag) => tagColors[tag])) {
     const tagColor = tagColors[node?.tags.filter((tag) => tagColors[tag])[0]];
-    return needsHighlighting
+    nodeColor = needsHighlighting
       ? highlightColors[tagColor][tagColor](visuals.highlightFade * opacity)
       : highlightColors[tagColor][visuals.backgroundColor](
           visuals.highlightFade * opacity
         );
-  }
-  if (
+  } else if (
     visuals.citeNodeColor &&
     node?.properties?.ROAM_REFS &&
     node?.properties?.FILELESS
   ) {
-    return needsHighlighting
+    nodeColor = needsHighlighting
       ? getThemeColor(visuals.citeNodeColor, theme)
       : highlightColors[visuals.citeNodeColor][visuals.backgroundColor](
           visuals.highlightFade * opacity
         );
-  }
-  if (visuals.refNodeColor && node.properties.ROAM_REFS) {
-    return needsHighlighting
+  } else if (visuals.refNodeColor && node.properties.ROAM_REFS) {
+    nodeColor = needsHighlighting
       ? getThemeColor(visuals.refNodeColor, theme)
       : highlightColors[visuals.refNodeColor][visuals.backgroundColor](
           visuals.highlightFade * opacity
         );
-  }
-  if (!needsHighlighting) {
-    return highlightColors[
+  } else if (!needsHighlighting) {
+    nodeColor = highlightColors[
       getNodeColorById({
         id: node.id as string,
         cluster,
@@ -75,19 +73,19 @@ export const getNodeColor = ({
         visuals,
       })
     ][visuals.backgroundColor](visuals.highlightFade * opacity);
-  }
-  if (visuals.highlight) {
-    return highlightColors[
-      getNodeColorById({
-        id: node.id as string,
-        cluster,
-        coloring,
-        linksByNodeId,
-        visuals,
-      })
-    ][visuals.highlightColor](opacity);
+  } else if (visuals.highlight) {
+    nodeColor =
+      highlightColors[
+        getNodeColorById({
+          id: node.id as string,
+          cluster,
+          coloring,
+          linksByNodeId,
+          visuals,
+        })
+      ][visuals.highlightColor](opacity);
   } else {
-    return getThemeColor(
+    nodeColor = getThemeColor(
       getNodeColorById({
         id: node.id as string,
         cluster,
@@ -98,4 +96,6 @@ export const getNodeColor = ({
       theme
     );
   }
+
+  return nodeColor;
 };
