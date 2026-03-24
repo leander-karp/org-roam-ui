@@ -1,8 +1,9 @@
 import { createContext } from 'react';
 
 import { themes } from '../components/themes';
+import { themeData } from '../components/themes2';
 
-type ThemeName = string;
+type ThemeName = keyof typeof themeData;
 export type ThemeMap = { [color: string]: string };
 export type Theme = [ThemeName, ThemeMap];
 export type ThemeContextProps = {

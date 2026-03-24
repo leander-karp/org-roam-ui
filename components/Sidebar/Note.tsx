@@ -38,7 +38,6 @@ export interface NoteProps {
 
 const justificationList = ['justify', 'start', 'end', 'center'] as const;
 
-
 export const Note = ({
   setPreviewNode,
   justificationIndex,

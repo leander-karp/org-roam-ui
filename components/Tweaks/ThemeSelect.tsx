@@ -19,7 +19,7 @@ export const ThemeSelect = () => {
         <Dropdown.Button>{emacsTheme[0] as string}</Dropdown.Button>
         <Dropdown.Content>
           <Dropdown.List>
-            {Object.keys(themes).map((theme: string) => (
+            {Object.keys(themes).map((theme: any) => (
               <Dropdown.Item>
                 <button
                   key={theme}

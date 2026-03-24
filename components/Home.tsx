@@ -47,7 +47,7 @@ export type Scope = {
 };
 
 export default function Home() {
-  return <GraphPage/>;
+  return <GraphPage />;
 }
 
 type ContextPos = {
@@ -310,7 +310,7 @@ function GraphPage() {
     currentGraphDataRef.current = graphData;
   }, [graphData]);
 
-  const { emacsTheme, setEmacsTheme } = useContext(ThemeContext);
+  const { emacsTheme } = useContext(ThemeContext);
 
   const scopeRef = useRef<Scope>({ nodeIds: [], excludedNodeIds: [] });
   const behaviorRef = useRef(initialBehavior);
@@ -410,7 +410,8 @@ function GraphPage() {
           console.log(message);
           return;
         case 'theme':
-          return setEmacsTheme(['custom', message.data]);
+          console.error(`Received unhandled ${message}`);
+          return; // setEmacsTheme(['custom', message.data]);
         case 'command':
           switch (message.data.commandName) {
             case 'local':

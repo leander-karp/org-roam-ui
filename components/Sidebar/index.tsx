@@ -24,7 +24,6 @@ const SidebarContainer = styled.div`
   flex-direction: column;
 `;
 
-
 export interface SidebarProps {
   onClose: any;
   onOpen: any;

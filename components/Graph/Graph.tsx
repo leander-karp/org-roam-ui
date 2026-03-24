@@ -5,16 +5,9 @@ import { ThemeContext, ThemeContextProps } from '../../util/themecontext';
 import { ForceGraph2D } from 'react-force-graph';
 
 import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../Home';
-import { useTheme } from '@chakra-ui/react';
 import { useAnimation } from './hooks';
 import * as d3int from 'd3-interpolate';
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 //@ts-expect-error there are no type definitions for jlouvain.js
 import jLouvain from 'jlouvain.js';
 
@@ -102,8 +95,6 @@ export default function ({
   const { dailyDir } = variables;
 
   const [hoverNode, setHoverNode] = useState<NodeObject | null>(null);
-
-  const theme = useTheme();
 
   const { emacsTheme } = useContext<ThemeContextProps>(ThemeContext);
 
@@ -489,10 +480,10 @@ export default function ({
   const highlightColors = useMemo(() => {
     return Object.fromEntries(
       colorList.map((color) => {
-        const color1 = getThemeColor(color, theme);
+        const color1 = getThemeColor(color, emacsTheme[0]);
         const crisscross = colorList.map((color2) => [
           color2,
-          d3int.interpolate(color1, getThemeColor(color2, theme)),
+          d3int.interpolate(color1, getThemeColor(color2, emacsTheme[0])),
         ]);
         return [color, Object.fromEntries(crisscross)];
       })
@@ -519,12 +510,12 @@ export default function ({
   ]);
 
   const labelTextColor = useMemo(
-    () => getThemeColor(visuals.labelTextColor, theme),
+    () => getThemeColor(visuals.labelTextColor, emacsTheme[0]),
     [visuals.labelTextColor, emacsTheme]
   );
 
   const labelBackgroundColor = useMemo(
-    () => getThemeColor(visuals.labelBackgroundColor, theme),
+    () => getThemeColor(visuals.labelBackgroundColor, emacsTheme[0]),
     [visuals.labelBackgroundColor, emacsTheme]
   );
 
@@ -539,7 +530,7 @@ export default function ({
         graphData={scope.nodeIds.length ? scopedGraphData : filteredGraphData}
         width={windowWidth}
         height={windowHeight}
-        backgroundColor={getThemeColor(visuals.backgroundColor, theme)}
+        backgroundColor={getThemeColor(visuals.backgroundColor, emacsTheme[0])}
         warmupTicks={
           scope.nodeIds.length === 1 ? 100 : scope.nodeIds.length > 1 ? 20 : 0
         }
@@ -547,7 +538,7 @@ export default function ({
         nodeColor={(node) => {
           return getNodeColor({
             node: node as OrgRoamNode,
-            theme,
+            theme: emacsTheme[0],
             visuals,
             cluster: clusterRef.current,
             coloring,
@@ -602,7 +593,7 @@ export default function ({
         linkDirectionalArrowRelPos={visuals.arrowsPos}
         linkDirectionalArrowColor={
           visuals.arrowsColor
-            ? () => getThemeColor(visuals.arrowsColor, theme)
+            ? () => getThemeColor(visuals.arrowsColor, emacsTheme[0])
             : undefined
         }
         linkColor={(link) => {
@@ -650,7 +641,7 @@ export default function ({
             sourceId: sourceId as string,
             targetId: targetId as string,
             needsHighlighting,
-            theme,
+            theme: emacsTheme[0],
             cluster: clusterRef.current,
             coloring,
             highlightColors,
