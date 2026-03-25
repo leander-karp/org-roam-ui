@@ -1,7 +1,7 @@
 import React from 'react';
 import { NodeObject } from 'force-graph';
 
-import { NodeById, NodeByCite, LinksByNodeId } from '../Home';
+import { NodeById, NodeByCite, LinksByNodeId } from '../GraphPage';
 import { UniOrg } from '../../util/uniorg';
 import { Backlinks } from './Backlinks';
 import { viewerNoteStyle, outlineNoteStyle } from './noteStyle';

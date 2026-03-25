@@ -1,7 +1,7 @@
 import { OrgRoamNode } from '../../api';
 import { NodeObject } from 'force-graph';
 import { initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import wrap from 'word-wrap';
 import { nodeSize } from './nodeSize';
 

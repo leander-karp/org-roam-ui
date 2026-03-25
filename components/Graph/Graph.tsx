@@ -4,7 +4,7 @@ import { ThemeContext, ThemeContextProps } from '../../util/themecontext';
 
 import { ForceGraph2D } from 'react-force-graph';
 
-import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../Home';
+import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../GraphPage';
 import { useAnimation } from './hooks';
 import * as d3int from 'd3-interpolate';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';

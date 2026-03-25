@@ -1,6 +1,6 @@
 import { OrgRoamNode } from '../../api';
 import { initialColoring, initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import { getNodeColorById } from './getNodeColorById';
 import { getThemeColor } from '../../util/getThemeColor';
 

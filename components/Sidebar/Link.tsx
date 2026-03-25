@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import 'katex/dist/katex.css';
 import { ThemeContext } from '../../util/themecontext';
-import { NodeByCite, NodeById } from '../Home';
+import { NodeByCite, NodeById } from '../GraphPage';
 import { colorToCSSVarMap } from '../themes2';
 import { styled } from '@linaria/react';
 

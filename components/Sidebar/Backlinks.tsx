@@ -1,4 +1,4 @@
-import { LinksByNodeId, NodeByCite, NodeById } from '../Home';
+import { LinksByNodeId, NodeByCite, NodeById } from '../GraphPage';
 
 import { NodeObject, LinkObject } from 'force-graph';
 

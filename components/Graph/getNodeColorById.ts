@@ -1,5 +1,5 @@
 import { initialColoring, initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 
 export const getNodeColorById = ({
   id,

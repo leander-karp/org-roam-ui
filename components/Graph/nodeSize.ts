@@ -1,5 +1,5 @@
 import { initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import { NodeObject } from 'force-graph';
 
 export const nodeSize = ({

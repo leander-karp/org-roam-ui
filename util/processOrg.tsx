@@ -7,7 +7,7 @@ import extractKeywords from 'uniorg-extract-keywords';
 import katex from 'rehype-katex';
 import rehype2react from 'rehype-react';
 import { PreviewLink } from '../components/Sidebar/Link';
-import { LinksByNodeId, NodeByCite, NodeById } from '../components/Home';
+import { LinksByNodeId, NodeByCite, NodeById } from '../components/GraphPage';
 import React, { ReactNode, useMemo } from 'react';
 import { OrgImage } from './OrgImage';
 import { Section } from './Section';

@@ -1,4 +1,4 @@
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import { normalizeLinkEnds } from '../../util/normalizeLinkEnds';
 
 export const findNthNeighbors = ({

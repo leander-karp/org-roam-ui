@@ -1,5 +1,5 @@
 import { initialColoring, initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import { getThemeColor } from '../../util/getThemeColor';
 import { getNodeColorById } from './getNodeColorById';
 

@@ -27,6 +27,12 @@ const MenuItemContainer = styled.div`
   align-items: center;
 `;
 
+const ContextMenuTitle = styled.h4`
+  font-size: 14pt;
+  font-weight: normal;
+  font-style: italic;
+`;
+
 export const ContextMenu = ({
   target,
   coordinates,
@@ -49,14 +55,14 @@ export const ContextMenu = ({
       border: '1px solid var(--theme-color-gray-800)',
     }}
   >
-    {target && <h2>{target.title}</h2>}
+    {target && <ContextMenuTitle>{target.title}</ContextMenuTitle>}
     {scope.nodeIds.length !== 0 && (
       <>
         <MenuItemContainer>
           <IconButton
             id="expand-local-graph"
             onClick={() => handleLocal(target!, 'add')}
-            size={'1rem'}
+            size={'2rem'}
           >
             <PlusSquareIcon />
           </IconButton>
@@ -66,7 +72,7 @@ export const ContextMenu = ({
           <IconButton
             id="open-local-graph"
             onClick={() => handleLocal(target!, 'replace')}
-            size={'1rem'}
+            size={'2rem'}
           >
             <BiNetworkChart />
           </IconButton>
@@ -91,7 +97,7 @@ export const ContextMenu = ({
         <IconButton
           id={'open-in-emacs'}
           onClick={() => openNodeInEmacs(target as OrgRoamNode, webSocket)}
-          size={'1rem'}
+          size={'2rem'}
         >
           <EditIcon />
         </IconButton>
@@ -100,7 +106,7 @@ export const ContextMenu = ({
     ) : (
       <MenuItemContainer>
         <IconButton
-          size="1rem"
+          size="2rem"
           onClick={() => createNodeInEmacs(target, webSocket)}
           id={'create-node'}
         >
@@ -114,7 +120,7 @@ export const ContextMenu = ({
         <IconButton
           onClick={() => handleLocal(target!, 'replace')}
           id={'open-local-graph'}
-          size={'1rem'}
+          size={'2rem'}
         >
           <BiNetworkChart />
         </IconButton>
@@ -123,7 +129,7 @@ export const ContextMenu = ({
     )}
     <MenuItemContainer>
       <IconButton
-        size={'1rem'}
+        size={'2rem'}
         id={'preview-button'}
         onClick={() => {
           setPreviewNode(target);

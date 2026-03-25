@@ -4,7 +4,7 @@ import { Note } from './Note';
 import { Title } from './Title';
 import { NodeObject } from 'force-graph';
 import { OrgRoamNode } from '../../api';
-import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../Home';
+import { LinksByNodeId, NodeByCite, NodeById, Scope } from '../GraphPage';
 import { Resizable } from 're-resizable';
 import VStack from '../VStack';
 import { IconButton, BiDotsVerticalRounded } from '../IconButton';

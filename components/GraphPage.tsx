@@ -1,7 +1,7 @@
 import { useWindowSize } from '@react-hook/window-size';
 import { GraphData, NodeObject } from 'force-graph';
 import Graph from './Graph/Graph';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import useUndo from 'use-undo';
 import { OrgRoamGraphReponse, OrgRoamLink, OrgRoamNode } from '../api';
@@ -18,11 +18,9 @@ import {
 import { ContextMenu } from './contextmenu';
 import Sidebar from './Sidebar';
 import { Tweaks } from './Tweaks';
-import { ThemeContext } from '../util/themecontext';
 import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
 import { Collapsible } from './Collapsible';
-import { themes2 } from './themes2';
 import { BiNetworkChart, IconButton, SidebarIcon } from './IconButton';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
@@ -54,10 +52,6 @@ function useDisclosure() {
   };
 }
 
-export default function Home() {
-  return <GraphPage />;
-}
-
 type ContextPos = {
   left: number | undefined;
   right: number | undefined;
@@ -65,7 +59,7 @@ type ContextPos = {
   bottom: number | undefined;
 };
 
-function GraphPage() {
+export function GraphPage() {
   const [tagColors, setTagColors] = useState<TagColors>({});
   const [scope, setScope] = useState<Scope>({
     nodeIds: [],
@@ -318,8 +312,6 @@ function GraphPage() {
     currentGraphDataRef.current = graphData;
   }, [graphData]);
 
-  const { emacsTheme } = useContext(ThemeContext);
-
   const scopeRef = useRef<Scope>({ nodeIds: [], excludedNodeIds: [] });
   const behaviorRef = useRef(initialBehavior);
   behaviorRef.current = behavior;
@@ -546,7 +538,6 @@ function GraphPage() {
           flexDirection: 'row',
           color: 'var(--theme-color-gray-800)',
         }}
-        className={themes2[emacsTheme[0]]}
       >
         <Tweaks
           {...{
