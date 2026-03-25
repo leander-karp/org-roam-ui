@@ -17,6 +17,7 @@ import {
 import Home from '../components/Home';
 import { createRoot } from 'react-dom/client';
 import React from 'react';
+import { css } from '@linaria/core';
 
 const getBorderColor = (
   highlightColor: string,
@@ -166,6 +167,57 @@ const constructTheme = (highlightColor: string, emacsTheme: Theme) => {
     },
   };
 };
+
+export const globals = css`
+  :global() {
+    button,
+    input[type='button'] {
+      border: 0;
+    }
+
+    html {
+      color-scheme: light dark;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        Fira Sans,
+        Droid Sans,
+        Helvetica Neue,
+        sans-serif;
+    }
+
+    img,
+    svg,
+    video {
+      max-width: 100%;
+      display: block;
+    }
+
+    blockquote,
+    dl,
+    dd,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    figure,
+    p,
+    pre {
+      margin: 0;
+    }
+  }
+`;
 
 function App() {
   const [emacsTheme, setEmacsTheme] = useState<Theme>(initialTheme);

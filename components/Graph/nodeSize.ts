@@ -1,4 +1,3 @@
-import { filter } from '@chakra-ui/react';
 import { initialVisuals } from '../config';
 import { LinksByNodeId } from '../Home';
 import { NodeObject } from 'force-graph';
@@ -23,10 +22,7 @@ export const nodeSize = ({
   const parentNeighbors = links.length
     ? links.filter((link) => link.type === 'parent').length
     : 0;
-  const basicSize =
-    3 +
-    links.length * visuals.nodeSizeLinks -
-    (!filter.parent ? parentNeighbors : 0);
+  const basicSize = 3 + links.length * visuals.nodeSizeLinks - parentNeighbors;
   if (visuals.highlightNodeSize === 1) {
     return basicSize;
   }

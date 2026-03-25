@@ -1,16 +1,8 @@
 import React from 'react';
 import {
-  Menu,
-  MenuItem,
-  MenuList,
-  Heading,
-  MenuDivider,
-} from '@chakra-ui/react';
-import {
   EditIcon,
   AddIcon,
   ViewIcon,
-  ExternalLinkIcon,
   PlusSquareIcon,
   MinusIcon,
 } from '@chakra-ui/icons';
@@ -18,103 +10,129 @@ import {
 import { OrgRoamNode } from '../api';
 import { openNodeInEmacs, createNodeInEmacs } from '../util/webSocketFunctions';
 import { BiNetworkChart } from 'react-icons/bi';
+import { IconButton } from './IconButton';
+import VStack from './VStack';
+import { styled } from '@linaria/react';
 
 export default interface ContextMenuProps {
   target: OrgRoamNode | null;
   coordinates: { [direction: string]: number | undefined };
   handleLocal: (node: OrgRoamNode, add: string) => void;
-  menuClose: () => void;
   scope: { nodeIds: string[] };
   webSocket: any;
   setPreviewNode: any;
 }
 
+const MenuItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const ContextMenu = ({
   target,
   coordinates,
   handleLocal,
-  menuClose,
   scope,
   webSocket,
   setPreviewNode,
 }: ContextMenuProps) => (
-  <Menu defaultIsOpen closeOnBlur={false} onClose={() => menuClose()}>
-    <MenuList
-      zIndex="overlay"
-      bgColor="white"
-      color="black"
-      position="absolute"
-      left={coordinates.left}
-      top={coordinates.top}
-      right={coordinates.right}
-      bottom={coordinates.bottom}
-      fontSize="xs"
-      boxShadow="xl"
-    >
-      {target && (
-        <>
-          <Heading size="xs" isTruncated px={3} py={1}>
-            {target.title}
-          </Heading>
-          <MenuDivider borderColor="gray.500" />
-        </>
-      )}
-      {scope.nodeIds.length !== 0 && (
-        <>
-          <MenuItem
+  <VStack
+    style={{
+      zIndex: 'overlay',
+      position: 'absolute',
+      left: coordinates.left,
+      top: coordinates.top,
+      right: coordinates.right,
+      bottom: coordinates.bottom,
+      backgroundColor: 'var(--theme-color-alt-100)',
+      padding: '0.5rem',
+      boxShadow: '0.5rem',
+      border: '1px solid var(--theme-color-gray-800)',
+    }}
+  >
+    {target && <h2>{target.title}</h2>}
+    {scope.nodeIds.length !== 0 && (
+      <>
+        <MenuItemContainer>
+          <IconButton
+            id="expand-local-graph"
             onClick={() => handleLocal(target!, 'add')}
-            icon={<PlusSquareIcon />}
+            size={'1rem'}
           >
-            Expand local graph at node
-          </MenuItem>
-          <MenuItem
+            <PlusSquareIcon />
+          </IconButton>
+          <label htmlFor="expand-local-graph">Expand local graph at node</label>
+        </MenuItemContainer>
+        <MenuItemContainer>
+          <IconButton
+            id="open-local-graph"
             onClick={() => handleLocal(target!, 'replace')}
-            icon={<BiNetworkChart />}
+            size={'1rem'}
           >
+            <BiNetworkChart />
+          </IconButton>
+          <label htmlFor="open-local-graph">
             Open local graph for this node
-          </MenuItem>
-          <MenuItem
+          </label>
+        </MenuItemContainer>
+        <MenuItemContainer>
+          <IconButton
+            id="exclude-node"
             onClick={() => handleLocal(target!, 'remove')}
-            icon={<MinusIcon />}
+            size={'1rem'}
           >
-            Exclude node from local graph
-          </MenuItem>
-        </>
-      )}
-      {!target?.properties?.FILELESS ? (
-        <MenuItem
-          icon={<EditIcon />}
+            <MinusIcon />
+          </IconButton>
+          <label htmlFor="exclude-node">Exclude node from local graph</label>
+        </MenuItemContainer>
+      </>
+    )}
+    {!target?.properties?.FILELESS ? (
+      <MenuItemContainer>
+        <IconButton
+          id={'open-in-emacs'}
           onClick={() => openNodeInEmacs(target as OrgRoamNode, webSocket)}
+          size={'1rem'}
         >
-          Open in Emacs
-        </MenuItem>
-      ) : (
-        <MenuItem
-          icon={<AddIcon />}
+          <EditIcon />
+        </IconButton>
+        <label htmlFor="open-in-emacs">Open in Emacs</label>
+      </MenuItemContainer>
+    ) : (
+      <MenuItemContainer>
+        <IconButton
+          size="1rem"
           onClick={() => createNodeInEmacs(target, webSocket)}
+          id={'create-node'}
         >
-          Create node
-        </MenuItem>
-      )}
-      {target?.properties?.ROAM_REFS && (
-        <MenuItem icon={<ExternalLinkIcon />}>Open in Zotero</MenuItem>
-      )}
-      {scope.nodeIds.length === 0 && (
-        <MenuItem
-          icon={<BiNetworkChart />}
+          <AddIcon />
+        </IconButton>
+        <label htmlFor="create-node">Create node</label>
+      </MenuItemContainer>
+    )}
+    {scope.nodeIds.length === 0 && (
+      <MenuItemContainer>
+        <IconButton
           onClick={() => handleLocal(target!, 'replace')}
+          id={'open-local-graph'}
+          size={'1rem'}
         >
-          Open local graph
-        </MenuItem>
-      )}
-      <MenuItem
-        icon={<ViewIcon />}
+          <BiNetworkChart />
+        </IconButton>
+        <label htmlFor="open-local-graph">Open local graph</label>
+      </MenuItemContainer>
+    )}
+    <MenuItemContainer>
+      <IconButton
+        size={'1rem'}
+        id={'preview-button'}
         onClick={() => {
           setPreviewNode(target);
         }}
       >
-        Preview
-      </MenuItem>
-    </MenuList>
-  </Menu>
+        <ViewIcon />
+      </IconButton>
+      <label htmlFor="preview-button">Preview</label>
+    </MenuItemContainer>
+  </VStack>
 );

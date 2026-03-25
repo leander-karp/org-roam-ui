@@ -43,6 +43,7 @@ const NodeLink = styled.button<{
   text-decoration: ${(props) => (props.noUnderline ? 'none' : 'underline')};
   color: ${(props) => colorToCSSVarMap[props.highlightColor]};
   cursor: pointer;
+  background: inherit;
 `;
 
 export const PreviewLink = ({

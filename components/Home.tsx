@@ -1,10 +1,7 @@
-import { IconButton, useDisclosure } from '@chakra-ui/react';
 import { useWindowSize } from '@react-hook/window-size';
 import { GraphData, NodeObject } from 'force-graph';
 import Graph from './Graph/Graph';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { BiNetworkChart } from 'react-icons/bi';
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import useUndo from 'use-undo';
 import { OrgRoamGraphReponse, OrgRoamLink, OrgRoamNode } from '../api';
@@ -26,6 +23,7 @@ import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
 import { Collapsible } from './Collapsible';
 import { themes2 } from './themes2';
+import { BiNetworkChart, IconButton, SidbarIcon } from './IconButton';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined };
@@ -45,6 +43,16 @@ export type Scope = {
   nodeIds: string[];
   excludedNodeIds: string[];
 };
+
+function useDisclosure() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return {
+    isOpen,
+    onOpen: () => setIsOpen(true),
+    onClose: () => setIsOpen(false),
+  };
+}
 
 export default function Home() {
   return <GraphPage />;
@@ -536,6 +544,7 @@ function GraphPage() {
           overflow: 'clip',
           alignItems: 'flex-start',
           flexDirection: 'row',
+          color: 'var(--theme-color-gray-800)',
         }}
         className={themes2[emacsTheme[0]]}
       >
@@ -618,8 +627,6 @@ function GraphPage() {
             >
               {scope.nodeIds.length > 0 && (
                 <IconButton
-                  m={1}
-                  icon={<BiNetworkChart />}
                   aria-label="Return to main graph"
                   title="Return to main graph"
                   onClick={() =>
@@ -628,17 +635,17 @@ function GraphPage() {
                       nodeIds: [],
                     }))
                   }
-                  variant="subtle"
-                />
+                >
+                  <BiNetworkChart />
+                </IconButton>
               )}
               <IconButton
-                m={1}
-                icon={<BsReverseLayoutSidebarInsetReverse />}
                 title={isOpen ? 'Close sidebar' : 'Open sidebar'}
                 aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
-                variant="subtle"
                 onClick={isOpen ? onClose : onOpen}
-              />
+              >
+                <SidbarIcon />
+              </IconButton>
             </div>
           </div>
         </div>
@@ -677,7 +684,6 @@ function GraphPage() {
             }
             coordinates={contextPos}
             handleLocal={handleLocal}
-            menuClose={contextMenu.onClose.bind(contextMenu)}
             scope={scope}
             webSocket={WebSocketRef.current}
             setPreviewNode={setPreviewNode}

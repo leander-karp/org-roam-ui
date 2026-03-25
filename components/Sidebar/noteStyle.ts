@@ -151,29 +151,21 @@ export const viewerNoteStyle = css`
     line-height: 1.2;
     font-size: 16px;
     font-weight: bold;
-    padding-top: 0.5rem;
   }
 
   h2 {
     font-size: 14px;
     font-weight: bold;
     font-style: italic;
-    padding-top: 0.5rem;
   }
 
   h3 {
     font-size: 13px;
-    padding-top: 0.5rem;
   }
 
   h4 {
     font-size: 12px;
     font-style: italic;
-    padding-top: 0.5rem;
-  }
-
-  .sectionContent {
-    padding-top: 0.5rem;
   }
 `;
 
