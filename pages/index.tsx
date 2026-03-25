@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   ThemeContext,
-  Theme,
+  ThemeName,
   initialTheme,
   initialHighlightColor,
 } from '../util/themecontext';
@@ -66,7 +66,7 @@ export const globals = css`
 `;
 
 function App() {
-  const [emacsTheme, setEmacsTheme] = useState<Theme>(initialTheme);
+  const [emacsTheme, setEmacsTheme] = useState<ThemeName>(initialTheme);
   const [highlightColor, setHighlightColor] = useState(initialHighlightColor);
 
   return (
@@ -78,7 +78,7 @@ function App() {
         setHighlightColor: setHighlightColor,
       }}
     >
-      <div className={themes2[emacsTheme[0]]}>
+      <div className={themes2[emacsTheme]}>
         <GraphPage />
       </div>
     </ThemeContext.Provider>

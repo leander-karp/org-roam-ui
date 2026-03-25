@@ -15,6 +15,13 @@ const DropdownItemClass = css`
   padding: 0.25rem 0.25rem;
   white-space: nowrap;
   display: flex;
+
+  & > button {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const DropdownContentClass = css`
@@ -30,6 +37,10 @@ const DropdownContentClass = css`
 
 const DropdownListClass = css`
   border-top-width: 1px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
   border-color: var(--theme-color-gray-100);
   color: var(--theme-color-white);
 `;

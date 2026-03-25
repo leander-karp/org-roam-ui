@@ -480,10 +480,10 @@ export default function ({
   const highlightColors = useMemo(() => {
     return Object.fromEntries(
       colorList.map((color) => {
-        const color1 = getThemeColor(color, emacsTheme[0]);
+        const color1 = getThemeColor(color, emacsTheme);
         const crisscross = colorList.map((color2) => [
           color2,
-          d3int.interpolate(color1, getThemeColor(color2, emacsTheme[0])),
+          d3int.interpolate(color1, getThemeColor(color2, emacsTheme)),
         ]);
         return [color, Object.fromEntries(crisscross)];
       })
@@ -510,12 +510,12 @@ export default function ({
   ]);
 
   const labelTextColor = useMemo(
-    () => getThemeColor(visuals.labelTextColor, emacsTheme[0]),
+    () => getThemeColor(visuals.labelTextColor, emacsTheme),
     [visuals.labelTextColor, emacsTheme]
   );
 
   const labelBackgroundColor = useMemo(
-    () => getThemeColor(visuals.labelBackgroundColor, emacsTheme[0]),
+    () => getThemeColor(visuals.labelBackgroundColor, emacsTheme),
     [visuals.labelBackgroundColor, emacsTheme]
   );
 
@@ -530,7 +530,7 @@ export default function ({
         graphData={scope.nodeIds.length ? scopedGraphData : filteredGraphData}
         width={windowWidth}
         height={windowHeight}
-        backgroundColor={getThemeColor(visuals.backgroundColor, emacsTheme[0])}
+        backgroundColor={getThemeColor(visuals.backgroundColor, emacsTheme)}
         warmupTicks={
           scope.nodeIds.length === 1 ? 100 : scope.nodeIds.length > 1 ? 20 : 0
         }
@@ -593,7 +593,7 @@ export default function ({
         linkDirectionalArrowRelPos={visuals.arrowsPos}
         linkDirectionalArrowColor={
           visuals.arrowsColor
-            ? () => getThemeColor(visuals.arrowsColor, emacsTheme[0])
+            ? () => getThemeColor(visuals.arrowsColor, emacsTheme)
             : undefined
         }
         linkColor={(link) => {

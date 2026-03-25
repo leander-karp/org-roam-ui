@@ -1,19 +1,16 @@
 import { createContext } from 'react';
 
-import { themes } from '../components/themes';
 import { themeData } from '../components/themes2';
 
-type ThemeName = keyof typeof themeData;
-export type ThemeMap = { [color: string]: string };
-export type Theme = [ThemeName, ThemeMap];
+export type ThemeName = keyof typeof themeData;
 export type ThemeContextProps = {
-  emacsTheme: Theme;
-  setEmacsTheme: (theme: Theme) => void;
+  emacsTheme: ThemeName;
+  setEmacsTheme: (theme: ThemeName) => void;
   highlightColor: string;
   setHighlightColor: (color: string) => void;
 };
 
-export const initialTheme: Theme = ['one-vibrant', themes['one-vibrant']];
+export const initialTheme: ThemeName = 'one-vibrant';
 export const initialHighlightColor = 'purple.500';
 
 export const ThemeContext = createContext<ThemeContextProps>({

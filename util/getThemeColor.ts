@@ -1,9 +1,7 @@
 import { themeData } from '../components/themes2';
+import { ThemeName } from './themecontext';
 
-export const getThemeColor = (
-  name: string,
-  themeName: keyof typeof themeData
-) => {
+export const getThemeColor = (name: string, themeName: ThemeName) => {
   if (!(themeName in themeData)) {
     throw new Error(`Unknown theme name "${themeName}"`);
   }

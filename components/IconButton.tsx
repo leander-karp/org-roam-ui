@@ -209,11 +209,7 @@ export const BiNetworkChart = () => (
 );
 
 export const SidebarIcon = () => (
-  <Icon
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
+  <Icon viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"

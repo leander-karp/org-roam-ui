@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { themes } from '../themes';
-import { ThemeContext } from '../../util/themecontext';
+import { ThemeContext, ThemeName } from '../../util/themecontext';
 import { styled } from '@linaria/react';
 import Dropdown from './Dropdown';
+import { themeData } from '../themes2';
 
 const ThemeSelectContainer = styled.div`
   display: flex;
@@ -16,21 +16,15 @@ export const ThemeSelect = () => {
     <ThemeSelectContainer>
       <p>Theme</p>
       <Dropdown>
-        <Dropdown.Button>{emacsTheme[0] as string}</Dropdown.Button>
+        <Dropdown.Button>{emacsTheme}</Dropdown.Button>
         <Dropdown.Content>
           <Dropdown.List>
-            {Object.keys(themes).map((theme: any) => (
+            {Object.keys(themeData).map((theme: string) => (
               <Dropdown.Item>
                 <button
                   key={theme}
-                  onClick={() => setEmacsTheme([theme, themes[theme]])}
+                  onClick={() => setEmacsTheme(theme as ThemeName)}
                   title={theme}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexGrow: 1,
-                  }}
                 >
                   <p
                     style={{
@@ -51,7 +45,7 @@ export const ThemeSelect = () => {
                       width: '4rem',
                     }}
                   >
-                    {Object.values(themes[theme as string]).map(
+                    {Object.values(themeData[theme as ThemeName]).map(
                       (color: string) => (
                         <div
                           key={color}

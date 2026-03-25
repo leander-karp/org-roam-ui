@@ -63,23 +63,19 @@ export const HighlightingPanel = ({
         <Dropdown.Content>
           <Dropdown.List>
             {colorList.map((color: string) => (
-              <button
-                style={{
-                  display: 'flex',
-                  margin: '0.5rem',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                key={color}
-                onClick={() =>
-                  setVisuals((visuals: typeof initialVisuals) => ({
-                    ...visuals,
-                    highlightColor: color,
-                  }))
-                }
-              >
-                <Circle colorKey={color as keyof typeof colorToCSSVarMap} />
-              </button>
+              <Dropdown.Item>
+                <button
+                  key={color}
+                  onClick={() =>
+                    setVisuals((visuals: typeof initialVisuals) => ({
+                      ...visuals,
+                      highlightColor: color,
+                    }))
+                  }
+                >
+                  <Circle colorKey={color as keyof typeof colorToCSSVarMap} />
+                </button>
+              </Dropdown.Item>
             ))}
           </Dropdown.List>
         </Dropdown.Content>
