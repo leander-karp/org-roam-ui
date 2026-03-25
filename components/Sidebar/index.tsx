@@ -19,6 +19,7 @@ const MenuContainer = styled.div`
 
 const SidebarContainer = styled.div`
   background-color: var(--theme-color-alt-100);
+  color: var(--theme-color-gray-900);
   height: 100vh;
   display: flex;
   flex-direction: column;

@@ -19,7 +19,8 @@ export const IconButton = styled.button<IconButtonProps>`
 `;
 
 const Icon = styled.svg`
-  line-height: 1em;
+  color: var(--theme-color-gray-900);
+  height: 1em;
 `;
 
 // Settings icon from Chakra UI
@@ -209,16 +210,16 @@ export const BiNetworkChart = () => (
 
 export const SidebarIcon = () => (
   <Icon
-    stroke="currentColor"
-    fill="currentColor"
-    stroke-width="0"
-    viewBox="0 0 16 16"
+    viewBox="0 0 24 24"
     aria-hidden="true"
     focusable="false"
-    xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z"></path>
-    <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z"></path>
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M6 4C4.34315 4 3 5.34315 3 7V17C3 18.6569 4.34315 20 6 20H18C19.6569 20 21 18.6569 21 17V7C21 5.34315 19.6569 4 18 4H6ZM5 7C5 6.44772 5.44772 6 6 6H13V18H6C5.44772 18 5 17.5523 5 17V7ZM15 18H18C18.5523 18 19 17.5523 19 17V7C19 6.44772 18.5523 6 18 6H15V18Z"
+      fill="currentColor"
+    />
   </Icon>
 );
 

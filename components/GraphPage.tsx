@@ -536,7 +536,6 @@ export function GraphPage() {
           overflow: 'clip',
           alignItems: 'flex-start',
           flexDirection: 'row',
-          color: 'var(--theme-color-gray-800)',
         }}
       >
         <Tweaks
