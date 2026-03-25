@@ -25,7 +25,7 @@
     "jlouvain.js": "^1.0.0",
     "katex": "^0.16.42",
     "raf": "^3.4.1",
-    "re-resizable": "^6.9.17",
+    "re-resizable": "^6.11.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-force-graph": "^1.44.4",
@@ -38,7 +38,7 @@
     "uniorg-parse": "^3.2.0",
     "uniorg-rehype": "^2.2.0",
     "uniorg-slug": "^1.1.0",
-    "use-undo": "^1.1.1",
+    "use-undo": "^1.2.0",
     "word-wrap": "^1.2.5"
   },
   "devDependencies": {
