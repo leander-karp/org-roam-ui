@@ -53,10 +53,10 @@ function useDisclosure() {
 }
 
 type ContextPos = {
-  left: number | undefined;
-  right: number | undefined;
-  top: number | undefined;
-  bottom: number | undefined;
+  left: number | string;
+  right: number | string;
+  top: number | string;
+  bottom: number | string;
 };
 
 export function GraphPage() {
@@ -477,8 +477,8 @@ export function GraphPage() {
   const [contextPos, setContextPos] = useState<ContextPos>({
     left: 0,
     top: 0,
-    right: undefined,
-    bottom: undefined,
+    right: 'auto',
+    bottom: 'auto',
   });
 
   const contextMenu = useDisclosure();
@@ -493,9 +493,10 @@ export function GraphPage() {
       setContextPos({
         left: event.pageX,
         top: event.pageY,
-        right: undefined,
-        bottom: undefined,
+        right: 'auto',
+        bottom: 'auto',
       });
+
     setContextMenuTarget(target);
     contextMenu.onOpen();
   };
@@ -619,6 +620,7 @@ export function GraphPage() {
                 <IconButton
                   aria-label="Return to main graph"
                   title="Return to main graph"
+                  size="2.5rem"
                   onClick={() =>
                     setScope((currentScope: Scope) => ({
                       ...currentScope,
@@ -632,6 +634,7 @@ export function GraphPage() {
               <IconButton
                 title={isOpen ? 'Close sidebar' : 'Open sidebar'}
                 aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
+                size="2.5rem"
                 onClick={isOpen ? onClose : onOpen}
               >
                 <SidebarIcon />

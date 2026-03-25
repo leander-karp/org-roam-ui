@@ -123,12 +123,15 @@ const Sidebar = ({
           />
           <IconButton
             aria-label="Options"
+            title="Options"
+            size="2.5rem"
             onClick={(e) => {
+              console.log('Options clicked');
               openContextMenu(previewNode, e, {
-                left: undefined,
                 top: 12,
-                right: -windowWidth + 20,
-                bottom: undefined,
+                left: windowWidth - (24 + 12 * 16),
+                right: 'auto',
+                bottom: 'auto',
               });
             }}
           >

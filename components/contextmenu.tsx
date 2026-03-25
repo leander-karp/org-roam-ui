@@ -15,7 +15,7 @@ import { styled } from '@linaria/react';
 
 export default interface ContextMenuProps {
   target: OrgRoamNode | null;
-  coordinates: { [direction: string]: number | undefined };
+  coordinates: { [direction: string]: number | string };
   handleLocal: (node: OrgRoamNode, add: string) => void;
   scope: { nodeIds: string[] };
   webSocket: any;
@@ -43,8 +43,9 @@ export const ContextMenu = ({
 }: ContextMenuProps) => (
   <VStack
     style={{
-      zIndex: 'overlay',
+      zIndex: 128,
       position: 'absolute',
+      maxWidth: '12rem',
       left: coordinates.left,
       top: coordinates.top,
       right: coordinates.right,

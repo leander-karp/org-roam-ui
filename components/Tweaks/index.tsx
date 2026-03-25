@@ -122,6 +122,7 @@ export const Tweaks = ({
       onClick={() => setShowTweaks(true)}
       aria-label={'Settings'}
       zIndex={16}
+      size="2.5rem"
     >
       <SettingsIcon />
     </IconButton>

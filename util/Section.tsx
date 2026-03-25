@@ -38,7 +38,6 @@ export const Section = ({ children, className }: SectionProps) => {
           {isOpen ? (
             <>
               <IconButton
-                size={'1rem'}
                 title={'Collapse heading'}
                 className={'viewerHeadingButton'}
                 onClick={() => setIsOpen(!isOpen)}
@@ -46,7 +45,6 @@ export const Section = ({ children, className }: SectionProps) => {
                 <ChevronDownIcon />
               </IconButton>
               <IconButton
-                size={'1rem'}
                 title={'Collapse heading'}
                 className={'outlineHeadingButton'}
                 onClick={() => setIsOpen(!isOpen)}
@@ -57,7 +55,6 @@ export const Section = ({ children, className }: SectionProps) => {
           ) : (
             <>
               <IconButton
-                size={'1rem'}
                 title={'Expand heading'}
                 className={'viewerHeadingButton'}
                 onClick={() => setIsOpen(!isOpen)}
@@ -65,7 +62,6 @@ export const Section = ({ children, className }: SectionProps) => {
                 <ChevronUpIcon />
               </IconButton>
               <IconButton
-                size={'1rem'}
                 title={'Expand heading'}
                 className={'outlineHeadingButton'}
                 onClick={() => setIsOpen(!isOpen)}

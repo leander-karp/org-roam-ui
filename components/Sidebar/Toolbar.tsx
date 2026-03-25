@@ -55,6 +55,7 @@ export const Toolbar = ({
     <IconButton
       title="Go backward"
       aria-label="Privious node"
+      size="2.5rem"
       onClick={() => previousPreviewNode()}
       disabled={!canUndo}
     >
@@ -63,6 +64,7 @@ export const Toolbar = ({
     <IconButton
       title="Go forward"
       aria-label="Next node"
+      size="2.5rem"
       onClick={() => nextPreviewNode()}
       disabled={!canRedo}
     >
@@ -71,6 +73,7 @@ export const Toolbar = ({
     <IconButton
       title="Justify content"
       aria-label="Justify content"
+      size="2.5rem"
       onClick={() => setJustificationIndex((justificationIndex + 1) % 4)}
     >
       {
@@ -85,12 +88,14 @@ export const Toolbar = ({
     <IconButton
       title="Toggle outline view"
       aria-label="Toggle outline view"
+      size="2.5rem"
       onClick={() => setOutline((curr: boolean) => !curr)}
     >
       {outline ? <IoIosListBox /> : <IoMdListBox />}
     </IconButton>
     <IconButton
       title="Toggle headers"
+      size="2.5rem"
       aria-label="Toggle headers"
       onClick={() => setCollapse((curr: boolean) => !curr)}
     >

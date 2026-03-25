@@ -9,8 +9,8 @@ export type IconButtonProps = {
 
 export const IconButton = styled.button<IconButtonProps>`
   margin: 0.25rem;
-  width: ${(props) => (props.size ? props.size : '2.5rem')};
-  height: ${(props) => (props.size ? props.size : '2.5rem')};
+  width: ${(props) => (props.size ? props.size : 'auto')};
+  height: ${(props) => (props.size ? props.size : 'auto')};
   display: ${(props) => (!props.isHidden ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;

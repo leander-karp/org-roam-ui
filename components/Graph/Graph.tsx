@@ -538,7 +538,7 @@ export default function ({
         nodeColor={(node) => {
           return getNodeColor({
             node: node as OrgRoamNode,
-            theme: emacsTheme[0],
+            theme: emacsTheme,
             visuals,
             cluster: clusterRef.current,
             coloring,
@@ -641,7 +641,7 @@ export default function ({
             sourceId: sourceId as string,
             targetId: targetId as string,
             needsHighlighting,
-            theme: emacsTheme[0],
+            theme: emacsTheme,
             cluster: clusterRef.current,
             coloring,
             highlightColors,
