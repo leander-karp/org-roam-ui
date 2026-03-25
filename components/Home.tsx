@@ -23,7 +23,7 @@ import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
 import { Collapsible } from './Collapsible';
 import { themes2 } from './themes2';
-import { BiNetworkChart, IconButton, SidbarIcon } from './IconButton';
+import { BiNetworkChart, IconButton, SidebarIcon } from './IconButton';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined };
@@ -644,7 +644,7 @@ function GraphPage() {
                 aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
                 onClick={isOpen ? onClose : onOpen}
               >
-                <SidbarIcon />
+                <SidebarIcon />
               </IconButton>
             </div>
           </div>

@@ -1,16 +1,15 @@
 import React from 'react';
-import {
-  EditIcon,
-  AddIcon,
-  ViewIcon,
-  PlusSquareIcon,
-  MinusIcon,
-} from '@chakra-ui/icons';
-
 import { OrgRoamNode } from '../api';
 import { openNodeInEmacs, createNodeInEmacs } from '../util/webSocketFunctions';
-import { BiNetworkChart } from 'react-icons/bi';
-import { IconButton } from './IconButton';
+import {
+  BiNetworkChart,
+  EditIcon,
+  IconButton,
+  MinusIcon,
+  PlusIcon,
+  PlusSquareIcon,
+  ViewIcon,
+} from './IconButton';
 import VStack from './VStack';
 import { styled } from '@linaria/react';
 
@@ -105,7 +104,7 @@ export const ContextMenu = ({
           onClick={() => createNodeInEmacs(target, webSocket)}
           id={'create-node'}
         >
-          <AddIcon />
+          <PlusIcon />
         </IconButton>
         <label htmlFor="create-node">Create node</label>
       </MenuItemContainer>

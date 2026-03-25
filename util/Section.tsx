@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { VscCircleFilled, VscCircle } from 'react-icons/vsc';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { NoteContext } from './NoteContext';
-import { IconButton } from '../components/IconButton';
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  IconButton,
+} from '../components/IconButton';
 
 export interface SectionProps {
   children: any;

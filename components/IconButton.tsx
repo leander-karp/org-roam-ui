@@ -70,6 +70,24 @@ export const ChevronLeftIcon = () => (
   </svg>
 );
 
+export const ChevronDownIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" height="1em" width="1em">
+    <path
+      fill="currentColor"
+      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+    ></path>
+  </svg>
+);
+
+export const ChevronUpIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" height="1em" width="1em">
+    <path
+      fill="currentColor"
+      d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+    ></path>
+  </svg>
+);
+
 // Icons from react-icons
 export const BiAlignLeft = () => (
   <svg
@@ -215,7 +233,7 @@ export const BiNetworkChart = () => (
   </svg>
 );
 
-export const SidbarIcon = () => (
+export const SidebarIcon = () => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -229,5 +247,60 @@ export const SidbarIcon = () => (
   >
     <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z"></path>
     <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z"></path>
+  </svg>
+);
+
+export const PlusIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em">
+    <path
+      fill="currentColor"
+      d="M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z"
+    ></path>
+  </svg>
+);
+
+export const ViewIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em">
+    <g fill="currentColor">
+      <path d="M23.432,10.524C20.787,7.614,16.4,4.538,12,4.6,7.6,4.537,3.213,7.615.568,10.524a2.211,2.211,0,0,0,0,2.948C3.182,16.351,7.507,19.4,11.839,19.4h.308c4.347,0,8.671-3.049,11.288-5.929A2.21,2.21,0,0,0,23.432,10.524ZM7.4,12A4.6,4.6,0,1,1,12,16.6,4.6,4.6,0,0,1,7.4,12Z"></path>
+      <circle cx="12" cy="12" r="2"></circle>
+    </g>
+  </svg>
+);
+
+export const EditIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em">
+    <g
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-width="2"
+    >
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+    </g>
+  </svg>
+);
+
+export const MinusIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em">
+    <g fill="currentColor">
+      <rect height="4" width="20" x="2" y="10"></rect>
+    </g>
+  </svg>
+);
+
+export const PlusSquareIcon = () => (
+  <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em">
+    <g
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-width="2"
+    >
+      <rect height="18" width="18" rx="2" ry="2" x="3" y="3"></rect>
+      <path d="M12 8v8"></path>
+      <path d="M8 12h8"></path>
+    </g>
   </svg>
 );
