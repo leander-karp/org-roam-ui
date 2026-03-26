@@ -1,15 +1,24 @@
 import React from 'react';
 import { NodeObject } from 'force-graph';
 
-import { NodeById, NodeByCite, LinksByNodeId } from '../Home';
-import { Box, Flex } from '@chakra-ui/react';
+import { NodeById, NodeByCite, LinksByNodeId } from '../GraphPage';
 import { UniOrg } from '../../util/uniorg';
-import { Backlinks } from '../../components/Sidebar/Backlinks';
-import {
-  defaultNoteStyle,
-  viewerNoteStyle,
-  outlineNoteStyle,
-} from './noteStyle';
+import { Backlinks } from './Backlinks';
+import { viewerNoteStyle, outlineNoteStyle } from './noteStyle';
+
+import { styled } from '@linaria/react';
+
+const NoteContainer = styled.div<{
+  textAlign: 'start' | 'end' | 'justify' | 'center';
+}>`
+  padding-right: 2rem;
+  padding-top: 0.5rem;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: ${(props) => props.textAlign};
+`;
 
 export interface NoteProps {
   setPreviewNode: any;
@@ -17,8 +26,7 @@ export interface NoteProps {
   nodeById: NodeById;
   nodeByCite: NodeByCite;
   setSidebarHighlightedNode: any;
-  justification: number;
-  justificationList: string[];
+  justificationIndex: number;
   linksByNodeId: LinksByNodeId;
   openContextMenu: any;
   outline: boolean;
@@ -28,77 +36,57 @@ export interface NoteProps {
   useInheritance: boolean;
 }
 
-export const Note = (props: NoteProps) => {
-  const {
-    setPreviewNode,
-    justificationList,
-    justification,
-    previewNode,
-    nodeById,
-    nodeByCite,
-    setSidebarHighlightedNode,
-    linksByNodeId,
-    openContextMenu,
-    outline,
-    collapse,
-    macros,
-    attachDir,
-    useInheritance,
-  } = props;
+const justificationList = ['justify', 'start', 'end', 'center'] as const;
 
-  const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle;
-  return (
-    <Box
-      pr={8}
-      pt={2}
-      height="100%"
-      className="org"
-      sx={{
-        ...defaultNoteStyle,
-        ...extraStyle,
-        textAlign: justificationList[justification],
-      }}
-    >
-      {previewNode?.id && (
-        <Flex
-          className="wrapClass"
-          height="100%"
-          flexDirection="column"
-          justifyContent="space-between"
-        >
-          <UniOrg
-            {...{
-              setPreviewNode,
-              previewNode,
-              nodeByCite,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              outline,
-              collapse,
-              nodeById,
-              linksByNodeId,
-              macros,
-              attachDir,
-              useInheritance,
-            }}
-          />
-          <Backlinks
-            {...{
-              setPreviewNode,
-              previewNode,
-              nodeById,
-              linksByNodeId,
-              nodeByCite,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              outline,
-              attachDir,
-              useInheritance,
-            }}
-            macros={macros || {}}
-          />
-        </Flex>
-      )}
-    </Box>
-  );
-};
+export const Note = ({
+  setPreviewNode,
+  justificationIndex,
+  previewNode,
+  nodeById,
+  nodeByCite,
+  setSidebarHighlightedNode,
+  linksByNodeId,
+  openContextMenu,
+  outline,
+  collapse,
+  macros,
+  attachDir,
+  useInheritance,
+}: NoteProps) => (
+  <NoteContainer
+    textAlign={justificationList[justificationIndex]}
+    className={outline ? outlineNoteStyle : viewerNoteStyle}
+  >
+    {previewNode?.id && (
+      <>
+        <UniOrg
+          {...{
+            setPreviewNode,
+            previewNode,
+            nodeByCite,
+            setSidebarHighlightedNode,
+            openContextMenu,
+            outline,
+            collapse,
+            nodeById,
+            linksByNodeId,
+            macros,
+            attachDir,
+            useInheritance,
+          }}
+        />
+        <Backlinks
+          {...{
+            setPreviewNode,
+            previewNode,
+            nodeById,
+            linksByNodeId,
+            nodeByCite,
+            setSidebarHighlightedNode,
+            openContextMenu,
+          }}
+        />
+      </>
+    )}
+  </NoteContainer>
+);

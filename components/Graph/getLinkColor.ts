@@ -1,7 +1,39 @@
-import { initialColoring, initialVisuals } from '../components/config';
-import { LinksByNodeId } from '../components/Home';
-import { getLinkNodeColor } from './getLinkNodeColor';
-import { getThemeColor } from './getThemeColor';
+import { initialColoring, initialVisuals } from '../config';
+import { LinksByNodeId } from '../GraphPage';
+import { getThemeColor } from '../../util/getThemeColor';
+import { getNodeColorById } from './getNodeColorById';
+
+const getLinkNodeColor = ({
+  sourceId,
+  targetId,
+  linksByNodeId,
+  visuals,
+  coloring,
+  cluster,
+}: {
+  sourceId: string;
+  targetId: string;
+  linksByNodeId: LinksByNodeId;
+  visuals: typeof initialVisuals;
+  coloring: typeof initialColoring;
+  cluster: any;
+}) => {
+  return linksByNodeId[sourceId]!.length > linksByNodeId[targetId]!.length
+    ? getNodeColorById({
+        id: sourceId,
+        linksByNodeId,
+        visuals,
+        cluster,
+        coloring,
+      })
+    : getNodeColorById({
+        id: targetId,
+        visuals,
+        linksByNodeId,
+        cluster,
+        coloring,
+      });
+};
 
 export const getLinkColor = ({
   sourceId,

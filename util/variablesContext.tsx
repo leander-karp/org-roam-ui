@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { EmacsVariables } from '../components/Home';
+import { EmacsVariables } from '../components/GraphPage';
 
 const VariablesContext = createContext<EmacsVariables>({
   subDirs: ['dailies', '.attach'],

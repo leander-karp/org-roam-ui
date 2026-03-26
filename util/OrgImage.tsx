@@ -1,14 +1,10 @@
 import React from 'react';
-import { Container } from '@chakra-ui/react';
+import { css } from '@linaria/core';
 
 export interface OrgImageProps {
   src: string;
   file: string;
 }
-
-const join = (dir: string, name: string) => {
-  return `${dir}/${name}`;
-};
 
 const dirname = (path: string) => {
   const lastSeparatorIndex = path.lastIndexOf('/');
@@ -20,7 +16,7 @@ const dirname = (path: string) => {
   return path.substring(0, lastSeparatorIndex);
 };
 
-export const OrgImage = ({ src, file }: OrgImageProps) => {
+const getSource = (src: string, file: string): string => {
   if (!src.startsWith('http:') && !src.startsWith('https:')) {
     if (src.startsWith('file:')) {
       src = src.replace('file:', '');
@@ -34,19 +30,27 @@ export const OrgImage = ({ src, file }: OrgImageProps) => {
 
     if (!isAbsolute) {
       const dir = dirname(file);
-      src = join(dir, src);
+      src = `${dir}/${src}`;
     }
 
     src = `http://localhost:35901/img/${encodeURIComponent(src)}`;
   }
 
-  return (
-    <Container my={4} position="relative">
-      <img
-        alt="Failed to load image!"
-        src={src}
-        style={{ width: 'auto', height: 'auto' }}
-      />
-    </Container>
-  );
+  return src;
 };
+
+const OrgImageClass = css`
+  margin: 1rem auto 1rem auto;
+  position: relative;
+  max-width: 60ch;
+  width: auto;
+  height: auto;
+`;
+
+export const OrgImage = ({ src, file }: OrgImageProps) => (
+  <img
+    alt="Failed to load image!"
+    src={getSource(src, file)}
+    className={OrgImageClass}
+  />
+);

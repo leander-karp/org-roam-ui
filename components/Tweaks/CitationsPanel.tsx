@@ -1,36 +1,36 @@
-import { Box, Flex, Text, Switch } from '@chakra-ui/react';
 import React from 'react';
 import { initialVisuals } from '../config';
+import { styled } from '@linaria/react';
+import Switch from './Switch';
 
-export interface CitationsPanelProps {
+const CitationsTitle = styled.h3`
+  font-style: italic;
+`;
+
+export const CitationsPanel = ({
+  visuals,
+  setVisuals,
+}: {
   visuals: typeof initialVisuals;
   setVisuals: any;
-}
-
-export const CitationsPanel = (props: CitationsPanelProps) => {
-  const { visuals, setVisuals } = props;
-  return (
-    <Box>
-      <Flex justifyContent="space-between">
-        {/* Add dashes to citation links made with org-roam-bibtex */}
-        <Text>Dash cite links</Text>
-        <Switch
-          isChecked={visuals.citeDashes}
-          onChange={() =>
-            setVisuals({ ...visuals, citeDashes: !visuals.citeDashes })
-          }
-        ></Switch>
-      </Flex>
-      <Flex justifyContent="space-between">
-        {/* Add dashes to citation links, whose target has a note, made with org-roam-bibtex*/}
-        <Text>Dash ref links</Text>
-        <Switch
-          isChecked={visuals.refDashes}
-          onChange={() =>
-            setVisuals({ ...visuals, refDashes: !visuals.refDashes })
-          }
-        ></Switch>
-      </Flex>
-    </Box>
-  );
-};
+}) => (
+  <>
+    <CitationsTitle>Citations</CitationsTitle>
+    {/* Add dashes to citation links made with org-roam-bibtex */}
+    <Switch
+      id={'dash-cite-links'}
+      checked={visuals.citeDashes}
+      description={'Dash cite links'}
+      onChange={() =>
+        setVisuals({ ...visuals, citeDashes: !visuals.citeDashes })
+      }
+    />
+    {/* Add dashes to citation links, whose target has a note, made with org-roam-bibtex*/}
+    <Switch
+      id={'dash-ref-links'}
+      checked={visuals.refDashes}
+      description={'Dash ref links'}
+      onChange={() => setVisuals({ ...visuals, refDashes: !visuals.refDashes })}
+    />
+  </>
+);

@@ -1,18 +1,6 @@
-import { CloseIcon, RepeatClockIcon, SettingsIcon } from '@chakra-ui/icons';
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  IconButton,
-  Tooltip,
-  Heading,
-} from '@chakra-ui/react';
+import { styled } from '@linaria/react';
 
-import React, { useContext } from 'react';
-import Scrollbars from 'react-custom-scrollbars-2';
+import React, { useContext, useState } from 'react';
 import {
   initialFilter,
   initialVisuals,
@@ -20,11 +8,50 @@ import {
   initialColoring,
 } from '../config';
 
-import FilterPanel from './Filter/FilterPanel';
+import FilterPanel from './FilterPanel';
 
 import { ThemeContext } from '../../util/themecontext';
-import { usePersistantState } from '../../util/persistant-state';
-import { VisualsPanel } from './Visual/VisualsPanel';
+import { ThemeSelect } from './ThemeSelect';
+import { GraphColorSelect } from './GraphColorSelect';
+import { HighlightingPanel } from './HighlightingPanel';
+import { CitationsPanel } from './CitationsPanel';
+import VStack from '../VStack';
+import { IconButton, SettingsIcon, CloseIcon, ResetIcon } from '../IconButton';
+
+const Heading = styled.h2`
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+`;
+
+const Spacer = styled.div`
+  width: 1rem;
+  height: 1rem;
+`;
+
+const TweaksContainer = styled.div`
+  position: absolute;
+  background-color: var(--theme-color-alt-100);
+  width: 20rem;
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0.5rem;
+  border-radius: 0.5rem;
+  padding-bottom: 1rem;
+  z-index: 10;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-height: 95vh;
+  overflow: auto;
+`;
+
+const TweaksMenu = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.25rem;
+`;
 
 export interface TweakProps {
   filter: typeof initialFilter;
@@ -47,117 +74,57 @@ export const Tweaks = ({
   coloring,
   setColoring,
 }: TweakProps) => {
-  const [showTweaks, setShowTweaks] = usePersistantState('showTweaks', false);
-  const { highlightColor, setHighlightColor } = useContext(ThemeContext);
+  const [showTweaks, setShowTweaks] = useState(false);
+  const { setHighlightColor } = useContext(ThemeContext);
 
-  return !showTweaks ? (
-    <Box
-      position="absolute"
-      zIndex="overlay"
-      marginTop={1}
-      marginLeft={0}
-      display={showTweaks ? 'none' : 'block'}
-    >
-      <IconButton
-        variant="subtle"
-        aria-label="Settings"
-        icon={<SettingsIcon />}
-        onClick={() => setShowTweaks(true)}
-      />
-    </Box>
-  ) : (
-    <Box
-      position="absolute"
-      bg="alt.100"
-      w="xs"
-      marginTop={2}
-      marginLeft={2}
-      borderRadius="lg"
-      paddingBottom={5}
-      zIndex={10}
-      boxShadow="xl"
-      maxH={'95vh'}
-      fontSize="sm"
-    >
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="flex-end"
-        paddingRight={2}
-        paddingTop={1}
-      >
-        <Tooltip label="Reset settings to defaults">
-          <IconButton
-            aria-label="Reset Defaults"
-            icon={<RepeatClockIcon />}
-            onClick={() => {
-              setVisuals(initialVisuals);
-              setFilter(initialFilter);
-              setColoring(initialColoring);
-              setHighlightColor('purple.500'); // TODO: Make customizable
-            }}
-            variant="subtle"
-            size="sm"
-          />
-        </Tooltip>
+  return showTweaks ? (
+    <TweaksContainer>
+      <TweaksMenu>
         <IconButton
-          size="sm"
-          icon={<CloseIcon />}
+          aria-label="Reset settings to defaults"
+          title="Reset settings to defaults"
+          onClick={() => {
+            setVisuals(initialVisuals);
+            setFilter(initialFilter);
+            setColoring(initialColoring);
+            setHighlightColor('purple.500'); // TODO: Make customizable
+          }}
+        >
+          <ResetIcon />
+        </IconButton>
+        <IconButton
           aria-label="Close Tweak Panel"
-          variant="subtle"
+          title="Close Tweak Panel"
           onClick={() => setShowTweaks(false)}
-        />
-      </Box>
-      <Scrollbars
-        autoHeight
-        autoHeightMax={0.85 * globalThis.innerHeight}
-        autoHide
-        renderThumbVertical={({ style, ...props }) => (
-          <Box
-            {...props}
-            style={{
-              ...style,
-              borderRadius: 10,
-            }}
-            bg={highlightColor}
-          />
-        )}
-      >
-        <Accordion allowMultiple allowToggle color="black">
-          <AccordionItem>
-            <AccordionButton>
-              <AccordionIcon marginRight={2} />
-              <Heading size="sm">Filter</Heading>
-            </AccordionButton>
-            <AccordionPanel>
-              <FilterPanel
-                filter={filter}
-                setFilter={setFilter}
-                tagColors={tagColors}
-                setTagColors={setTagColors}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionButton>
-              <AccordionIcon marginRight={2} />
-              <Heading size="sm">Visual</Heading>
-            </AccordionButton>
-            <AccordionPanel>
-              <VisualsPanel
-                visuals={visuals}
-                setVisuals={setVisuals}
-                highlightColor={highlightColor}
-                setHighlightColor={setHighlightColor}
-                {...{
-                  coloring,
-                  setColoring,
-                }}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      </Scrollbars>
-    </Box>
+        >
+          <CloseIcon />
+        </IconButton>
+      </TweaksMenu>
+      <Heading>Filter</Heading>
+      <FilterPanel
+        filter={filter}
+        setFilter={setFilter}
+        tagColors={tagColors}
+        setTagColors={setTagColors}
+      />
+      <Spacer />
+      <Heading>Visual</Heading>
+      <VStack>
+        <ThemeSelect />
+        <GraphColorSelect {...{ coloring, setColoring }} />
+        <HighlightingPanel visuals={visuals} setVisuals={setVisuals} />
+        <CitationsPanel visuals={visuals} setVisuals={setVisuals} />
+      </VStack>
+    </TweaksContainer>
+  ) : (
+    <IconButton
+      isHidden={showTweaks}
+      onClick={() => setShowTweaks(true)}
+      aria-label={'Settings'}
+      zIndex={16}
+      size="2.5rem"
+    >
+      <SettingsIcon />
+    </IconButton>
   );
 };

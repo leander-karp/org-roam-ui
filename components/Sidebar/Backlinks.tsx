@@ -1,9 +1,9 @@
-import { LinksByNodeId, NodeByCite, NodeById } from '../Home';
+import { LinksByNodeId, NodeByCite, NodeById } from '../GraphPage';
 
 import { NodeObject, LinkObject } from 'force-graph';
 
-import { VStack, Box, StackDivider } from '@chakra-ui/react';
 import React from 'react';
+import VStack from '../VStack';
 
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode;
@@ -13,30 +13,35 @@ export interface BacklinksProps {
   nodeByCite: NodeByCite;
   setSidebarHighlightedNode: OrgRoamNode;
   openContextMenu: any;
-  outline: boolean;
-  attachDir: string;
-  useInheritance: boolean;
-  macros: { [key: string]: string };
 }
 
 import { PreviewLink } from './Link';
 import { OrgRoamNode } from '../../api';
 import { normalizeLinkEnds } from '../../util/normalizeLinkEnds';
 
-export const Backlinks = (props: BacklinksProps) => {
-  const {
-    previewNode,
-    setPreviewNode,
-    setSidebarHighlightedNode,
-    nodeById,
-    linksByNodeId,
-    nodeByCite,
-    openContextMenu,
-    outline,
-    macros,
-    attachDir,
-    useInheritance,
-  } = props;
+import { styled } from '@linaria/react';
+
+const BacklinksContainer = styled.div`
+  background-color: var(--theme-color-white);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0 2rem 0;
+`;
+
+const BacklinksHeading = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+export const Backlinks = ({
+  previewNode,
+  setPreviewNode,
+  setSidebarHighlightedNode,
+  nodeById,
+  linksByNodeId,
+  nodeByCite,
+  openContextMenu,
+}: BacklinksProps) => {
   const links = linksByNodeId[(previewNode as OrgRoamNode)?.id] ?? [];
 
   const backLinks = links
@@ -47,53 +52,26 @@ export const Backlinks = (props: BacklinksProps) => {
     .map((l) => l.source);
 
   return (
-    <Box
-      className="backlinks"
-      borderRadius="sm"
-      mt={6}
-      p={4}
-      bg="white"
-      mb={10}
-    >
-      <p
-        style={{ fontSize: 16, fontWeight: 600 }}
-      >{`Linked references (${backLinks.length})`}</p>
-      <VStack
-        py={2}
-        spacing={3}
-        alignItems="start"
-        divider={<StackDivider borderColor="gray.500" />}
-        align="stretch"
-        color="gray.800"
-      >
+    <BacklinksContainer>
+      <BacklinksHeading>{`Linked References (${backLinks.length})`}</BacklinksHeading>
+      <VStack>
         {previewNode?.id &&
-          backLinks.map((link) => {
-            return (
-              <Box
-                overflow="hidden"
-                py={1}
-                borderRadius="sm"
-                width="100%"
-                key={link}
+          backLinks.map((link) => (
+            <div style={{ overflow: 'hidden', width: '100%' }} key={link}>
+              <PreviewLink
+                nodeByCite={nodeByCite}
+                setSidebarHighlightedNode={setSidebarHighlightedNode}
+                href={`id:${link as string}`}
+                nodeById={nodeById}
+                setPreviewNode={setPreviewNode}
+                openContextMenu={openContextMenu}
+                noUnderline
               >
-                <PreviewLink
-                  linksByNodeId={linksByNodeId}
-                  nodeByCite={nodeByCite}
-                  setSidebarHighlightedNode={setSidebarHighlightedNode}
-                  href={`id:${link as string}`}
-                  nodeById={nodeById}
-                  setPreviewNode={setPreviewNode}
-                  openContextMenu={openContextMenu}
-                  outline={outline}
-                  noUnderline
-                  {...{ attachDir, useInheritance, macros }}
-                >
-                  {nodeById[link as string]?.title}
-                </PreviewLink>
-              </Box>
-            );
-          })}
+                {nodeById[link as string]?.title}
+              </PreviewLink>
+            </div>
+          ))}
       </VStack>
-    </Box>
+    </BacklinksContainer>
   );
 };

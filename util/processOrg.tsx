@@ -7,16 +7,30 @@ import extractKeywords from 'uniorg-extract-keywords';
 import katex from 'rehype-katex';
 import rehype2react from 'rehype-react';
 import { PreviewLink } from '../components/Sidebar/Link';
-import { LinksByNodeId, NodeByCite, NodeById } from '../components/Home';
+import { LinksByNodeId, NodeByCite, NodeById } from '../components/GraphPage';
 import React, { ReactNode, useMemo } from 'react';
-import { OrgImage } from '../components/Sidebar/OrgImage';
-import { Section } from '../components/Sidebar/Section';
+import { OrgImage } from './OrgImage';
+import { Section } from './Section';
 import { NoteContext } from './NoteContext';
 import { OrgRoamNode } from '../api';
 
-import { Box, chakra } from '@chakra-ui/react';
+import { styled } from '@linaria/react';
 
 const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
+
+const OrgBlockquote = styled.blockquote`
+  color: #1a202c;
+  background-color: #cbd5e0;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+  border-left-width: 4px;
+  border-left-color: #2d3748;
+  border-left-style: solid;
+  font-style: italic;
+`;
 
 export interface ProcessedOrgProps {
   nodeById: NodeById;
@@ -30,8 +44,6 @@ export interface ProcessedOrgProps {
   collapse: boolean;
   linksByNodeId: LinksByNodeId;
   macros: { [key: string]: string };
-  attachDir: string;
-  useInheritance: boolean;
 }
 
 export const ProcessedOrg = ({
@@ -46,8 +58,6 @@ export const ProcessedOrg = ({
   collapse,
   linksByNodeId,
   macros,
-  attachDir,
-  useInheritance,
 }: ProcessedOrgProps) => {
   if (!previewNode) return null;
   if (!linksByNodeId) return null;
@@ -81,14 +91,8 @@ export const ProcessedOrg = ({
                   setSidebarHighlightedNode={setSidebarHighlightedNode}
                   href={`${href as string}`}
                   nodeById={nodeById}
-                  linksByNodeId={linksByNodeId}
                   setPreviewNode={setPreviewNode}
                   openContextMenu={openContextMenu}
-                  outline={outline}
-                  isWiki={false}
-                  macros={macros}
-                  attachDir={attachDir}
-                  useInheritance={useInheritance}
                 >
                   {children}
                 </PreviewLink>
@@ -105,7 +109,7 @@ export const ProcessedOrg = ({
               className: string;
             }) => {
               if (className && className.slice(-1) === `${previewNode.level}`) {
-                return <Box>{(children as React.ReactElement[]).slice(1)}</Box>;
+                return <div>{(children as React.ReactElement[]).slice(1)}</div>;
               }
               return (
                 <Section
@@ -116,24 +120,10 @@ export const ProcessedOrg = ({
                 </Section>
               );
             },
-            blockquote: ({ children }: { children: ReactNode }) => (
-              <chakra.blockquote
-                color="gray.800"
-                bgColor="gray.300"
-                pt={4}
-                pb={2}
-                mb={4}
-                mt={3}
-                pl={4}
-                borderLeftWidth={4}
-                borderLeftColor="gray.700"
-              >
-                {children}
-              </chakra.blockquote>
-            ),
-            p: ({ children }: { children: ReactNode }) => {
-              return <p lang="en">{children}</p>;
+            blockquote: ({ children }: { children: ReactNode }) => {
+              return <OrgBlockquote>{children}</OrgBlockquote>;
             },
+            p: ({ children }: { children: ReactNode }) => <p>{children}</p>,
           },
         }),
     [previewNode?.id]

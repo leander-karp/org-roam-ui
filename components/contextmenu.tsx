@@ -1,220 +1,144 @@
 import React from 'react';
-import {
-  Menu,
-  MenuItem,
-  MenuList,
-  Heading,
-  MenuDivider,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
-import {
-  DeleteIcon,
-  EditIcon,
-  AddIcon,
-  ViewIcon,
-  ExternalLinkIcon,
-  PlusSquareIcon,
-  MinusIcon,
-} from '@chakra-ui/icons';
-
 import { OrgRoamNode } from '../api';
+import { openNodeInEmacs, createNodeInEmacs } from '../util/webSocketFunctions';
 import {
-  deleteNodeInEmacs,
-  openNodeInEmacs,
-  createNodeInEmacs,
-} from '../util/webSocketFunctions';
-import { BiNetworkChart } from 'react-icons/bi';
-import { TagMenu } from './TagMenu';
-import { initialFilter, TagColors } from './config';
+  BiNetworkChart,
+  EditIcon,
+  IconButton,
+  MinusIcon,
+  PlusIcon,
+  PlusSquareIcon,
+  ViewIcon,
+} from './IconButton';
+import VStack from './VStack';
+import { styled } from '@linaria/react';
 
 export default interface ContextMenuProps {
-  background: boolean;
-  target: OrgRoamNode | string | null;
-  nodeType?: string;
-  coordinates: { [direction: string]: number | undefined };
+  target: OrgRoamNode | null;
+  coordinates: { [direction: string]: number | string };
   handleLocal: (node: OrgRoamNode, add: string) => void;
-  menuClose: () => void;
   scope: { nodeIds: string[] };
   webSocket: any;
   setPreviewNode: any;
-  setTagColors: any;
-  tagColors: TagColors;
-  setFilter: any;
-  filter: typeof initialFilter;
 }
+
+const MenuItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ContextMenuTitle = styled.h4`
+  font-size: 14pt;
+  font-weight: normal;
+  font-style: italic;
+`;
 
 export const ContextMenu = ({
   target,
   coordinates,
   handleLocal,
-  menuClose,
   scope,
   webSocket,
   setPreviewNode,
-  setTagColors,
-  tagColors,
-  setFilter,
-  filter,
-}: ContextMenuProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <>
-      <Menu defaultIsOpen closeOnBlur={false} onClose={() => menuClose()}>
-        <MenuList
-          zIndex="overlay"
-          bgColor="white"
-          color="black"
-          position="absolute"
-          left={coordinates.left}
-          top={coordinates.top}
-          right={coordinates.right}
-          bottom={coordinates.bottom}
-          fontSize="xs"
-          boxShadow="xl"
+}: ContextMenuProps) => (
+  <VStack
+    style={{
+      zIndex: 128,
+      position: 'absolute',
+      maxWidth: '12rem',
+      left: coordinates.left,
+      top: coordinates.top,
+      right: coordinates.right,
+      bottom: coordinates.bottom,
+      backgroundColor: 'var(--theme-color-alt-100)',
+      padding: '0.5rem',
+      boxShadow: '0.5rem',
+      border: '1px solid var(--theme-color-gray-800)',
+    }}
+  >
+    {target && <ContextMenuTitle>{target.title}</ContextMenuTitle>}
+    {scope.nodeIds.length !== 0 && (
+      <>
+        <MenuItemContainer>
+          <IconButton
+            id="expand-local-graph"
+            onClick={() => handleLocal(target!, 'add')}
+            size={'2rem'}
+          >
+            <PlusSquareIcon />
+          </IconButton>
+          <label htmlFor="expand-local-graph">Expand local graph at node</label>
+        </MenuItemContainer>
+        <MenuItemContainer>
+          <IconButton
+            id="open-local-graph"
+            onClick={() => handleLocal(target!, 'replace')}
+            size={'2rem'}
+          >
+            <BiNetworkChart />
+          </IconButton>
+          <label htmlFor="open-local-graph">
+            Open local graph for this node
+          </label>
+        </MenuItemContainer>
+        <MenuItemContainer>
+          <IconButton
+            id="exclude-node"
+            onClick={() => handleLocal(target!, 'remove')}
+            size={'1rem'}
+          >
+            <MinusIcon />
+          </IconButton>
+          <label htmlFor="exclude-node">Exclude node from local graph</label>
+        </MenuItemContainer>
+      </>
+    )}
+    {!target?.properties?.FILELESS ? (
+      <MenuItemContainer>
+        <IconButton
+          id={'open-in-emacs'}
+          onClick={() => openNodeInEmacs(target as OrgRoamNode, webSocket)}
+          size={'2rem'}
         >
-          {typeof target !== 'string' ? (
-            <>
-              {target && (
-                <>
-                  <Heading size="xs" isTruncated px={3} py={1}>
-                    {target.title}
-                  </Heading>
-                  <MenuDivider borderColor="gray.500" />
-                </>
-              )}
-              {scope.nodeIds.length !== 0 && (
-                <>
-                  <MenuItem
-                    onClick={() => handleLocal(target!, 'add')}
-                    icon={<PlusSquareIcon />}
-                  >
-                    Expand local graph at node
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => handleLocal(target!, 'replace')}
-                    icon={<BiNetworkChart />}
-                  >
-                    Open local graph for this node
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => handleLocal(target!, 'remove')}
-                    icon={<MinusIcon />}
-                  >
-                    Exclude node from local graph
-                  </MenuItem>
-                </>
-              )}
-              {!target?.properties?.FILELESS ? (
-                <MenuItem
-                  icon={<EditIcon />}
-                  onClick={() =>
-                    openNodeInEmacs(target as OrgRoamNode, webSocket)
-                  }
-                >
-                  Open in Emacs
-                </MenuItem>
-              ) : (
-                <MenuItem
-                  icon={<AddIcon />}
-                  onClick={() => createNodeInEmacs(target, webSocket)}
-                >
-                  Create node
-                </MenuItem>
-              )}
-              {target?.properties?.ROAM_REFS && (
-                <MenuItem icon={<ExternalLinkIcon />}>Open in Zotero</MenuItem>
-              )}
-              {scope.nodeIds.length === 0 && (
-                <MenuItem
-                  icon={<BiNetworkChart />}
-                  onClick={() => handleLocal(target!, 'replace')}
-                >
-                  Open local graph
-                </MenuItem>
-              )}
-              <MenuItem
-                icon={<ViewIcon />}
-                onClick={() => {
-                  setPreviewNode(target);
-                }}
-              >
-                Preview
-              </MenuItem>
-              {target?.level === 0 && (
-                <MenuItem
-                  closeOnSelect={false}
-                  icon={<DeleteIcon color="red.500" />}
-                  color="red.500"
-                  onClick={onOpen}
-                >
-                  Permanently delete note
-                </MenuItem>
-              )}
-            </>
-          ) : (
-            <TagMenu
-              {...{ target, tagColors, filter, setTagColors, setFilter }}
-            />
-          )}
-        </MenuList>
-      </Menu>
-      {typeof target !== 'string' && (
-        <Modal isCentered isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent zIndex="popover">
-            <ModalHeader>Delete node?</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <VStack spacing={4} display="flex" alignItems="flex-start">
-                <Text>This will permanently delete your note:</Text>
-                <Text fontWeight="bold">{target?.title}</Text>
-                {target?.level !== 0 && (
-                  <Text>
-                    This will only delete the from this heading until but not
-                    including the next node. Your parent file and all other
-                    nodes will not be deleted.
-                  </Text>
-                )}
-                <Text>Are you sure you want to do continue?</Text>
-              </VStack>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                mr={3}
-                onClick={() => {
-                  console.log('closing');
-                  onClose();
-                  menuClose();
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="link"
-                colorScheme="red"
-                ml={3}
-                onClick={() => {
-                  deleteNodeInEmacs(target!, webSocket);
-                  onClose();
-                  menuClose();
-                }}
-              >
-                Delete node
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-    </>
-  );
-};
+          <EditIcon />
+        </IconButton>
+        <label htmlFor="open-in-emacs">Open in Emacs</label>
+      </MenuItemContainer>
+    ) : (
+      <MenuItemContainer>
+        <IconButton
+          size="2rem"
+          onClick={() => createNodeInEmacs(target, webSocket)}
+          id={'create-node'}
+        >
+          <PlusIcon />
+        </IconButton>
+        <label htmlFor="create-node">Create node</label>
+      </MenuItemContainer>
+    )}
+    {scope.nodeIds.length === 0 && (
+      <MenuItemContainer>
+        <IconButton
+          onClick={() => handleLocal(target!, 'replace')}
+          id={'open-local-graph'}
+          size={'2rem'}
+        >
+          <BiNetworkChart />
+        </IconButton>
+        <label htmlFor="open-local-graph">Open local graph</label>
+      </MenuItemContainer>
+    )}
+    <MenuItemContainer>
+      <IconButton
+        size={'2rem'}
+        id={'preview-button'}
+        onClick={() => {
+          setPreviewNode(target);
+        }}
+      >
+        <ViewIcon />
+      </IconButton>
+      <label htmlFor="preview-button">Preview</label>
+    </MenuItemContainer>
+  </VStack>
+);

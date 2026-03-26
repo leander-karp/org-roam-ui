@@ -1,18 +1,22 @@
 import React from 'react';
-import { Flex, IconButton, ButtonGroup, Tooltip } from '@chakra-ui/react';
 import {
+  IconButton,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   BiAlignJustify,
   BiAlignLeft,
   BiAlignMiddle,
   BiAlignRight,
-} from 'react-icons/bi';
-import { MdOutlineExpand, MdOutlineCompress } from 'react-icons/md';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { IoIosListBox, IoMdListBox } from 'react-icons/io';
+  MdOutlineExpand,
+  MdOutlineCollapse,
+  IoIosListBox,
+  IoMdListBox,
+} from '../IconButton';
+import { styled } from '@linaria/react';
 
 export interface ToolbarProps {
-  setJustification: any;
-  justification: number;
+  setJustificationIndex: (index: number) => void;
+  justificationIndex: number;
   setIndent: any;
   setFont: any;
   setPreviewNode: any;
@@ -27,104 +31,75 @@ export interface ToolbarProps {
   setCollapse: any;
 }
 
-export const Toolbar = (props: ToolbarProps) => {
-  const {
-    setJustification,
-    justification,
-    canUndo,
-    canRedo,
-    previousPreviewNode,
-    nextPreviewNode,
-    outline,
-    setOutline,
-    collapse,
-    setCollapse,
-  } = props;
-  return (
-    <Flex
-      flex="0 1 40px"
-      pb={3}
-      alignItems="center"
-      justifyContent="space-between"
-      pr={1}
+const ToolbarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+`;
+
+export const Toolbar = ({
+  setJustificationIndex,
+  justificationIndex,
+  canUndo,
+  canRedo,
+  previousPreviewNode,
+  nextPreviewNode,
+  outline,
+  setOutline,
+  collapse,
+  setCollapse,
+}: ToolbarProps) => (
+  <ToolbarContainer>
+    <IconButton
+      title="Go backward"
+      aria-label="Privious node"
+      size="2.5rem"
+      onClick={() => previousPreviewNode()}
+      disabled={!canUndo}
     >
-      <Flex>
-        <ButtonGroup isAttached>
-          <Tooltip label="Go backward">
-            <IconButton
-              _focus={{}}
-              variant="subtle"
-              icon={<ChevronLeftIcon />}
-              aria-label="Previous node"
-              disabled={!canUndo}
-              onClick={() => previousPreviewNode()}
-            />
-          </Tooltip>
-          <Tooltip label="Go forward">
-            <IconButton
-              _focus={{}}
-              variant="subtle"
-              icon={<ChevronRightIcon />}
-              aria-label="Next node"
-              disabled={!canRedo}
-              onClick={() => nextPreviewNode()}
-            />
-          </Tooltip>
-        </ButtonGroup>
-      </Flex>
-      <Flex>
-        <Tooltip label="Justify content">
-          <IconButton
-            variant="subtle"
-            aria-label="Justify content"
-            icon={
-              [
-                <BiAlignJustify key="justify" />,
-                <BiAlignLeft key="left" />,
-                <BiAlignRight key="right" />,
-                <BiAlignMiddle key="center" />,
-              ][justification]
-            }
-            onClick={() => setJustification((curr: number) => (curr + 1) % 4)}
-          />
-        </Tooltip>
-        <Tooltip label="Toggle outline view">
-          <IconButton
-            variant="subtle"
-            aria-label="Justify content"
-            icon={outline ? <IoIosListBox /> : <IoMdListBox />}
-            onClick={() => setOutline((curr: boolean) => !curr)}
-          />
-        </Tooltip>
-        <Tooltip label="Toggle headers">
-          <IconButton
-            variant="subtle"
-            aria-label="Toggle headers"
-            icon={collapse ? <MdOutlineExpand /> : <MdOutlineCompress />}
-            onClick={() => setCollapse((curr: boolean) => !curr)}
-          />
-        </Tooltip>
-        {/* <Tooltip label="Indent trees">
-          <IconButton
-            variant="subtle"
-            aria-label="Indent Text"
-            icon={<BiRightIndent />}
-            onClick={() => {
-              setIndent((curr: number) => (curr ? 0 : 1))
-            }}
-          />
-        </Tooltip>
-        <Tooltip label="Switch betwwen sans and serif">
-          <IconButton
-            variant="subtle"
-            aria-label="Change font"
-            icon={<BiFont />}
-            onClick={() => {
-              setFont((curr: string) => (curr === 'sans serif' ? 'serif' : 'sans serif'))
-            }}
-          />
-        </Tooltip> */}
-      </Flex>
-    </Flex>
-  );
-};
+      <ChevronLeftIcon />
+    </IconButton>
+    <IconButton
+      title="Go forward"
+      aria-label="Next node"
+      size="2.5rem"
+      onClick={() => nextPreviewNode()}
+      disabled={!canRedo}
+    >
+      <ChevronRightIcon />
+    </IconButton>
+    <IconButton
+      title="Justify content"
+      aria-label="Justify content"
+      size="2.5rem"
+      onClick={() => setJustificationIndex((justificationIndex + 1) % 4)}
+    >
+      {
+        [
+          <BiAlignJustify key="justify" />,
+          <BiAlignLeft key="left" />,
+          <BiAlignRight key="right" />,
+          <BiAlignMiddle key="center" />,
+        ][justificationIndex]
+      }
+    </IconButton>
+    <IconButton
+      title="Toggle outline view"
+      aria-label="Toggle outline view"
+      size="2.5rem"
+      onClick={() => setOutline((curr: boolean) => !curr)}
+    >
+      {outline ? <IoIosListBox /> : <IoMdListBox />}
+    </IconButton>
+    <IconButton
+      title="Toggle headers"
+      size="2.5rem"
+      aria-label="Toggle headers"
+      onClick={() => setCollapse((curr: boolean) => !curr)}
+    >
+      {collapse ? <MdOutlineExpand /> : <MdOutlineCollapse />}
+    </IconButton>
+  </ToolbarContainer>
+);

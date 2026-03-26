@@ -1,10 +1,9 @@
 import { OrgRoamNode } from '../../api';
 import { NodeObject } from 'force-graph';
 import { initialVisuals } from '../config';
-import { LinksByNodeId } from '../Home';
+import { LinksByNodeId } from '../GraphPage';
 import wrap from 'word-wrap';
-import { nodeSize } from '../../util/nodeSize';
-import { hexToRGBA } from '../../util/hexToRGBA';
+import { nodeSize } from './nodeSize';
 
 export interface drawLabelsProps {
   labelBackgroundColor: string;
@@ -22,7 +21,16 @@ export interface drawLabelsProps {
   lastHoverNode: OrgRoamNode | null;
 }
 
-export const getLabelOpacity = (
+const hexToRGBA = (hex: string, opacity: number) =>
+  'rgba(' +
+  (hex = hex.replace('#', ''))
+    .match(new RegExp('(.{' + hex.length / 3 + '})', 'g'))!
+    .map((l) => parseInt(hex.length % 2 ? l + l : l, 16))
+    .concat(isFinite(opacity) ? opacity : 1)
+    .join(',') +
+  ')';
+
+const getLabelOpacity = (
   fadeFactor: number,
   visuals: typeof initialVisuals,
   globalScale: number,
@@ -34,22 +42,20 @@ export const getLabelOpacity = (
     : 1 * fadeFactor * (-1 * (visuals.highlightFade * opacity - 1));
 };
 
-export function drawLabels(props: drawLabelsProps) {
-  const {
-    labelBackgroundColor,
-    labelTextColor,
-    node,
-    ctx,
-    globalScale,
-    highlightedNodes,
-    previouslyHighlightedNodes,
-    visuals,
-    opacity,
-    filteredLinksByNodeId,
-    hoverNode,
-    lastHoverNode,
-  } = props;
-
+export function drawLabels({
+  labelBackgroundColor,
+  labelTextColor,
+  node,
+  ctx,
+  globalScale,
+  highlightedNodes,
+  previouslyHighlightedNodes,
+  visuals,
+  opacity,
+  filteredLinksByNodeId,
+  hoverNode,
+  lastHoverNode,
+}: drawLabelsProps) {
   if (!node) {
     return;
   }
@@ -115,8 +121,7 @@ export function drawLabels(props: drawLabelsProps) {
   );
   if (visuals.labelBackgroundColor && visuals.labelBackgroundOpacity) {
     const backgroundOpacity = textOpacity * visuals.labelBackgroundOpacity;
-    const labelBackground = hexToRGBA(labelBackgroundColor, backgroundOpacity);
-    ctx.fillStyle = labelBackground;
+    ctx.fillStyle = hexToRGBA(labelBackgroundColor, backgroundOpacity);
     ctx.fillRect(
       node.x! - bckgDimensions[0] / 2,
       node.y! - bckgDimensions[1] / 2 + nodeS,
@@ -127,8 +132,7 @@ export function drawLabels(props: drawLabelsProps) {
   // draw label text
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const labelText = hexToRGBA(labelTextColor, textOpacity);
-  ctx.fillStyle = labelText;
+  ctx.fillStyle = hexToRGBA(labelTextColor, textOpacity);
   ctx.font = `${fontSize}px Sans-Serif`;
   const wordsArray = wrap(label, { width: visuals.labelWordWrap }).split('\n');
 

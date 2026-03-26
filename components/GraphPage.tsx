@@ -1,16 +1,7 @@
-import {
-  Box,
-  Flex,
-  IconButton,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
 import { useWindowSize } from '@react-hook/window-size';
 import { GraphData, NodeObject } from 'force-graph';
 import Graph from './Graph/Graph';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { BiNetworkChart } from 'react-icons/bi';
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs';
+import React, { useEffect, useRef, useState } from 'react';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import useUndo from 'use-undo';
 import { OrgRoamGraphReponse, OrgRoamLink, OrgRoamNode } from '../api';
@@ -27,10 +18,10 @@ import {
 import { ContextMenu } from './contextmenu';
 import Sidebar from './Sidebar';
 import { Tweaks } from './Tweaks';
-import { usePersistantState } from '../util/persistant-state';
-import { ThemeContext } from '../util/themecontext';
 import { VariablesContext } from '../util/variablesContext';
 import { normalizeLinkEnds } from '../util/normalizeLinkEnds';
+import { Collapsible } from './Collapsible';
+import { BiNetworkChart, IconButton, SidebarIcon } from './IconButton';
 
 export type NodeById = { [nodeId: string]: OrgRoamNode | undefined };
 export type LinksByNodeId = { [nodeId: string]: OrgRoamLink[] | undefined };
@@ -51,52 +42,39 @@ export type Scope = {
   excludedNodeIds: string[];
 };
 
-export default function Home() {
-  // only render on the client
-  const [showPage, setShowPage] = useState(false);
-  useEffect(() => {
-    setShowPage(true);
-  }, []);
+function useDisclosure() {
+  const [isOpen, setIsOpen] = useState(false);
 
-  if (!showPage) {
-    return null;
-  }
-
-  return <GraphPage />;
+  return {
+    isOpen,
+    onOpen: () => setIsOpen(true),
+    onClose: () => setIsOpen(false),
+  };
 }
 
 type ContextPos = {
-  left: number | undefined;
-  right: number | undefined;
-  top: number | undefined;
-  bottom: number | undefined;
+  left: number | string;
+  right: number | string;
+  top: number | string;
+  bottom: number | string;
 };
 
-function GraphPage() {
-  const [tagColors, setTagColors] = usePersistantState<TagColors>(
-    'tagCols',
-    {}
-  );
+export function GraphPage() {
+  const [tagColors, setTagColors] = useState<TagColors>({});
   const [scope, setScope] = useState<Scope>({
     nodeIds: [],
     excludedNodeIds: [],
   });
 
-  const [physics, setPhysics] = usePersistantState('physics', initialPhysics);
-  const [filter, setFilter] = usePersistantState('filter', initialFilter);
-  const [visuals, setVisuals] = usePersistantState('visuals', initialVisuals);
+  const [physics, setPhysics] = useState(initialPhysics);
+  const [filter, setFilter] = useState(initialFilter);
+  const [visuals, setVisuals] = useState(initialVisuals);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [emacsNodeId, setEmacsNodeId] = useState<string | null>(null);
-  const [behavior, setBehavior] = usePersistantState(
-    'behavior',
-    initialBehavior
-  );
-  const [mouse, setMouse] = usePersistantState('mouse', initialMouse);
-  const [coloring, setColoring] = usePersistantState(
-    'coloring',
-    initialColoring
-  );
-  const [local, setLocal] = usePersistantState('local', initialLocal);
+  const [behavior, setBehavior] = useState(initialBehavior);
+  const [mouse, setMouse] = useState(initialMouse);
+  const [coloring, setColoring] = useState(initialColoring);
+  const [local, setLocal] = useState(initialLocal);
 
   const [
     previewNodeState,
@@ -334,8 +312,6 @@ function GraphPage() {
     currentGraphDataRef.current = graphData;
   }, [graphData]);
 
-  const { setEmacsTheme } = useContext(ThemeContext);
-
   const scopeRef = useRef<Scope>({ nodeIds: [], excludedNodeIds: [] });
   const behaviorRef = useRef(initialBehavior);
   behaviorRef.current = behavior;
@@ -434,7 +410,8 @@ function GraphPage() {
           console.log(message);
           return;
         case 'theme':
-          return setEmacsTheme(['custom', message.data]);
+          console.error(`Received unhandled ${message}`);
+          return; // setEmacsTheme(['custom', message.data]);
         case 'command':
           switch (message.data.commandName) {
             case 'local':
@@ -500,8 +477,8 @@ function GraphPage() {
   const [contextPos, setContextPos] = useState<ContextPos>({
     left: 0,
     top: 0,
-    right: undefined,
-    bottom: undefined,
+    right: 'auto',
+    bottom: 'auto',
   });
 
   const contextMenu = useDisclosure();
@@ -516,9 +493,10 @@ function GraphPage() {
       setContextPos({
         left: event.pageX,
         top: event.pageY,
-        right: undefined,
-        bottom: undefined,
+        right: 'auto',
+        bottom: 'auto',
       });
+
     setContextMenuTarget(target);
     contextMenu.onOpen();
   };
@@ -547,19 +525,19 @@ function GraphPage() {
     return;
   };
 
-  const [mainWindowWidth, setMainWindowWidth] = usePersistantState<number>(
-    'mainWindowWidth',
-    windowWidth
-  );
+  const [mainWindowWidth, setMainWindowWidth] = useState<number>(windowWidth);
+  const contentRef = useRef(null);
 
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="row"
-        height="100vh"
-        overflow="clip"
+      <div
+        style={{
+          display: 'flex',
+          height: '100vh',
+          overflow: 'clip',
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+        }}
       >
         <Tweaks
           {...{
@@ -581,7 +559,7 @@ function GraphPage() {
             setLocal,
           }}
         />
-        <Box position="absolute">
+        <div style={{ position: 'absolute' }}>
           {graphData && (
             <Graph
               nodeById={nodeByIdRef.current!}
@@ -616,89 +594,95 @@ function GraphPage() {
               }}
             />
           )}
-        </Box>
-        <Box position="relative" zIndex={4} width="100%">
-          <Flex className="headerBar" h={10} flexDir="column">
-            <Flex alignItems="center" h={10} justifyContent="flex-end">
-              <Flex height="100%" flexDirection="row">
-                {scope.nodeIds.length > 0 && (
-                  <Tooltip label="Return to main graph">
-                    <IconButton
-                      m={1}
-                      icon={<BiNetworkChart />}
-                      aria-label="Exit local mode"
-                      onClick={() =>
-                        setScope((currentScope: Scope) => ({
-                          ...currentScope,
-                          nodeIds: [],
-                        }))
-                      }
-                      variant="subtle"
-                    />
-                  </Tooltip>
-                )}
-                <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
-                  <IconButton
-                    m={1}
-                    icon={<BsReverseLayoutSidebarInsetReverse />}
-                    aria-label="Close file-viewer"
-                    variant="subtle"
-                    onClick={isOpen ? onClose : onOpen}
-                  />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
-
-        <Box position="relative" zIndex={4}>
-          <Sidebar
-            {...{
-              isOpen,
-              onOpen,
-              onClose,
-              previewNode,
-              setPreviewNode,
-              canUndo,
-              canRedo,
-              previousPreviewNode,
-              nextPreviewNode,
-              resetPreviewNode,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              scope,
-              setScope,
-              windowWidth,
-              tagColors,
-              setTagColors,
-              filter,
-              setFilter,
+        </div>
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 4,
+            width: '100%',
+            height: 10,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: 10,
+              justifyContent: 'flex-end',
             }}
-            macros={emacsVariables.katexMacros}
-            attachDir={emacsVariables.attachDir || ''}
-            useInheritance={emacsVariables.useInheritance || false}
-            nodeById={nodeByIdRef.current!}
-            linksByNodeId={linksByNodeIdRef.current!}
-            nodeByCite={nodeByCiteRef.current!}
-          />
-        </Box>
+          >
+            <div
+              style={{ display: 'flex', height: '100%', flexDirection: 'row' }}
+            >
+              {scope.nodeIds.length > 0 && (
+                <IconButton
+                  aria-label="Return to main graph"
+                  title="Return to main graph"
+                  size="2.5rem"
+                  onClick={() =>
+                    setScope((currentScope: Scope) => ({
+                      ...currentScope,
+                      nodeIds: [],
+                    }))
+                  }
+                >
+                  <BiNetworkChart />
+                </IconButton>
+              )}
+              <IconButton
+                title={isOpen ? 'Close sidebar' : 'Open sidebar'}
+                aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
+                size="2.5rem"
+                onClick={isOpen ? onClose : onOpen}
+              >
+                <SidebarIcon />
+              </IconButton>
+            </div>
+          </div>
+        </div>
+        <div style={{ position: 'relative', zIndex: 4 }}>
+          <Collapsible isOpen={isOpen} ref={contentRef}>
+            <Sidebar
+              {...{
+                onOpen,
+                onClose,
+                previewNode,
+                setPreviewNode,
+                canUndo,
+                canRedo,
+                previousPreviewNode,
+                nextPreviewNode,
+                resetPreviewNode,
+                setSidebarHighlightedNode,
+                openContextMenu,
+                scope,
+                setScope,
+                windowWidth,
+              }}
+              macros={emacsVariables.katexMacros}
+              attachDir={emacsVariables.attachDir || ''}
+              useInheritance={emacsVariables.useInheritance || false}
+              nodeById={nodeByIdRef.current!}
+              linksByNodeId={linksByNodeIdRef.current!}
+              nodeByCite={nodeByCiteRef.current!}
+            />
+          </Collapsible>
+        </div>
         {contextMenu.isOpen && (
           <ContextMenu
-            scope={scope}
-            target={contextMenuTarget}
-            background={false}
+            target={
+              typeof contextMenuTarget === 'string' ? null : contextMenuTarget
+            }
             coordinates={contextPos}
             handleLocal={handleLocal}
-            menuClose={contextMenu.onClose.bind(contextMenu)}
+            scope={scope}
             webSocket={WebSocketRef.current}
             setPreviewNode={setPreviewNode}
-            setFilter={setFilter}
-            filter={filter}
-            setTagColors={setTagColors}
-            tagColors={tagColors}
           />
         )}
-      </Box>
+      </div>
     </VariablesContext.Provider>
   );
 }
