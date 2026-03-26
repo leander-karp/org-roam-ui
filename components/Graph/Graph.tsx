@@ -2,7 +2,7 @@ import { GraphData, NodeObject } from 'force-graph';
 import { OrgRoamLink, OrgRoamNode } from '../../api';
 import { ThemeContext, ThemeContextProps } from '../../util/themecontext';
 
-import { ForceGraph2D } from 'react-force-graph';
+import ForceGraph2D from 'react-force-graph-2d';
 
 import { EmacsVariables, LinksByNodeId, NodeById, Scope } from '../GraphPage';
 import { useAnimation } from './hooks';
