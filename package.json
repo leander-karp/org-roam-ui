@@ -23,7 +23,7 @@
     "d3-interpolate": "^3.0.1",
     "force-graph": "^1.43.5",
     "jlouvain.js": "^1.0.0",
-    "katex": "^0.16.42",
+    "katex": "^0.16.43",
     "raf": "^3.4.1",
     "re-resizable": "^6.11.2",
     "react": "^18.3.1",
@@ -50,7 +50,7 @@
     "esbuild": "^0.27.4",
     "eslint": "^10.1.0",
     "prettier": "^3.8.1",
-    "typescript": "5.7.2",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.57.2"
   }
 }
